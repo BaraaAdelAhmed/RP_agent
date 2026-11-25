@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+*.pyc
+.env
+# LaTeX build artifacts inside generated projects
+papers/**/*.aux
+papers/**/*.log
+papers/**/*.out
+papers/**/*.bbl
+papers/**/*.blg
+papers/**/*.fls
+papers/**/*.fdb_latexmk
+papers/**/*.synctex.gz
+papers/**/*.toc
