@@ -18,6 +18,10 @@
   python3 scripts/rp.py lint <project>           # sections, short subsections, banned phrases, sentence stats, refs
   python3 scripts/rp.py diff <project> [--from vN]  # latexdiff (if installed) + word diff in notes/
   python3 scripts/rp.py draft1-done <project>
+
+  Layout and figures (both skills):
+  python3 scripts/rp.py layout <project> [--log main.log]  # overfull equations/tables from the LaTeX log + static estimate
+  python3 scripts/rp.py render <project> [--pages 1-4] [--figures]  # PNGs of PDF pages / figure files to look at
 """
 
 from __future__ import annotations
@@ -249,6 +253,8 @@ def cmd_compile(a):
     issues = [l for l in log.splitlines() if l.startswith("!") or "undefined" in l.lower()]
     print("\n".join(dict.fromkeys(issues)) or "No LaTeX errors or undefined references.")
     print("PDF:", "papers/" + p.name + "/main.pdf" if (p.root / "main.pdf").exists() else "not produced")
+    overfull = texscan.overfull_from_log(log)
+    print("Overfull boxes / oversized floats:\n  " + "\n  ".join(overfull) if overfull else "No overfull boxes.")
     sys.exit(run_check(p))
 
 
@@ -374,6 +380,58 @@ def cmd_diff(a):
               f"  latexdiff --flatten versions/{base.name}/main.tex main.tex > diff.tex   (inside papers/{p.name}/)")
 
 
+def cmd_layout(a):
+    p = existing(a.project)
+    main_tex = (p.root / "main.tex").read_text(errors="replace")
+    log_path = Path(a.log) if a.log else p.root / "main.log"
+    if not log_path.is_absolute():
+        log_path = p.root / log_path
+    if log_path.exists():
+        stale = (p.root / "main.pdf").exists() is False or any(
+            (p.root / f).stat().st_mtime > log_path.stat().st_mtime for f in _sources(p))
+        print(f"From {log_path.name}{' (OLDER than the sources: recompile for current results)' if stale else ''}:")
+        issues = texscan.overfull_from_log(log_path.read_text(errors="replace"))
+        print("  " + "\n  ".join(issues) if issues else "  No overfull boxes or oversized floats.")
+    else:
+        print("No LaTeX log found. Compile (rp.py compile) or export main.log from Overleaf "
+              "(Logs and output files -> Other logs) into the project and pass --log.")
+    r = texscan.layout_static(texscan.collect(p.root), main_tex)
+    print(f"\nStatic estimate ({'two-column' if r['two_column'] else 'one-column'}, ~{r['column_capacity']} "
+          f"math characters per line; candidates only, confirm on the PDF):")
+    for title, key in (("Equation rows that may overflow", "wide_equations"),
+                       ("Equation blocks to consider splitting", "crowded_equation_blocks"),
+                       ("Tables that may overflow their column/page", "wide_tables")):
+        print(f"  {title} ({len(r[key])}):")
+        for it in r[key]:
+            print("    " + it)
+
+
+def cmd_render(a):
+    p = existing(a.project)
+    if not shutil.which("pdftoppm"):
+        die("pdftoppm (poppler) is not installed, so pages cannot be rendered.")
+    out = p.root / "notes" / "render"
+    out.mkdir(parents=True, exist_ok=True)
+    made = []
+    if a.figures:
+        for f in sorted((p.root / "figures").glob("*.pdf")):
+            subprocess.run(["pdftoppm", "-png", "-r", "110", "-singlefile", str(f), str(out / f.stem)], check=False)
+            made.append(out / (f.stem + ".png"))
+    else:
+        pdf = p.root / "main.pdf"
+        if not pdf.exists():
+            die("main.pdf not found; compile first.")
+        first, _, last = (a.pages or "1-50").partition("-")
+        subprocess.run(["pdftoppm", "-png", "-r", "70", "-f", first, "-l", last or first, str(pdf), str(out / "page")],
+                       check=False)
+        made = sorted(out.glob("page-*.png"))
+    print("Rendered (open each with the Read tool to inspect):")
+    for m in made:
+        if m.exists():
+            print("  " + str(m.relative_to(ROOT)))
+    print("notes/render/ is scratch output; do not commit it.")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -398,6 +456,10 @@ def main():
     s = sub.add_parser("lint"); s.add_argument("project"); s.set_defaults(f=cmd_lint)
     s = sub.add_parser("diff"); s.add_argument("project"); s.add_argument("--from", dest="from_")
     s.set_defaults(f=cmd_diff)
+    s = sub.add_parser("layout"); s.add_argument("project"); s.add_argument("--log"); s.set_defaults(f=cmd_layout)
+    s = sub.add_parser("render"); s.add_argument("project"); s.add_argument("--pages"); s.add_argument("--figures",
+                                                                                                    action="store_true")
+    s.set_defaults(f=cmd_render)
     a = ap.parse_args()
     a.f(a)
 

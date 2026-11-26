@@ -92,6 +92,9 @@ The author needs strong confidence that the idea is new and has a clear strong p
   `rp.py approve <slug> structure --quote "<their words>"`, then `rp.py stage <slug> drafting --title "<title>"`.
 
 ## Stage 4 — Write the LaTeX project (stage "drafting")
+First read `docs/paper-standards.md` (mathematics, equation and table typesetting, figure validity and quality, the
+schematic). It is part of these instructions.
+
 Write one file per section:
   `main.tex` — preamble, title, `\input` of each section, `\bibliographystyle` and `\bibliography{references}`. Put ALL
   the candidate titles in a comment block above `\title`, with the chosen one active.
@@ -117,10 +120,19 @@ How much to write in each section:
   Lemma/Proposition/Theorem (amsthm) with proofs, or proof sketches with the key steps when a full proof is long; the
   algorithm in an algorithm/algorithmic environment; complexity and convergence analysis; special cases and limiting
   regimes that yield insight. Every result must follow from the formulation; check the mathematics carefully.
+  Meet the applied-mathematics standard in `docs/paper-standards.md` §1: complete enough for a referee to reproduce.
+  Derivations too long for the section go to an appendix (`sections/appendix.tex`) in full detail, every step shown,
+  with the main text keeping the logic and the results and pointing to it.
 - **Results and Discussion** (write IN FULL): a setup subsection with a parameter table (booktabs) and the baselines
   compared against, explaining why each is fair; then each planned figure and table, each followed by a discussion
   paragraph that explains the trend, the reason behind it in terms of the analysis, and the practical implication.
   End with a subsection on insights, limitations and sensitivity.
+  FIGURES — physical validity comes first (`docs/paper-standards.md` §3): before discussing any figure, write down
+  in `notes/figure_review.md` what physics alone predicts (limits, signs, monotonicity, scalings, bounds, literature
+  values), compare, and investigate every disagreement in the computation instead of explaining it away. Make every
+  figure to the quality rules of §4 (smooth curves with enough points, legends outside the data when crowded, print
+  size, consistent styles) and render it to look at it. The main schematic (§5) shows the geometry, regions,
+  parameters and forcing only: no boundary or interface conditions, no equations.
   **RESULTS INTEGRITY — never fabricate data.** Numbers, curves and table entries may come only from (a) Python
   scripts you actually ran (numerical evaluation of the derived expressions, Monte Carlo simulation of the formulated
   model; save each under `figures/` and run it from the project folder, installing numpy/matplotlib with pip if
@@ -150,10 +162,16 @@ LaTeX conventions:
   same symbols in every section.
 - The project must compile. Escape special characters; make sure every `\input` file exists and every figure either
   exists or uses `\figplaceholder`.
+- Every equation and table fits its column or page (`docs/paper-standards.md` §2): break long equations, keep one idea
+  per equation environment (use `subequations` only for one coupled system), and use `table*` for tables that cannot
+  fit one column.
 
 ## Stage 5 — Check and hand over (stage "review")
 - Run `rp.py compile <slug>` (it falls back to static checks when LaTeX is not installed). Fix every problem it
   reports, then run it again until it is clean.
+- Run `rp.py layout <slug>` and fix every overfull equation or table; render the pages (`rp.py render <slug>`) and the
+  figures (`--figures`) and look at them. Without LaTeX here, ask the author for Overleaf's `main.log`.
+- Confirm `notes/figure_review.md` has a verdict for every figure.
 - Commit and push the project. Finish with a short hand-over: the files produced, the chosen and alternative titles,
   what is written in full, the checklist of what the authors still have to do (the Introduction prose, `\TODO`
   items, experiments to run), and how to get the files (download from the branch on GitHub, or upload the folder to

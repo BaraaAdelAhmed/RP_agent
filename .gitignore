@@ -15,3 +15,4 @@ papers/**/*.toc
 .claude/last_user_prompt.txt
 .claude/settings.local.json
 papers/**/*Notes.bib
+papers/**/notes/render/

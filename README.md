@@ -38,6 +38,16 @@ When the structured paper exists, type `/1st-draft-paper <project>` in a Claude 
 
 The Introduction stays as guide points for you to write.
 
+Both skills follow `docs/paper-standards.md`, which covers:
+- the applied-mathematics standard, with long derivations moved to appendices in full;
+- equations and tables that fit their column, with crowded equation blocks split;
+- a **physical-validity review of every figure** before it is discussed;
+- figure quality: smooth curves, legends outside the data, print-size fonts;
+- a schematic without boundary conditions.
+
+`rp.py layout` finds overflowing equations and tables from the LaTeX log (or an Overleaf `main.log`). `rp.py render`
+turns pages and figures into images so Claude can look at them.
+
 ## Standalone web app (needs an Anthropic API key)
 
 ### What it does

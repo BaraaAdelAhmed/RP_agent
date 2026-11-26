@@ -210,3 +210,101 @@ def lint(lines: list[TexLine]) -> dict:
             has_cite = bool(re.search(r"\\cite\w*\{", para))
             report["findings"].append({"text": snippet, "cited_in_paragraph": has_cite})
     return report
+
+
+# ------------------------------------------------------------------ layout (static estimates)
+
+def column_chars(main_tex: str) -> tuple[int, bool]:
+    """Rough capacity of one text line in 'rendered math characters', and whether the layout is two-column."""
+    m = re.search(r"\\documentclass(\[[^\]]*\])?\{([^}]+)\}", main_tex)
+    opts, cls = (m.group(1) or "", m.group(2)) if m else ("", "article")
+    two = ("twocolumn" in opts or "reprint" in opts or cls == "IEEEtran" and "onecolumn" not in opts
+           or (cls.startswith("revtex") and "preprint" not in opts))
+    return (52 if two else 95), two
+
+
+def _math_width(s: str) -> float:
+    s = re.sub(r"\\(?:label|tag|text|mathrm|operatorname)\{([^}]*)\}", lambda m: "" if "label" in m.group(0) or "tag" in m.group(0) else m.group(1), s)
+    s = re.sub(r"\\(?:nonumber|notag|left|right|big|Big|bigg|Bigg|displaystyle|bm|boldsymbol|mathbf|hat|tilde|bar|vec)\b", "", s)
+    s = re.sub(r"\\q?quad", "    ", s)
+    s = re.sub(r"\\frac\{([^{}]*)\}\{([^{}]*)\}", lambda m: "x" * max(len(m.group(1)), len(m.group(2))), s)
+    width = 0.0
+    for scr in re.findall(r"[_^](\{[^{}]*\}|\\?[A-Za-z0-9])", s):
+        width += 0.6 * len(re.sub(r"\\[A-Za-z]+", "x", scr.strip("{}")))
+    s = re.sub(r"[_^](\{[^{}]*\}|\\?[A-Za-z0-9])", "", s)
+    s = re.sub(r"\\[A-Za-z]+", "x", s)
+    s = re.sub(r"[{}&\s]", "", s)
+    return width + len(s)
+
+
+def layout_static(lines: list[TexLine], main_tex: str) -> dict:
+    cap, two = column_chars(main_tex)
+    full_lines = [(tl.file, tl.lineno, tl.text) for tl in lines]
+    out = {"two_column": two, "column_capacity": cap, "wide_equations": [], "crowded_equation_blocks": [],
+           "wide_tables": []}
+    # Display-math rows wider than a column.
+    env_start = None
+    rows: list[tuple[str, int, str]] = []
+    env_name = ""
+    for f, n, t in full_lines:
+        b = re.search(r"\\begin\{(equation|align|gather|multline|eqnarray|subequations|flalign|alignat)\*?\}", t)
+        if b and env_start is None:
+            env_start, env_name, rows = (f, n), b.group(1), []
+        if env_start is not None:
+            rows.append((f, n, t))
+            if re.search(r"\\end\{" + env_name + r"\*?\}", t):
+                body = " ".join(r[2] for r in rows)
+                body = re.sub(r"\\(?:begin|end)\{[^}]*\}(\{[^}]*\})?", " ", body)
+                eq_rows = [r for r in re.split(r"\\\\", body) if r.strip()]
+                for r in eq_rows:
+                    w = _math_width(r)
+                    if w > cap and env_name != "multline":
+                        out["wide_equations"].append(f"{env_start[0]}:{env_start[1]} ({env_name}): ~{w:.0f} chars "
+                                                     f"vs ~{cap} per {'column' if two else 'line'}: {r.strip()[:80]}")
+                labels = len(re.findall(r"\\label\{", body))
+                if env_name == "subequations" and len(eq_rows) > 3 or (env_name in ("align", "gather", "eqnarray")
+                                                                       and len(eq_rows) > 4):
+                    out["crowded_equation_blocks"].append(
+                        f"{env_start[0]}:{env_start[1]} ({env_name}): {len(eq_rows)} rows, {labels} labels — split "
+                        f"unless they form one system")
+                env_start = None
+    # Tables in a single column whose rows look too wide.
+    text = "\n".join(t for _, _, t in full_lines)
+    for m in re.finditer(r"\\begin\{table(\*?)\}(.*?)\\end\{table\*?\}", text, re.S):
+        star, body = m.group(1), m.group(2)
+        tab = re.search(r"\\begin\{tabular\*?\}(?:\{[^}]*\})?\{([^}]*)\}(.*?)\\end\{tabular", body, re.S)
+        if not tab:
+            continue
+        cap_here = cap * (2 if (two and star) else 1)
+        widest = 0.0
+        for row in re.split(r"\\\\", tab.group(2)):
+            row = re.sub(r"\\(?:toprule|midrule|bottomrule|hline|cline\{[^}]*\}|multicolumn\{\d+\}\{[^}]*\})", "", row)
+            cells = row.split("&")
+            w = sum(_math_width(c) * 0.9 for c in cells) + 2 * len(cells)
+            widest = max(widest, w)
+        lab = re.search(r"\\label\{([^}]+)\}", body)
+        name = lab.group(1) if lab else f"table at offset {m.start()}"
+        if widest > cap_here:
+            out["wide_tables"].append(f"{name}: widest row ~{widest:.0f} chars vs ~{cap_here} "
+                                      f"({'table*' if star else 'single column'})")
+    return out
+
+
+def overfull_from_log(log: str, min_pt: float = 1.0) -> list[str]:
+    """Overfull boxes and oversized floats from a LaTeX log, attributed to the .tex file being read."""
+    issues, stack = [], []
+    for line in log.splitlines():
+        o = re.search(r"Overfull \\hbox \((\d+(?:\.\d+)?)pt too wide\) (.*)", line)
+        cur = next((f for f in reversed(stack) if f), "main.tex")
+        if o and float(o.group(1)) >= min_pt:
+            kind = "display math" if "detected at line" in o.group(2) or "alignment" in o.group(2) else "paragraph/table"
+            issues.append(f"{cur}: {o.group(1)}pt too wide ({kind}) — {o.group(2).strip()}")
+        if "Float too large" in line:
+            issues.append(f"{cur}: " + line.strip())
+        # Track the file being read: "(./file.tex" opens it, ")" closes the innermost group.
+        for m in re.finditer(r"\((\./[^\s()]+\.tex)?|\)", line):
+            if m.group(0).startswith("("):
+                stack.append(m.group(1)[2:] if m.group(1) else None)
+            elif stack:
+                stack.pop()
+    return issues

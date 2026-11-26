@@ -1,6 +1,6 @@
 ---
 name: 1st-draft-paper
-description: Turn a structured LaTeX paper (made with the research-paper skill) into a polished first draft. A line-by-line audit of every symbol, term, equation and claim; a narrative pass over the Problem Formulation, Analysis and Results; a language pass towards scientific-paper register; merging to 6-7 sections; results discussed by main point, with new physical insights backed by well-established references and highlighted in blue. Use when the user asks for a first draft, a polish, or a language/consistency revision of a paper in papers/.
+description: Turn a structured LaTeX paper (made with the research-paper skill) into a polished first draft. A line-by-line audit of every symbol, term, equation, claim and figure (physical validity first), layout fixes for equations and tables that overflow columns or margins; a narrative pass over the Problem Formulation, Analysis and Results; a language pass towards scientific-paper register; merging to 6-7 sections; results discussed by main point, with new physical insights backed by well-established references and highlighted in blue. Use when the user asks for a first draft, a polish, or a language/consistency revision of a paper in papers/.
 ---
 
 # 1st draft paper
@@ -26,6 +26,11 @@ Everything from the research-paper skill (`python3 scripts/rp.py ...`: `status`,
 | `rp.py approve <slug> draftplan --quote "<user's words>"` | Record the author's approval of the audit and plan; unlocks editing |
 | `rp.py diff <slug>` | Word diff against the snapshot in `notes/`, plus `diff.tex` via latexdiff when installed |
 | `rp.py draft1-done <slug>` | Mark the pass finished |
+| `rp.py layout <slug> [--log main.log]` | Overfull equations/tables and oversized floats from the LaTeX log, by file; plus a static estimate of display rows, crowded equation blocks and tables too wide for their column |
+| `rp.py render <slug> [--pages a-b] [--figures]` | PNGs of PDF pages or of each figure, to inspect with the Read tool |
+
+`docs/paper-standards.md` (mathematics, equation and table typesetting, figure validity and quality, the schematic)
+is part of these instructions: read it before Pass 1.
 
 The scanners find candidates; they do not judge. Read every flagged line yourself (the sentence scanner, for
 example, also counts table rows and captions).
@@ -72,8 +77,19 @@ undefined; **major**: breaks the reader's flow; **minor**: wording):
 9. **Candidate physical insights**: results that go beyond the known physics, each with the evidence, the check that
    it is not a numerical artefact (resolution, convergence, limit), and the well-established reference you propose to
    support it (searched and confirmed to exist; see Pass 4).
-10. **Errors you propose to fix in equations, data or figures** (if any), each with the verification.
-11. **Questions for the author.**
+10. **Mathematical sufficiency** against `docs/paper-standards.md` §1: what a referee could not reproduce, missing
+    justifications (well-posedness, convergence of truncations, order of neglected terms), and which derivations
+    should move to an appendix in full detail or be expanded there.
+11. **Figure review** — the most important item. For every figure, in `notes/figure_review.md` (§3 of the standards):
+    the behaviour physics predicts before looking, what the figure shows, every disagreement and its investigation
+    (rerun the scripts at higher resolution, check limits and signs, compare with the literature), and a verdict.
+    A figure showing wrong physics is **critical**: never propose wording that justifies it.
+    Also the quality items of §4 (too few points / jagged curves, legends over data or too crowded, fonts, styles)
+    and the schematic rules of §5 (list any boundary-condition or equation elements to remove).
+12. **Layout:** run `rp.py layout` and render the pages; list every overfull equation or table, tables crossing the
+    column gap or page margin, and equation blocks that hold several unrelated equations and should be split.
+13. **Errors you propose to fix in equations, data or figures** (if any), each with the verification.
+14. **Questions for the author.**
 
 Summarise the critical and major items, the restructuring table and the candidate insights in chat. Ask the author to
 approve or adjust the plan. Only when they explicitly approve, run `rp.py approve <slug> draftplan --quote "..."`.
@@ -88,6 +104,19 @@ approve or adjust the plan. Only when they explicitly approve, run `rp.py approv
   previous one, and closes with what the reader now has. Introduce each important equation by its purpose and follow
   it with its interpretation. Remove repetition; move derivations that interrupt the story to an appendix.
 - Fix the critical items from the audit.
+- Bring the analysis to the standard of `docs/paper-standards.md` §1: add the missing steps and justifications; move
+  long derivations to an appendix and write them there in full, every step shown, with a pointer from the main text.
+- Split equation blocks that hold several separate ideas into individual `equation` environments, each introduced by
+  its own sentence; keep `subequations` only for one coupled system (§2).
+
+## Pass 2b — Figures: physics, then quality
+- Act on `notes/figure_review.md`. Where the physics is wrong, find and fix the cause in the computation, regenerate,
+  and re-review; tell the author what was wrong. Where it is unresolved, the figure is not discussed as a result until
+  the author decides.
+- Regenerate figures that fail the quality rules (§4) from their scripts: dense, refined sampling so no curve has
+  edges; legends outside the axes or shared when crowded; print-size fonts; consistent styles across figures.
+- Redraw the schematic without boundary-condition or equation elements (§5).
+- Render every figure and look at it before moving on.
 
 ## Pass 3 — Language: a scientific paper, not a textbook
 - **Register:** report and argue; do not teach. No pedagogical scaffolding ("we will now", "let us", "recall that"
@@ -137,9 +166,12 @@ updating its contribution bullets and organisation paragraph to the new structur
 ## Pass 6 — Verify and hand over
 1. `rp.py compile <slug>` (or `check` without LaTeX) until clean; `rp.py lint`; `rp.py symbols` again to confirm
    every symbol is defined before use.
-2. `rp.py diff <slug>` for the word diff (and `diff.tex` when latexdiff is available).
-3. Write `notes/draft1_report.md`: what changed and why (by section), equation/data/figure corrections with their
+2. `rp.py layout <slug>` until no equation or table overflows its column or the page; render the pages and look at
+   every page with equations, tables or figures. If LaTeX cannot run here, ask the author for Overleaf's `main.log`
+   and run `layout --log main.log`; do not trust a PDF compiled with a different document class.
+3. `rp.py diff <slug>` for the word diff (and `diff.tex` when latexdiff is available).
+4. Write `notes/draft1_report.md`: what changed and why (by section), equation/data/figure corrections with their
    verification, the findings list, remaining `\TODO`s, and a **simulated referee report**: the 5–8 comments a tough
    reviewer would most likely make, each with a suggested fix.
-4. `rp.py draft1-done <slug>`, commit and push. Tell the author which files to open, how to switch the blue findings off
+5. `rp.py draft1-done <slug>`, commit and push. Tell the author which files to open, how to switch the blue findings off
    (`\showfindingsfalse`), and how to see the changes (word diff, or latexdiff on a machine with LaTeX).
