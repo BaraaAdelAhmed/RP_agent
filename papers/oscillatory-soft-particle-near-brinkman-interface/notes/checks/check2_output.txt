@@ -1,0 +1,13 @@
+(a) Weyl identity: lhs=0.199207121322 rhs=0.199207121322
+(b) eps, x, closure-normal - series(O x^3), /x^4 ; closure-parallel - Faxen(O x^3 part), /x^4
+     1 0.500  +1.82e-02 +0.291   +3.64e-03 +0.058
+     2 0.333  +1.38e-03 +0.112   +3.23e-04 +0.026
+     4 0.200  +5.70e-05 +0.036   -1.09e-04 -0.068
+     9 0.100  -3.01e-05 -0.301   -3.78e-04 -3.780
+    19 0.050  -1.16e-04 -18.542   -1.06e-03 -169.828
+(c) base gam=0.7 as=5  gam_int(Wo=.05)=0.5388  gam_int(Wo=3)=0.0972 chi(Wo=3)=-0.0228
+(c) ell_c=0.5          gam_int(Wo=.05)=0.4948  gam_int(Wo=3)=0.0803 chi(Wo=3)=-0.0240
+(c) beta_s=0.5         gam_int(Wo=.05)=0.3741  gam_int(Wo=3)=0.0623 chi(Wo=3)=-0.0058
+(c) beta_s=-0.5        gam_int(Wo=.05)=0.6294  gam_int(Wo=3)=0.1246 chi(Wo=3)=-0.0318
+(c) rigid              gam_int(Wo=.05)=0.9370  gam_int(Wo=3)=0.2806 chi(Wo=3)=-0.0051
+(c) rigid ell=0.5      gam_int(Wo=.05)=0.5445  gam_int(Wo=3)=0.1252 chi(Wo=3)=+0.0104

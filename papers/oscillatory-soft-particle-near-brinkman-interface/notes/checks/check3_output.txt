@@ -1,0 +1,6 @@
+alpha_p= 17.32 eps=1.0: Wo_down=   34.72  Wo_down/(alpha_p^2 h)=0.0579  |lam_p-lam_f| h=8.590
+alpha_p= 17.32 eps=2.0: Wo_down=   35.34  Wo_down/(alpha_p^2 h)=0.0393  |lam_p-lam_f| h=12.664
+alpha_p= 17.32 eps=3.0: Wo_down=   35.54  Wo_down/(alpha_p^2 h)=0.0296  |lam_p-lam_f| h=16.793
+alpha_p= 24.60 eps=1.0: Wo_down=   70.24  Wo_down/(alpha_p^2 h)=0.0580  |lam_p-lam_f| h=8.604
+alpha_p= 24.60 eps=2.0: Wo_down=   71.24  Wo_down/(alpha_p^2 h)=0.0392  |lam_p-lam_f| h=12.726
+alpha_p= 24.60 eps=3.0: Wo_down=   71.53  Wo_down/(alpha_p^2 h)=0.0295  |lam_p-lam_f| h=16.899

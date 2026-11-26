@@ -1,0 +1,14 @@
+PASS curlcurl(e h): div=0, Helmholtz, u_r and u_theta of eq.(vort_radial)
+PASS dipole radial forms
+PASS force = 4pi/3 (Srr - 2 Srt)
+PASS rigid sphere: B, C, Z_U of eqs.(rigid_BC)
+PASS B+C -> -1/4 as L->0 (dipole part of Stokes solution)
+PASS B -> 1/2 as L->oo
+PASS Z_w = 6 pi e^lambda
+PASS w0 = -(2/3) lam^3 D
+PASS lambda_f b = e^{-i pi/4} Wo (numeric, principal branch, Wo=3)
+FAIL Re(1/lambda_f) == sqrt(2)/Wo ?  (paper claims delta_v = Re(1/lambda_f))
+PASS 1/Re(lambda_f) == sqrt(2)/Wo  (correct statement)
+PASS m_int/m_f = (9/2) chi / Wo^2
+PASS inviscid m_int/m_f normal = 3/16/h^3
+PASS inviscid m_int/m_f parallel = 3/32/h^3
