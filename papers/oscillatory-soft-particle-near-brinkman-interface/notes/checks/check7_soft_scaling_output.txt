@@ -1,0 +1,8 @@
+kappa=0.0 alpha_s=   2: Omega=0.425 Omega^2=0.181 gamma_int/gamma_int(rigid)=0.125
+kappa=0.0 alpha_s=   5: Omega=0.757 Omega^2=0.573 gamma_int/gamma_int(rigid)=0.491
+kappa=0.0 alpha_s=  10: Omega=0.884 Omega^2=0.782 gamma_int/gamma_int(rigid)=0.730
+kappa=0.0 alpha_s=  20: Omega=0.945 Omega^2=0.893 gamma_int/gamma_int(rigid)=0.865
+kappa=0.7 alpha_s=   2: Omega=0.719 Omega^2=0.517 gamma_int/gamma_int(rigid)=0.445
+kappa=0.7 alpha_s=   5: Omega=0.801 Omega^2=0.642 gamma_int/gamma_int(rigid)=0.575
+kappa=0.7 alpha_s=  10: Omega=0.889 Omega^2=0.790 gamma_int/gamma_int(rigid)=0.742
+kappa=0.7 alpha_s=  20: Omega=0.945 Omega^2=0.894 gamma_int/gamma_int(rigid)=0.868

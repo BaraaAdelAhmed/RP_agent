@@ -1,210 +1,192 @@
-\section{Solution Method: Exact Sphere Response and Fourier Reflection at the Porous Interface}\label{sec:analysis}
+\section{Solution Method}\label{sec:analysis}
 
-Throughout this section, quantities are dimensionless (\cref{sec:nondim}), so $b=1$, and $\lambda\equiv\lambda_f$
-unless a subscript is given.
+The method solves the particle problem exactly in spherical harmonics, the layer problem exactly in Fourier space, and
+couples the two through the dipolar moments of the incident flow. These moments are the only ones that reach the
+force (\cref{lem:faxen}). All quantities in this section are dimensionless, so that $b=1$, and we abbreviate
+$\lambda\equiv\lambda_fb$.
 
-\subsection{Potential--vortical decomposition}\label{sec:decomp}
-\begin{lemma}[Decomposition]\label{lem:decomp}
-In each domain the velocity can be written as $\bu=\bu_{\rm rig}+\nabla\Phi+\bm w$, with $\nabla^2\Phi=0$,
-$\nabla\cdot\bm w=0$ and $(\nabla^2-\lambda_j^2)\bm w=\bm 0$. Here $\bu_{\rm rig}=\be$ in the shell and
-$\bu_{\rm rig}=\bm 0$ in domains 1 and 3. The pressures are
+\subsection{Exact response of the core--shell particle}\label{sec:sphere}
+In each domain the velocity splits into a rigid part, a potential part and a vortical part, which lets every boundary
+condition be expressed through scalar radial functions.
+
+\begin{lemma}[Potential--vortical decomposition]\label{lem:decomp}
+In domain $j$, $\bu=\bu_{\rm rig}+\nabla\Phi+\bm w$, with $\nabla^2\Phi=0$, $\nabla\cdot\bm w=0$ and
+$(\nabla^2-\lambda_j^2)\bm w=\bm 0$. Here $\bu_{\rm rig}=\be$ in the shell and $\bm 0$ elsewhere. The vortical part
+carries no pressure, and the pressures are
 \begin{equation}
-  p^{(1)}=i\Wo^2\,\Phi^{(1)},\qquad
-  p^{(2)}=i\Wo^2\,\be\cdot\bx+\left(i\Wo^2-\alpha_s^2\right)\Phi^{(2)},\qquad
-  p^{(3)}=\left(i\Wo^2-\alpha_p^2\right)\Phi^{(3)},
+  p^{(1)}=c_1\Phi^{(1)},\qquad p^{(2)}=i\Wo^2\,\be\cdot\bx+c_2\Phi^{(2)},\qquad p^{(3)}=c_3\Phi^{(3)},
   \label{eq:pressures}
 \end{equation}
-and the vortical parts carry no pressure.
+with pressure coefficients $c_1=i\Wo^2$, $c_2=i\Wo^2-\alpha_s^2$ and $c_3=i\Wo^2-\alpha_p^2$.
 \end{lemma}
-\begin{proof}
-Substitute $\bu=\nabla\Phi$ into \cref{eq:stokes,eq:shell,eq:layer}. The viscous term vanishes because $\Phi$ is
-harmonic, and the remaining terms are gradients, which gives \cref{eq:pressures}; the uniform part $\be$ in the shell
-contributes the body-force term $i\Wo^2\be$, which is a gradient of $i\Wo^2\be\cdot\bx$. For $\bm w$, the momentum
-equation reduces to $\mu_j(\nabla^2-\lambda_j^2)\bm w=\nabla p$. Requiring $(\nabla^2-\lambda_j^2)\bm w=\bm 0$ makes $\bm w$ pressure-free, by \cref{eq:lambdas}. Conversely, the divergence of each momentum equation gives $\nabla^2p=0$. Given a solution, set $\Phi$ equal to the (non-rigid part of the) pressure divided by its coefficient in \cref{eq:pressures}; this coefficient is non-zero whenever $\Wo>0$ or $\alpha_j>0$. Then $\Phi$ is harmonic, and $\bm w=\bu-\bu_{\rm rig}-\nabla\Phi$ is solenoidal and satisfies the homogeneous equation, so the decomposition is complete.
+\begin{proof}[Proof sketch]
+For $\bu=\nabla\Phi$ with $\Phi$ harmonic, the viscous term of \cref{eq:governing} vanishes and the remaining terms are
+gradients, which gives \cref{eq:pressures}; the rigid motion of the shell contributes the gradient of
+$i\Wo^2\be\cdot\bx$. For $\bm w$ the momentum equation reduces to $\mu_j(\nabla^2-\lambda_j^2)\bm w=\nabla p$, which
+holds with zero pressure by \cref{eq:lambdas}. Conversely, the divergence of each momentum equation gives
+$\nabla^2p=0$. Since $c_j\neq0$ whenever $\Wo>0$, $\Phi=(p-p_{\rm rig})/c_j$ is harmonic, and
+$\bm w=\bu-\bu_{\rm rig}-\nabla\Phi$ then satisfies the homogeneous vortical equation.
 \end{proof}
 
-We use the radial kernels
-\begin{equation}
-  h_j(r)=\frac{e^{-\lambda_j r}}{r},\qquad i_j(r)=\frac{\sinh\lambda_j r}{r},\qquad j\in\{f,s,p\},
-  \label{eq:kernels}
-\end{equation}
-which solve $(\nabla^2-\lambda_j^2)g=0$ and decay at infinity or are regular at the origin, respectively.
+The radial functions are the decaying and regular solutions of $(\nabla^2-\lambda_j^2)g=0$,
+\begin{equation*}
+  \mathcal K_j(r)=\frac{e^{-\lambda_j r}}{r},\qquad \mathcal I_j(r)=\frac{\sinh\lambda_j r}{r},\qquad j\in\{f,s\},
+\end{equation*}
+which are modified spherical Bessel functions of order zero. Because the particle is spherically symmetric, its response
+preserves each spherical-harmonic sector about $\bx_0$, and the following lemma restricts the problem to the dipolar
+($l=1$) sector.
 
-\subsection{Exact response of the core--shell sphere}\label{sec:sphere}
-Only the $l=1$ (dipolar) sector of spherical harmonics about $\bx_0$ enters the net force on an isotropic sphere
-(\cref{lem:faxen} below). The fields in this sector are combinations of four building blocks directed along $\be$:
+\begin{lemma}[Force from the centre values of the incident flow]\label{lem:faxen}
+Let $\bu_{\rm inc}=\nabla\Phi_{\rm inc}+\bm w_{\rm inc}$ satisfy \cref{eq:stokes} and be regular in a ball containing the
+particle. The force on the particle then depends on $\bu_{\rm inc}$ only through the centre values
 \begin{equation}
-  \be,\qquad \nabla\!\left(\be\cdot\nabla\tfrac1r\right),\qquad
-  \curl\curl\!\left(\be\, i_j(r)\right),\qquad \curl\curl\!\left(\be\, h_j(r)\right).
-  \label{eq:blocks}
+  U_p=\be\cdot\nabla\Phi_{\rm inc}(\bx_0),\qquad w_0=\be\cdot\bm w_{\rm inc}(\bx_0).
+  \label{eq:centre_values}
 \end{equation}
-With $\cos\theta=\be\cdot\bx/r$, a block of the form $\curl\curl(\be g)=\nabla(\be\cdot\nabla g)-\lambda_j^2\be g$ has
+\end{lemma}
+\begin{proof}[Proof sketch]
+Expanded about $\bx_0$, $\Phi_{\rm inc}$ is a sum of solid harmonics $r^lY_l^m$, and $\bm w_{\rm inc}$ a sum of regular
+poloidal and toroidal fields built on $i_l(\lambda r)Y_l^m$. The net force is the dipolar moment of the surface
+traction, and the particle maps each sector onto itself, so only the $l=1$ poloidal sector contributes. The $l=1$
+toroidal field is a rigid rotation, which produces a torque but no force. Every regular field of order $l\ge2$ vanishes
+at $\bx_0$, because its velocity is $O(r^{l-1})$. Since $\nabla^2\nabla\Phi=\bm 0$ whereas
+$\nabla^2\bm w=\lambda^2\bm w$, the potential and vortical $l=1$ amplitudes are independent and are fixed by
+\cref{eq:centre_values}.
+\end{proof}
+
+Every dipolar field directed along $\be$ is a combination of a uniform flow, the potential dipole
+$\nabla(\be\cdot\nabla r^{-1})$, and the vortical fields $\curl\curl(\be g)=\nabla(\be\cdot\nabla g)-\lambda_j^2\be g$
+with $g=\mathcal K_j$ or $\mathcal I_j$. With $\cos\theta=\be\cdot(\bx-\bx_0)/r$, a vortical field has the components
 \begin{equation}
   u_r=\left(g''-\lambda_j^2g\right)\cos\theta,\qquad u_\theta=\left(\lambda_j^2g-\frac{g'}{r}\right)\sin\theta,
   \label{eq:vort_radial}
 \end{equation}
-while $\nabla(\be\cdot\nabla f)$ with $f=1/r$ has $u_r=f''\cos\theta$, $u_\theta=-(f'/r)\sin\theta$, and the uniform
-field has $u_r=\cos\theta$, $u_\theta=-\sin\theta$. Accordingly, we write
+while the potential dipole has $u_r=2r^{-3}\cos\theta$ and $u_\theta=r^{-3}\sin\theta$. The fields in the fluid and in
+the shell are therefore
 \begin{subequations}\label{eq:fields}
 \begin{align}
-  \bu^{(1)}&=U_p\,\be+D\,\curl\curl(\be\, i_f)
-  +B\,\nabla\!\left(\be\cdot\nabla\tfrac1r\right)+C\,\curl\curl(\be\, h_f),
+  \bu^{(1)}&=U_p\,\be+D\,\curl\curl(\be\,\mathcal I_f)
+  +B\,\nabla\!\left(\be\cdot\nabla\tfrac1r\right)+C\,\curl\curl(\be\,\mathcal K_f),
   \label{eq:field_ext}\\
-  \bu^{(2)}&=\be+E\,\be+F\,\nabla\!\left(\be\cdot\nabla\tfrac1r\right)
-  +G\,\curl\curl(\be\, i_s)+H\,\curl\curl(\be\, h_s).
+  \bu^{(2)}&=\be+E_1\be+E_2\,\nabla\!\left(\be\cdot\nabla\tfrac1r\right)
+  +G_1\,\curl\curl(\be\,\mathcal I_s)+G_2\,\curl\curl(\be\,\mathcal K_s).
   \label{eq:field_shell}
 \end{align}
 \end{subequations}
-The first two terms of \cref{eq:field_ext} are the regular \emph{incident} field (from the reflection at the layer); the
-last two are the field \emph{scattered} by the particle. The incident terms are fixed by the centre values of the
-potential and vortical parts of the incident velocity:
-\begin{equation}
-  U_p=\be\cdot\nabla\Phi_{\rm inc}(\bx_0),\qquad
-  w_0\equiv\be\cdot\bm w_{\rm inc}(\bx_0)=-\tfrac23\lambda^3D,
-  \label{eq:centre_values}
-\end{equation}
-where the last relation follows from $i_f(r)=\lambda+\lambda^3r^2/6+O(r^4)$.
-
-Writing $u_r=\mathcal U(r)\cos\theta$, $u_\theta=\mathcal V(r)\sin\theta$ and $p=\mathcal P(r)\cos\theta$ for each block
-gives the traction amplitudes
-\begin{equation}
-  \mathcal S_{rr}=-\mathcal P+2\mu_j\mathcal U',\qquad
-  \mathcal S_{r\theta}=\mu_j\left(\mathcal V'-\frac{\mathcal V}{r}-\frac{\mathcal U}{r}\right),
-  \label{eq:tractions}
-\end{equation}
-and integration over the sphere gives the force
+The first two terms of \cref{eq:field_ext} are the flow incident from the layer. Their amplitudes follow from the centre
+values \eqref{eq:centre_values}, because $\mathcal I_f(r)=\lambda+\lambda^3r^2/6+O(r^4)$ gives $w_0=-\tfrac23\lambda^3D$.
+The coefficients $B$ and $C$ measure the potential and vortical dipoles scattered by the particle. Writing
+$u_r=\mathcal U(r)\cos\theta$, $u_\theta=\mathcal V(r)\sin\theta$ and $p=\mathcal P(r)\cos\theta$ gives the traction
+amplitudes $\mathcal S_{rr}=-\mathcal P+2\mu_j\mathcal U'$ and $\mathcal S_{r\theta}=\mu_j(\mathcal V'-\mathcal
+V/r-\mathcal U/r)$. Integrating over the sphere yields the force
 \begin{equation}
   F=\frac{4\pi}{3}\left[\mathcal S^{(1)}_{rr}(1)-2\,\mathcal S^{(1)}_{r\theta}(1)\right].
   \label{eq:force_amplitudes}
 \end{equation}
-The conditions \cref{eq:bc_core} at $r=\gamma$ (two equations) and \cref{eq:bc_shell} at $r=1$ (four equations) give a
-$6\times6$ linear system for $(B,C,E,F,G,H)$ driven by $(U,U_p,w_0)$ (\cref{app:sphere}). For $\gamma=0$ regularity
-removes $F$ and $H$ together with the core conditions ($4\times4$). For $\gamma=1$ the shell is absent and the two slip
-conditions on $r=1$ determine $(B,C)$ ($2\times2$). By linearity,
+
+The conditions \eqref{eq:bc_core} at $r=\kappa$ and \eqref{eq:bc_shell} at $r=1$ give six linear equations for
+$(B,C,E_1,E_2,G_1,G_2)$, driven by $U$, $U_p$ and $w_0$ (\cref{app:sphere}). For $\kappa=0$, regularity at the centre
+removes $E_2$, $G_2$ and the core conditions; for $\kappa=1$ the two slip conditions on $r=1$ determine $B$ and $C$.
+Linearity and \cref{lem:faxen} then give the response of the particle to its own motion and to any incident flow,
 \begin{equation}
   \begin{pmatrix}B\\ C\end{pmatrix}=\bm s_U\,U+\mathsf S_{\rm inc}\begin{pmatrix}U_p\\ w_0\end{pmatrix},
   \qquad
   F=Z_U\,U+\bm z_{\rm inc}^{\mathsf T}\begin{pmatrix}U_p\\ w_0\end{pmatrix},
   \label{eq:response}
 \end{equation}
-with $\bm s_U\in\mathbb C^2$, $\mathsf S_{\rm inc}\in\mathbb C^{2\times2}$ and $\bm z_{\rm inc}=(Z_p,Z_w)^{\mathsf T}$,
-all functions of $(\Wo,\gamma,\alpha_s,\beta_s,\hat\ell_c,\mu_s/\mu)$ only. In particular, $F_\infty=Z_UU$.
+where the vectors $\bm s_U$, $\bm z_{\rm inc}=(Z_p,Z_w)^{\mathsf T}$ and the matrix $\mathsf S_{\rm inc}$ depend only on
+$\Wo$ and the particle parameters $(\kappa,\alpha_s,\beta_s,\hat\ell_c,\mu_s/\mu)$. In particular, $F_\infty=Z_UU$. For
+an impermeable no-slip particle these quantities take closed forms, which anchor the validation in
+\cref{sec:validation}.
 
-\begin{proposition}[Impermeable no-slip sphere]\label{prop:rigid}
-For $\gamma=1$ and $\hat\ell_c=0$,
+\begin{proposition}[Impermeable no-slip particle]\label{prop:rigid}
+For $\kappa=1$ and $\hat\ell_c=0$,
 \begin{equation}
   B=\frac{3+3\lambda+\lambda^2}{2\lambda^2}\,U,\qquad C=-\frac{3e^{\lambda}}{2\lambda^2}\,U,\qquad
-  Z_U=-6\pi\left(1+\lambda+\frac{\lambda^2}{9}\right),
+  Z_U=-6\pi\Bigl(1+\lambda+\frac{\lambda^2}{9}\Bigr),
   \label{eq:rigid_BC}
 \end{equation}
 \begin{equation}
-  Z_p=6\pi\left(1+\lambda+\frac{\lambda^2}{3}\right),\qquad Z_w=6\pi e^{\lambda}.
+  Z_p=6\pi\Bigl(1+\lambda+\frac{\lambda^2}{3}\Bigr),\qquad Z_w=6\pi e^{\lambda}.
   \label{eq:rigid_Z}
 \end{equation}
 \end{proposition}
 \begin{proof}
-With $U_p=w_0=0$, imposing $u_r=\cos\theta$ and $u_\theta=-\sin\theta$ at $r=1$ on \cref{eq:field_ext} gives two linear
-equations whose solution is \cref{eq:rigid_BC}; \cref{eq:force_amplitudes} then gives the classical unsteady Stokes
-drag $Z_U$. For the incident terms we use the generalised Faxén theorem of Mazur and
-Bedeaux~\cite{mazur1974generalization}, $F=6\pi[(1+\lambda)\langle\bu_{\rm inc}\rangle_S+\tfrac{\lambda^2}{3}
-\langle\bu_{\rm inc}\rangle_V]$, where $\langle\cdot\rangle_S$ and $\langle\cdot\rangle_V$ are averages over the surface
-and the volume of the unit sphere. A uniform field has both averages equal to $U_p$. Each Cartesian component of
-$\bm w_{\rm inc}$ solves $(\nabla^2-\lambda^2)w=0$, so the mean-value theorem for the modified Helmholtz equation gives
-$\langle w\rangle_S=w_0\sinh\lambda/\lambda$ and $\langle w\rangle_V=3w_0(\lambda\cosh\lambda-\sinh\lambda)/\lambda^3$.
-Combining, $Z_w=6\pi[(1+\lambda)\sinh\lambda+\lambda\cosh\lambda-\sinh\lambda]/\lambda=6\pi(\cosh\lambda+\sinh\lambda)$.
+Imposing $u_r=\cos\theta$ and $u_\theta=-\sin\theta$ at $r=1$ on \cref{eq:field_ext} with $U_p=w_0=0$ gives two linear
+equations, whose solution is the pair $(B,C)$ of \cref{eq:rigid_BC}; substituting it into \cref{eq:force_amplitudes}
+gives $Z_U$. The coefficients \eqref{eq:rigid_Z} follow from the generalised Faxén theorem of Mazur and
+Bedeaux~\cite{mazur1974generalization}, $F=6\pi[(1+\lambda)\langle\bu_{\rm inc}\rangle_S+\tfrac13\lambda^2\langle\bu_{\rm
+inc}\rangle_V]$, where the brackets are surface and volume averages over the particle. A uniform flow has both averages
+equal to $U_p$. Each Cartesian component of $\bm w_{\rm inc}$ obeys the modified Helmholtz equation, so the mean-value
+theorem gives $\langle w\rangle_S=w_0\sinh\lambda/\lambda$ and $\langle w\rangle_V=3w_0(\lambda\cosh\lambda-\sinh\lambda)/\lambda^3$,
+whose combination is $Z_w=6\pi(\cosh\lambda+\sinh\lambda)$.
 \end{proof}
 
-As $\lambda\to0$, $B+C\to-\tfrac14$ and the $1/\lambda^2$ terms combine into the Stokeslet, recovering Stokes' solution.
-As $|\lambda|\to\infty$, $B\to\tfrac12$ and $C\to0$, the potential dipole of inviscid flow. The coefficient
-$\lambda^2/3$ in $Z_p$ includes the Froude--Krylov force $\tfrac{2}{9}\lambda^2\cdot6\pi$ of the incident pressure
-gradient. We evaluate \cref{eq:response} numerically for general $(\gamma,\alpha_s,\beta_s,\hat\ell_c)$ and check it
-against \cref{eq:rigid_BC,eq:rigid_Z} and the porous-sphere limit (\cref{sec:validation}).
+\Cref{prop:rigid} recovers both classical limits. As $\lambda\to0$, the $O(\lambda^{-2})$ parts of $B$ and $C$ combine
+into the Stokeslet, and $B+C\to-\tfrac14$ is the dipole of Stokes' solution. As $|\lambda|\to\infty$, $B\to\tfrac12$
+gives the dipole of inviscid flow, while the vortical field $C\,\mathcal K_f\propto e^{-\lambda(r-1)}$ is confined to a
+boundary layer of thickness $O(|\lambda|^{-1})$ around the particle. The term $\tfrac13\lambda^2$ in $Z_p$ contains the
+Froude--Krylov force $6\pi\cdot\tfrac29\lambda^2$, which is exerted by the pressure gradient that accelerates the incident
+flow.
 
-\begin{lemma}[Force from the centre values of the incident field]\label{lem:faxen}
-Let $\bu_{\rm inc}=\nabla\Phi_{\rm inc}+\bm w_{\rm inc}$ be any field that satisfies \cref{eq:stokes} and is regular in a
-ball containing the particle. Then the force on the particle depends on $\bu_{\rm inc}$ only through $U_p$ and $w_0$ in
-\cref{eq:centre_values}, and is given by \cref{eq:response}.
-\end{lemma}
-\begin{proof}
-Expand $\Phi_{\rm inc}$ in solid harmonics $r^lY_l^m$ and $\bm w_{\rm inc}$ in regular poloidal and toroidal fields
-built on $i_l(\lambda r)Y_l^m$, all centred at $\bx_0$. The particle is spherically symmetric, so its linear response
-maps each $(l,m)$ sector into itself. The net force is the $l=1$ moment of the surface traction, so only the $l=1$
-poloidal sector contributes; the $l=1$ toroidal mode is a rigid rotation that produces a torque but no force. The
-$l=1$ poloidal part of the incident field consists of the two regular blocks of \cref{eq:field_ext}. Every regular
-block with $l\ge2$ vanishes at $\bx_0$, because its velocity is $O(r^{l-1})$. The centre values of the potential and
-vortical parts therefore identify the two $l=1$ amplitudes uniquely: the two parts are linearly independent for
-$\lambda\neq0$, as $\nabla^2\nabla\Phi=\bm 0$ while $\nabla^2\bm w=\lambda^2\bm w$.
-\end{proof}
-
-\subsection{Reflection of the unsteady singularities at the Brinkman interface}\label{sec:reflection}
-Let $\hat f(\bk,z)$ be the two-dimensional Fourier transform in $(x,y)$, defined by
-$f(\bx)=\int\hat f(\bk,z)e^{i\bk\cdot\bx_\parallel}\,\dd^2k/(2\pi)^2$, with $k=|\bk|$ and
-$q=\sqrt{k^2+\lambda_f^2}$, $q_p=\sqrt{k^2+\lambda_p^2}$ (principal branches, $\operatorname{Re}q,q_p>0$). Below the
-particle ($z<h$) the Weyl-type identities
-\begin{equation}
-  \widehat{\left(\tfrac1r\right)}=\frac{2\pi}{k}\,e^{k(z-h)},\qquad
-  \widehat{h_f}=\frac{2\pi}{q}\,e^{q(z-h)}
-  \label{eq:weyl}
-\end{equation}
-turn the scattered field of \cref{eq:field_ext} into a superposition of plane modes travelling towards the interface:
+\subsection{Fourier reflection at the Brinkman interface}\label{sec:reflection}
+The scattered dipoles $(B,C)$ drive the flow that the layer reflects back onto the particle. With the two-dimensional
+transform $f(\bx)=\int\hat f(\bk,z)\,e^{i\bk\cdot\bx_\parallel}\,\dd^2k/(2\pi)^2$, wavenumber $k=|\bk|$ and decay rates
+$q=\sqrt{k^2+\lambda^2}$ and $q_p=\sqrt{k^2+\lambda_p^2}$ (principal branches), the Weyl-type identities
+$\widehat{1/r}=(2\pi/k)\,e^{k(z-h)}$ and $\widehat{\mathcal K_f}=(2\pi/q)\,e^{q(z-h)}$, valid for $z<h$, turn the
+scattered field into plane modes travelling towards the layer:
 \begin{subequations}\label{eq:incident_fourier}
 \begin{align}
   \widehat{\nabla\Phi}_{\rm sc}&=B\,\bm g_k\,(\bm g_k\cdot\be)\,\frac{2\pi}{k}\,e^{k(z-h)},\\
-  \widehat{\bm w}_{\rm sc}&=C\left[\bm g_q(\bm g_q\cdot\be)-\lambda_f^2\be\right]\frac{2\pi}{q}\,e^{q(z-h)},
+  \widehat{\bm w}_{\rm sc}&=C\left[\bm g_q(\bm g_q\cdot\be)-\lambda^2\be\right]\frac{2\pi}{q}\,e^{q(z-h)},
 \end{align}
 \end{subequations}
-with $\bm g_k=(ik_x,ik_y,k)$ and $\bm g_q=(ik_x,ik_y,q)$. The field reflected into $z>0$ and transmitted into $z<0$ is
-built from the modes of \cref{lem:decomp}:
-\begin{subequations}\label{eq:modes}
-\begin{align}
-  z>0:&\quad \nabla\!\left(e^{-kz}\right),\quad \curl\curl\!\left(\be_z e^{-qz}\right),\quad \curl\!\left(\be_z e^{-qz}\right),\\
-  z<0:&\quad \nabla\!\left(e^{kz}\right),\quad \curl\curl\!\left(\be_z e^{q_pz}\right),\quad \curl\!\left(\be_z e^{q_pz}\right),
-\end{align}
-\end{subequations}
-each multiplied by $e^{i\bk\cdot\bx_\parallel}$, with pressures given by \cref{eq:pressures}. For each $\bk$ the six
-amplitudes $\bm x(\bk)=(R_\Phi,R_P,R_T,T_\Phi,T_P,T_T)$ (potential, poloidal and toroidal; reflected and transmitted)
-follow from the six conditions \cref{eq:bc_plane}:
+with $\bm g_k=(ik_x,ik_y,k)$ and $\bm g_q=(ik_x,ik_y,q)$. The reflected field in $z>0$ is built, by \cref{lem:decomp},
+from a potential mode $\nabla e^{-kz}$, a poloidal mode $\curl\curl(\be_ze^{-qz})$ and a toroidal mode
+$\curl(\be_ze^{-qz})$. The transmitted field in $z<0$ is built from $\nabla e^{kz}$, $\curl\curl(\be_ze^{q_pz})$ and
+$\curl(\be_ze^{q_pz})$; all modes carry the factor $e^{i\bk\cdot\bx_\parallel}$. The six interface conditions
+\eqref{eq:bc_plane} fix the reflected amplitudes $(R_\Phi,R_{\rm pol},R_{\rm tor})$ and transmitted amplitudes
+$(T_\Phi,T_{\rm pol},T_{\rm tor})$ at every wavevector through a $6\times6$ system
 \begin{equation}
   \mathsf A(\bk;\Wo,\alpha_p,\beta_p,\mu_p/\mu)\,\bm x(\bk)=\bm r(\bk),
   \label{eq:interface_system}
 \end{equation}
-where $\bm r$ collects the velocity and traction of \cref{eq:incident_fourier} at $z=0$ (\cref{app:interface}).
-Evaluating the reflected potential and vortical parts at $\bx_0$ and projecting on $\be$ gives the reflection matrix
+whose right-hand side contains the velocity and traction of \cref{eq:incident_fourier} at $z=0$ (\cref{app:interface}).
+Projecting the reflected potential and vortical velocities at $\bx_0$ on $\be$ gives the centre values of the incident
+flow in terms of the scattered dipoles:
 \begin{equation}
   \begin{pmatrix}U_p\\ w_0\end{pmatrix}=\bM\begin{pmatrix}B\\ C\end{pmatrix},\qquad
   \bM=\int\!\frac{\dd^2k}{(2\pi)^2}
   \begin{pmatrix}
-    \be\cdot\bm g_k^- R_\Phi e^{-kh} & \cdot\\
-    \be\cdot\left(R_P\bm p_q^-+R_T\bm t\right)e^{-qh} & \cdot
+    \be\cdot\bm g_k^-\,R_\Phi\,e^{-kh} & \cdots\\
+    \be\cdot\left(R_{\rm pol}\bm p_q^-+R_{\rm tor}\bm t\right)e^{-qh} & \cdots
   \end{pmatrix},
   \label{eq:reflection_matrix}
 \end{equation}
-where $\bm g_k^-=(ik_x,ik_y,-k)$, $\bm p_q^-=(-iqk_x,-iqk_y,k^2)$ and $\bm t=(ik_y,-ik_x,0)$. The first column is for
-$(B,C)=(1,0)$ and the second for $(0,1)$. The matrix $\bM$ depends on $(\Wo,h,\alpha_p,\beta_p,\mu_p/\mu,\be)$ but not on
-the particle.
+with $\bm g_k^-=(ik_x,ik_y,-k)$, $\bm p_q^-=(-iqk_x,-iqk_y,k^2)$ and $\bm t=(ik_y,-ik_x,0)$. The first column
+corresponds to $(B,C)=(1,0)$ and the second to $(0,1)$. The reflection matrix $\bM$ depends on the layer, the height and
+the frequency but not on the particle, so that one matrix serves every particle in a parametric sweep.
 
 \begin{proposition}[Transparent and impermeable limits]\label{prop:limits}
-(i) If $\mu_p=\mu$, $\beta_p=0$ and $\alpha_p=0$, then $\lambda_p=\lambda_f$ and $\bM=\mathsf 0$, so $F_{\rm int}=0$.
-(ii) As $\alpha_p\to\infty$, $\bM$ tends to the reflection matrix of a rigid no-slip wall, obtained by replacing
-\cref{eq:interface_system} with $\hat\bu^{(1)}(\bk,0)=\bm 0$.
+(i) If $\mu_p=\mu$, $\beta_p=0$ and $\alpha_p=0$, then $\bM=\mathsf 0$ and $F_{\rm int}=0$. (ii) As $\alpha_p\to\infty$,
+$\bM$ tends to the reflection matrix of a rigid no-slip wall, obtained from $\hat\bu^{(1)}(\bk,0)=\bm 0$.
 \end{proposition}
-\begin{proof}
-(i) The transmitted modes then coincide with the incident ones, the pressures agree by \cref{eq:pressures}, and the
-traction jump vanishes. Hence $\bm x=(0,0,0,\text{incident amplitudes})$ solves \cref{eq:interface_system}, and
-uniqueness gives $R_\Phi=R_P=R_T=0$. (ii) As $\alpha_p\to\infty$, $q_p\sim\alpha_p$ and the layer pressure coefficient
-$i\Wo^2-\alpha_p^2$ diverge. Bounded tractions then require transmitted velocities of order $\alpha_p^{-1}$, so the
-velocity conditions tend to $\hat\bu^{(1)}(\bk,0)=\bm 0$.
+\begin{proof}[Proof sketch]
+(i) The transmitted modes then coincide with the incident ones and the traction jump vanishes, so zero reflection
+satisfies \cref{eq:interface_system}, and the solution is unique. (ii) As $\alpha_p\to\infty$, $q_p\sim\alpha_p$ and
+$c_3\sim-\alpha_p^2$ diverge, so bounded tractions require transmitted velocities of order $\alpha_p^{-1}$, and the
+velocity conditions reduce to no slip, as anticipated in \cref{rem:bj}.
 \end{proof}
 
-\paragraph*{Quadrature.} For $\be=\be_z$ or $\be_x$, the integrand of \cref{eq:reflection_matrix} is a trigonometric
-polynomial of degree at most two in the polar angle of $\bk$. The angular integral is therefore evaluated exactly with
-eight equally spaced nodes. The radial integral uses composite 64-point Gauss--Legendre panels on
-$0\le kh\le50$, with extra panel breaks at $k\sim|\lambda_f|$ and $k\sim|\lambda_p|$ and geometric grading towards
-$k=0$. The integrand decays at least as $e^{-2kh}$. Doubling either the radial or the angular resolution changes
-$\bM$ by less than $10^{-13}$ relative.
+For $\be=\be_z$ or $\be_x$ the integrand of \cref{eq:reflection_matrix} is a trigonometric polynomial of degree at most
+two in the polar angle of $\bk$. The angular integral is therefore exact with $N_\theta=8$ equally spaced nodes. The
+radial integral uses composite 64-point Gauss--Legendre panels on $0\le kh\le50$, with breaks at $k\sim|\lambda|$ and
+$k\sim|\lambda_p|$ and geometric grading towards $k=0$, so that $N_k\approx2000$; the integrand decays at least as
+$e^{-2kh}$. Doubling either resolution changes $\bM$ by less than $10^{-13}$ relative.
 
-\subsection{Self-consistent dipolar closure}\label{sec:closure}
-Combining \cref{eq:response,eq:reflection_matrix} gives a closed $2\times2$ system:
+\subsection{Self-consistent dipolar closure and limiting regimes}\label{sec:closure}
+Substituting the reflection \eqref{eq:reflection_matrix} into the particle response \eqref{eq:response} closes the
+problem in the dipolar sector:
 \begin{equation}
   \left(\mathsf I-\mathsf S_{\rm inc}\bM\right)\begin{pmatrix}B\\ C\end{pmatrix}=\bm s_U\,U,
   \qquad
@@ -212,32 +194,23 @@ Combining \cref{eq:response,eq:reflection_matrix} gives a closed $2\times2$ syst
   \label{eq:closure}
 \end{equation}
 \begin{proposition}[Summation of reflections]\label{prop:series}
-If the spectral radius of $\mathsf S_{\rm inc}\bM$ is below one,
-\begin{equation}
-  F_{\rm int}=\sum_{n=0}^{\infty}\bm z_{\rm inc}^{\mathsf T}\bM\left(\mathsf S_{\rm inc}\bM\right)^{n}\bm s_U\,U,
-  \label{eq:series}
-\end{equation}
-and the $n$th term is the $(n+1)$th reflection of the method of reflections~\cite{simha2018unsteady}, restricted to the
-$l=1$ sector. The first reflection is
-\begin{equation}
-  F^{(1)}_{\rm int}=\bm z_{\rm inc}^{\mathsf T}\bM\,\bm s_U\,U .
-  \label{eq:first_reflection}
-\end{equation}
+If the spectral radius of $\mathsf S_{\rm inc}\bM$ is below one, \cref{eq:closure} equals the series
+$\sum_{n\ge0}\bm z_{\rm inc}^{\mathsf T}\bM(\mathsf S_{\rm inc}\bM)^n\bm s_U\,U$, whose $n$th term is the $(n+1)$th
+reflection of the method of reflections~\cite{simha2018unsteady} restricted to the dipolar sector.
 \end{proposition}
 \begin{proof}
-Expand $(\mathsf I-\mathsf S_{\rm inc}\bM)^{-1}$ as a Neumann series. Each factor $\bM$ reflects the current
-scattered dipoles at the interface, and each factor $\mathsf S_{\rm inc}$ is the sphere's dipolar response to the
-reflected field (\cref{lem:faxen}).
+Expand $(\mathsf I-\mathsf S_{\rm inc}\bM)^{-1}$ as a Neumann series. Each factor $\bM$ reflects the current dipoles at
+the layer, and each factor $\mathsf S_{\rm inc}$ is the dipolar response of the particle to the reflected flow
+(\cref{lem:faxen}).
 \end{proof}
 
-\begin{remark}[Accuracy]\label{rem:accuracy}
-The closure neglects the $l\ge2$ parts of the reflected field. These do not act on the particle directly
-(\cref{lem:faxen}), but their scattered response would be re-reflected and contribute to the force at higher order in
-$b/h$. For a rigid sphere near a rigid wall in the steady limit, the expansion of \cref{eq:closure} in $x=b/h$ agrees with
-the classical reflection series through $O(x^3)$ and first misses the $O(x^4)$ term. The error is quantified against
-Brenner's exact solution in \cref{sec:validation}: about $5\%$ (normal) and $1.5\%$ (parallel) at $\varepsilon=1$, and
-below $0.2\%$ for $\varepsilon\ge3$. Lubrication forces at $\varepsilon\ll1$ are outside the scope of the closure.
-\end{remark}
+\Cref{prop:series} identifies the approximation: the closure keeps every order of reflection but discards the $l\ge2$
+parts of the reflected flow. These parts exert no force directly, but the particle's response to them would be
+reflected again; the resulting error is quantified in \cref{sec:validation}. The complete procedure is summarised in
+\cref{alg:force}. One evaluation of $\bM$ requires about $1.6\times10^4$ solutions of the $6\times6$ system
+\eqref{eq:interface_system}, which takes about $0.05$\,s vectorised on one laptop core, while the particle response costs
+$O(1)$. Crossover numbers are found by bracketing $\hat\chi_{\rm int}$ on a logarithmic grid of 70 values of $\Wo$ and
+refining each root with Brent's method.
 
 \begin{center}\begin{minipage}{\linewidth}\small
 \hrule\smallskip
@@ -245,26 +218,23 @@ below $0.2\%$ for $\varepsilon\ge3$. Lubrication forces at $\varepsilon\ll1$ are
 \noindent\textbf{Algorithm \thealgorithm.} Interaction force on an oscillating core--shell particle near a Brinkman layer
 \smallskip\hrule\smallskip
 \begin{algorithmic}[1]
-\Require $\Wo,\varepsilon,\be$; particle $(\gamma,\alpha_s,\beta_s,\hat\ell_c,\mu_s/\mu)$; layer $(\alpha_p,\beta_p,\mu_p/\mu)$
-\State Solve the sphere system (\cref{app:sphere}) for unit $U$, $U_p$, $w_0$ $\to$ $\bm s_U,\mathsf S_{\rm inc},Z_U,\bm z_{\rm inc}$
+\Require $\Wo,\varepsilon,\be$; particle $(\kappa,\alpha_s,\beta_s,\hat\ell_c,\mu_s/\mu)$; layer $(\alpha_p,\beta_p,\mu_p/\mu)$
+\State Solve the particle system (\cref{app:sphere}) for unit $U$, $U_p$, $w_0$ $\to$ $\bm s_U,\mathsf S_{\rm inc},Z_U,\bm z_{\rm inc}$
 \For{each quadrature node $\bk$} \Comment{independent of the particle; vectorised}
-  \State Assemble $\mathsf A(\bk)$ and $\bm r(\bk)$ for $(B,C)=(1,0)$ and $(0,1)$; solve \cref{eq:interface_system}
-  \State Accumulate the reflected potential and vortical centre velocities into $\bM$
+  \State Solve \cref{eq:interface_system} for $(B,C)=(1,0)$ and $(0,1)$
+  \State Accumulate the reflected centre velocities into $\bM$
 \EndFor
-\State Solve the $2\times2$ system \cref{eq:closure} for $(B,C)$; evaluate $F_{\rm int}$ and $F=Z_UU+F_{\rm int}$
-\State \Return $\hat\gamma_{\rm int},\ \hat\chi_{\rm int},\ m_{\rm int}/m_f,\ \phi$ from \cref{eq:observables}
+\State Solve \cref{eq:closure} for $(B,C)$; evaluate $F_{\rm int}$ and $F=Z_UU+F_{\rm int}$
+\State \Return $\hat\gamma_{\rm int}$, $\hat\chi_{\rm int}$, $m_{\rm int}/m_f$ and $\phi$ from \cref{eq:observables}
 \end{algorithmic}
 \smallskip\hrule
 \end{minipage}\end{center}
 
-\paragraph*{Complexity.} One evaluation requires $N_kN_\theta\approx1.5\times10^4$ solves of a $6\times6$ system for
-$\bM$, which takes about $0.05$\,s vectorised on a laptop core, plus $O(1)$ work for the particle. Since $\bM$ does not
-depend on the particle, sweeps over $(\gamma,\alpha_s,\beta_s,\hat\ell_c)$ reuse it. Crossover numbers are found by
-bracketing $\hat\chi_{\rm int}$ on a logarithmic $\Wo$ grid of 70 points followed by Brent's method.
+Two limits of the closure have closed forms. At high frequency the reflected vorticity is exponentially small, so only
+the potential image of the particle acts back on it, and the added mass reduces to its inviscid value.
 
-\subsection{Limiting regimes}\label{sec:limits}
 \begin{proposition}[Inviscid limit near a rigid wall]\label{prop:inviscid}
-For a rigid sphere near a rigid wall, as $\Wo\to\infty$ at fixed $h$, the leading-order first reflection gives
+For an impermeable no-slip particle near a rigid wall, as $\Wo\to\infty$ at fixed $h$, the first reflection gives
 \begin{equation}
   \frac{m_{\rm int}}{m_f}\to\frac{3}{16}\frac{b^3}{h^3}\ \ (\be=\be_z),\qquad
   \frac{m_{\rm int}}{m_f}\to\frac{3}{32}\frac{b^3}{h^3}\ \ (\be=\be_x).
@@ -272,27 +242,20 @@ For a rigid sphere near a rigid wall, as $\Wo\to\infty$ at fixed $h$, the leadin
 \end{equation}
 \end{proposition}
 \begin{proof}
-As $|\lambda|\to\infty$, $C\to0$, $B\to\tfrac12$, $Z_p\to2\pi\lambda^2$, and the vortical reflection is exponentially
-small in $|\lambda|h$. The reflection of a potential dipole at a no-penetration wall is the mirror dipole at $-h\be_z$,
-with the opposite sign for $\be_z$ and the same sign for $\be_x$. Its velocity at $\bx_0$, at distance $2h$, is
-$U_p=-B/(4h^3)=-1/(8h^3)$ for $\be_z$ and $U_p=-B/(8h^3)=-1/(16h^3)$ for $\be_x$. Then
-$F_{\rm int}=Z_pU_p$ and $\lambda^2=-i\Wo^2$ give $\operatorname{Im}\hat F_{\rm int}=\pi\Wo^2/(4h^3)$ and
-$\pi\Wo^2/(8h^3)$, and \cref{eq:observables} gives \cref{eq:inviscid}.
-These are the leading image corrections to the inviscid added-mass coefficient $\tfrac12$, namely
-$\tfrac12\cdot\tfrac38(b/h)^3$ and $\tfrac12\cdot\tfrac3{16}(b/h)^3$.
+As $|\lambda|\to\infty$, $B\to\tfrac12$, $Z_p\to2\pi\lambda^2$, and the vortical scattered and reflected fields are
+confined to layers of thickness $O(|\lambda|^{-1})$ around the particle and the wall, so their contribution at
+$\bx_0$ is exponentially small in $|\lambda|h$. The potential dipole is reflected by the no-penetration condition into a
+mirror dipole at $-h\be_z$, of opposite sign for $\be_z$ and equal sign for $\be_x$. At distance $2h$ it induces
+$U_p=-B/(4h^3)$ and $U_p=-B/(8h^3)$, respectively. With $F_{\rm int}=Z_pU_p$, $\lambda^2=-i\Wo^2$ and
+\cref{eq:observables}, this gives \cref{eq:inviscid}. These are the leading image corrections
+$\tfrac12\cdot\tfrac38(b/h)^3$ and $\tfrac12\cdot\tfrac3{16}(b/h)^3$ to the inviscid added-mass coefficient
+$\tfrac12$.
 \end{proof}
 
-\begin{remark}[Steady limit]\label{rem:steady}
-As $\Wo\to0$ the closure reduces to the steady problem of a slip or porous sphere near a Brinkman interface with stress
-jump, studied for normal motion of a slip sphere in Ref.~\onlinecite{faltas2021axisymmetric}. Numerically we take
-$\Wo\to0$ by Richardson extrapolation from $\Wo=0.01$ and $0.02$, because the leading unsteady correction is
-$O(\lambda)$ and the direct evaluation at $\Wo\lesssim10^{-3}$ loses precision through the cancellation of the
-$O(\lambda^{-2})$ terms in $B$ and $C$.
-\end{remark}
-
-\begin{remark}[Transparent layer at high frequency]\label{rem:transparent}
-By \cref{eq:lambdas_nd}, $\lambda_p\to\lambda_f$ when $\Wo\gg\alpha_p$ and $\mu_p=\mu$. If moreover $\beta_p\alpha_p$ is small
-compared with $|q|$ for the relevant $k\sim1/h$, \cref{prop:limits}(i) shows that the layer becomes hydrodynamically
-transparent and $F_{\rm int}\to0$. Any finite permeability therefore produces a second, high-frequency regime in which
-the wall-induced added mass decays and can change sign again. This regime has no rigid-wall counterpart.
-\end{remark}
+At low frequency the closure reduces to the steady problem of a slip or porous particle near a Brinkman interface with
+stress jump, studied for the normal motion of a slip sphere in Ref.~\onlinecite{faltas2021axisymmetric}. Direct
+evaluation at $\Wo\lesssim10^{-3}$ loses precision through the cancellation of the $O(\lambda^{-2})$ terms of $B$ and $C$.
+We therefore obtain the steady values by Richardson extrapolation from $\Wo=0.01$ and $0.02$, which removes the leading
+$O(\lambda)$ unsteady correction. Finally, \cref{eq:lambdas_nd} shows that $\lambda_p\to\lambda_f$ when $\Wo\gg\alpha_p$
+and $\mu_p=\mu$. By \cref{prop:limits}(i), a layer with a small stress jump then becomes hydrodynamically transparent,
+which is the origin of the high-frequency regime analysed in \cref{sec:rigid}.

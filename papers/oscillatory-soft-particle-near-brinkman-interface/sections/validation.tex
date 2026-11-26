@@ -1,0 +1,85 @@
+\section{Validation and Accuracy}\label{sec:validation}
+
+Before the method is used to explore permeable layers and soft particles, this section establishes where it can be
+trusted. We compare it with exact solutions for the particle alone, with exact and asymptotic results for a rigid sphere
+near a rigid wall, and with the inviscid limit of \cref{prop:inviscid}. Every number in this and the following sections
+was computed with \cref{alg:force}, using the scripts listed in the Data Availability Statement. Unless stated
+otherwise, the gap is $\varepsilon=1$, the Brinkman viscosities equal $\mu$, and $\beta_s=\hat\ell_c=0$
+(\cref{tab:params}). The rigid sphere near a rigid wall, the configuration of Zhang \emph{et al.}~\cite{zhang2023unsteady}
+and the limit $\kappa=1$, $\alpha_p\to\infty$ of the present model, serves as the baseline against which the effects of
+permeability are measured.
+
+\begin{table}[t]
+\caption{Parameters of the computations.}
+\label{tab:params}
+\begin{ruledtabular}
+\begin{tabular}{lll}
+Quantity & Values & Used in\\
+\hline
+$\Wo$ & $0.05$--$50$ (46 log-spaced values) & \cref{fig:spectra,fig:soft}\\
+$\varepsilon$ & $0.25$--$5$ & \cref{fig:validation,fig:steady,fig:acoustic}\\
+$\alpha_p$ & $3$--$100$ (11 log-spaced); $5,10,20,50,\infty$ & \cref{fig:woc_ap,fig:spectra}\\
+$\beta_p$ & $-0.5,\ 0,\ 0.5$ & \cref{fig:woc_ap,fig:steady}\\
+$\kappa$ & $0,\ 0.5,\ 0.7,\ 0.8,\ 0.95,\ 1$ & \cref{fig:soft}, \cref{tab:sensitivity}\\
+$\alpha_s$ & $1$--$50$ & \cref{fig:soft}\\
+CTC-like particle & $\kappa=0.9$, $\alpha_s=20$ & \cref{fig:acoustic}\\
+leukocyte-like particle & $\kappa=0.7$, $\alpha_s=5$ & \cref{fig:acoustic}\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\begin{table}[t]
+\caption{Validation. Top: unbounded fluid; $\hat F_\infty$ for an impermeable sphere at $\Wo=2$ against
+\cref{eq:rigid_BC}, and the drag ratio $\Omega=\hat F_\infty/(-6\pi)$ of a homogeneous porous sphere at $\Wo=10^{-4}$
+against the Debye--Bueche--Brinkman (DBB) formula. Bottom: steady ($\Wo\to0$) wall correction $F/F_\infty$ for an
+impermeable sphere near a rigid wall.}
+\label{tab:validation}
+\begin{ruledtabular}
+\begin{tabular}{lcc}
+Case & Present & Reference\\
+\hline
+Impermeable, $\Wo=2$: $\hat F_\infty$ & $-45.5069+35.0349i$ & $-45.5069+35.0349i$\\
+Porous, $\alpha_s=1$: $\Omega$ & $0.17561$ & $0.17561$ (DBB)\\
+Porous, $\alpha_s=5$: $\Omega$ & $0.76342$ & $0.76338$ (DBB)\\
+Porous, $\alpha_s=20$: $\Omega$ & $0.94669$ & $0.94663$ (DBB)\\
+\hline
+ & normal: present / Brenner~\cite{brenner1961slow} & parallel: present / Faxén series\\
+$\varepsilon=0.5$ & $2.639$ / $3.205$ & $1.530$ / $1.615$\\
+$\varepsilon=1$ & $2.018$ / $2.126$ & $1.365$ / $1.386$\\
+$\varepsilon=2$ & $1.555$ / $1.569$ & $1.224$ / $1.227$\\
+$\varepsilon=3$ & $1.377$ / $1.380$ & $1.161$ / $1.162$\\
+$\varepsilon=4$ & $1.284$ / $1.285$ & $1.125$ / $1.126$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The particle solver is exact in the absence of the wall, as \cref{tab:validation} shows. It reproduces the unsteady drag
+\eqref{eq:rigid_BC} of an impermeable sphere to all printed digits, and the Debye--Bueche--Brinkman drag of a porous
+sphere~\cite{brinkman1949calculation} to within $10^{-4}$, which is the $O(\Wo)$ unsteady correction at $\Wo=10^{-4}$. It
+also reproduces the closed forms \eqref{eq:rigid_Z} and the transparent-interface limit of \cref{prop:limits}(i), for
+which $|F_{\rm int}/F_\infty|<10^{-14}$. A layer with $\alpha_p=10^5$ reproduces the rigid-wall reflection matrix to four digits.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=0.85\textwidth]{figures/fig2_validation.pdf}
+  \caption{Validation for an impermeable sphere near a rigid wall. (a) Steady wall correction $F/F_\infty$ against the
+  gap $\varepsilon$, compared with Brenner's exact solution~\cite{brenner1961slow} and the classical reflection series
+  $1/(1-\tfrac98x+\tfrac12x^3)$, $x=b/h$ (normal), and with Faxén's series to $O(x^5)$ (parallel). (b) Wall-induced
+  added mass $m_{\rm int}/m_f$ against $\Wo$ at $\varepsilon=1$, approaching the inviscid image values of
+  \cref{prop:inviscid} (dashed).}
+  \label{fig:validation}
+\end{figure*}
+
+The wall interaction is approximate, and \cref{fig:validation}(a) measures the error of the dipolar closure in the
+steady limit, where Brenner's solution~\cite{brenner1961slow} is exact. In normal motion the closure underestimates the
+wall correction by $5.1\%$ at $\varepsilon=1$, $0.9\%$ at $\varepsilon=2$ and less than $0.3\%$ for $\varepsilon\ge3$,
+and it follows the classical reflection series closely for $\varepsilon\le4$. The difference from that series is of the
+size of the first neglected $O(x^4)$ term, as expected from \cref{prop:series}. Parallel motion is more accurate,
+within $1.5\%$ of Faxén's series at $\varepsilon=1$, because the leading neglected coefficient is smaller. At
+$\varepsilon=0.5$ the error grows to $18\%$ in normal motion, which confirms that lubrication requires higher
+multipoles; all quantitative statements below are therefore restricted to $\varepsilon\ge1$. At the other end of the
+frequency range, \cref{fig:validation}(b) shows the added mass decreasing monotonically towards the image values
+$3/(16h^3)=0.0234$ and $3/(32h^3)=0.0117$ of \cref{prop:inviscid}. At $\Wo=160$ the computed values are $0.0246$ and
+$0.0122$; the remaining $5\%$ comes from the higher image reflections retained by the closure and from the $O(\Wo^{-1})$
+boundary layers. The method thus reproduces both the viscous and the inertial ends of the problem, with a dipolar
+error that is small for $\varepsilon\ge1$.

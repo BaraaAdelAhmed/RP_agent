@@ -107,10 +107,10 @@ axs[0, 1].set_yscale('symlog', linthresh=1e-2); axs[0, 1].axhline(0, color='k', 
 axs[0, 0].set_ylabel(r'$\hat\gamma_{\rm int}$'); axs[0, 1].set_ylabel(r'$\hat\chi_{\rm int}$')
 for a in axs[0]: a.set_xlabel(r'$\mathrm{Wo}$')
 axs[0, 0].legend(frameon=False)
-axs[0, 0].set_title(r'(a) normal, $\gamma=0.7$, $\alpha_p=20$', loc='left'); axs[0, 1].set_title('(b)', loc='left')
+axs[0, 0].set_title(r'(a) normal, $\kappa=0.7$, $\alpha_p=20$', loc='left'); axs[0, 1].set_title('(b)', loc='left')
 for j, d in enumerate(['z', 'x']):
     for i, g in enumerate(['0.0', '0.5', '0.8', '0.95']):
-        scat(axs[1, j], als*(1+0.05*(i-1.5)), cs[f'{d}_{g}'], C[i], rf'$\gamma={float(g):g}$')
+        scat(axs[1, j], als*(1+0.05*(i-1.5)), cs[f'{d}_{g}'], C[i], rf'$\kappa={float(g):g}$')
     for Wc, sg in cs[f'{d}_rigid']:
         axs[1, j].axhline(Wc, color='k', ls='--', lw=.8, label='rigid sphere')
     axs[1, j].set_xscale('log'); axs[1, j].set_yscale('log')
@@ -155,6 +155,6 @@ for j, d in enumerate(['z', 'x']):
     a.contour(W, e, r, levels=[1.0, 1.5, 2.0], colors='w', linewidths=.6)
     a.set_xscale('log'); a.set_xlabel(r'$\mathrm{Wo}$'); a.set_ylabel(r'$\varepsilon$')
     a.set_title(('(b) normal' if d == 'z' else '(c) parallel') + r', $|F^{\rm CTC}_{\rm int}|/|F^{\rm WBC}_{\rm int}|$', loc='left', fontsize=7.5)
-fig.colorbar(cs_, ax=axs[1:], shrink=.9)
+fig.colorbar(cs_, ax=axs[1:], shrink=.9, label=r'$|F^{\rm CTC}_{\rm int}|/|F^{\rm WBC}_{\rm int}|$')
 fig.savefig(H/'fig7_acoustic_contrast.pdf'); plt.close(fig)
 print('figures written')
