@@ -32,6 +32,11 @@ Hooks in `.claude/settings.json` enforce two rules: `.tex` files under `papers/`
 approvals are recorded, and `references.bib` can only be changed through `addref` / `rmref`. Do not try to get
 around them (for example by writing .tex through Bash); they protect the author.
 
+Hooks load only when a session starts in this repository. If the repository was attached later, they are not
+active: `rp.py approve` then records the user's words without checking them automatically. Do not run the hook
+script by hand. Apply the same rules yourself: write no `.tex` file until `rp.py status` shows both approvals, record
+an approval only when the user's latest message gives it, and change `references.bib` only through `addref` / `rmref`.
+
 Project layout: `papers/<slug>/` holds `main.tex`, `sections/*.tex`, `references.bib`, `figures/`, `notes/`,
 `inputs/` (copies of anything the user uploads that you need to keep) and `.session/state.json`.
 

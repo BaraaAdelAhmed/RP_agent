@@ -112,15 +112,24 @@ def cmd_rmref(a):
 def cmd_approve(a):
     p = existing(a.project)
     quote = a.quote.strip().strip('"').strip()
-    last = LAST_PROMPT.read_text(errors="replace") if LAST_PROMPT.exists() else ""
     norm = lambda s: " ".join(s.lower().split())
-    if not quote or norm(quote) not in norm(last):
-        die("The quote must be copied word for word from the user's latest message. If the user has not clearly "
-            "approved yet, ask them.")
+    if not quote:
+        die("Give the user's approval words with --quote.")
+    if LAST_PROMPT.exists():
+        if norm(quote) not in norm(LAST_PROMPT.read_text(errors="replace")):
+            die("The quote must be copied word for word from the user's latest message. If the user has not clearly "
+                "approved yet, ask them.")
+        verified = True
+    else:
+        # Hooks did not load (e.g. the repository was attached after the session started), so the user's message
+        # was not captured. Record the approval, but flag it as not machine-checked.
+        print("NOTE: hooks are not active in this session, so the quote could not be checked automatically. "
+              "Only record approvals the user really gave, in their own words.")
+        verified = False
     if a.gate == "structure" and not p.state.novelty_approved:
         die("Novelty must be approved before the structure.")
     setattr(p.state, f"{a.gate}_approved", True)
-    p.state.approvals.append({"gate": a.gate, "quote": quote})
+    p.state.approvals.append({"gate": a.gate, "quote": quote, "verified_by_hook": verified})
     p.save_state()
     print(f"Recorded the user's approval for '{a.gate}'.")
 
