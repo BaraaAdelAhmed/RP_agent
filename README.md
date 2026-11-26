@@ -20,6 +20,24 @@ The skill lives in `.claude/skills/research-paper/SKILL.md`, its helper commands
 `.claude/settings.json` (`scripts/rp_hook.py`) block `.tex` writing until both gates are approved, and block
 hand-editing `references.bib`.
 
+### Turning the structured paper into a first draft
+
+When the structured paper exists, type `/1st-draft-paper <project>` in a Claude Code session. It:
+1. saves a snapshot of the sources and **audits** every line: a notation table, definitions of physical terms,
+   dimensional checks, re-derivation of key steps and limiting cases, a claim–evidence map, equation and figure
+   referencing, and language. It also proposes a plan to restructure the paper into **6–7 sections**. You approve the
+   plan before anything is edited;
+2. rewrites the Problem Formulation, Analysis and Results so every symbol and term is defined where it is first used
+   and the narrative flows;
+3. revises the language towards scientific-paper register (not a textbook), with equation and figure references used
+   where they matter;
+4. discusses the results by **main point** (a bold lead-in sentence, then evidence → mechanism → implication).
+   **New physical insights are printed in blue** (`\finding{...}`) with a verified, well-established supporting
+   reference. Set `\showfindingsfalse` in `main.tex` to print them in black for submission;
+5. checks everything, writes a word diff against the snapshot, a change report and a simulated referee report.
+
+The Introduction stays as guide points for you to write.
+
 ## Standalone web app (needs an Anthropic API key)
 
 ### What it does

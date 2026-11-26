@@ -37,6 +37,8 @@ class ProjectState:
     working_title: str = ""
     novelty_verdict: str = ""
     approvals: list[dict] = field(default_factory=list)
+    # 1st-draft skill: "" (not started) -> "audit" (edits locked) -> "editing" -> "done"
+    draft1_status: str = ""
 
 
 class Project:

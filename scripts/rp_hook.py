@@ -59,6 +59,14 @@ def main() -> None:
                   f"structure={state.get('structure_approved', False)}. Ask the user, then record their words with "
                   "`python3 scripts/rp.py approve <project> <gate> --quote \"...\"`.", file=sys.stderr)
             sys.exit(2)
+        if state.get("draft1_status") == "audit" and "versions" not in rel.parts:
+            print("1st-draft audit in progress: LaTeX edits are locked until the user approves the audit and "
+                  "restructuring plan (`python3 scripts/rp.py approve <project> draftplan --quote \"...\"`).",
+                  file=sys.stderr)
+            sys.exit(2)
+    if "versions" in rel.parts:
+        print("versions/ holds the pre-edit snapshot used for the diff; never edit it.", file=sys.stderr)
+        sys.exit(2)
 
 
 if __name__ == "__main__":

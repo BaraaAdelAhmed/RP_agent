@@ -10,6 +10,14 @@
   python3 scripts/rp.py stage <project> idea|novelty|structure|drafting|review [--title T] [--verdict V]
   python3 scripts/rp.py check <project>        # cite keys vs .bib, labels vs refs, missing inputs/figures
   python3 scripts/rp.py compile <project>      # latexmk/pdflatex if installed, then `check`
+
+  1st-draft skill:
+  python3 scripts/rp.py draft1-start <project>   # snapshot sources to versions/vN/, lock .tex edits until plan approval
+  python3 scripts/rp.py approve <project> draftplan --quote "<user's exact words>"
+  python3 scripts/rp.py symbols <project>        # every math symbol: first use, count, sections
+  python3 scripts/rp.py lint <project>           # sections, short subsections, banned phrases, sentence stats, refs
+  python3 scripts/rp.py diff <project> [--from vN]  # latexdiff (if installed) + word diff in notes/
+  python3 scripts/rp.py draft1-done <project>
 """
 
 from __future__ import annotations
@@ -24,7 +32,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 
-from rp_agent import literature  # noqa: E402
+from rp_agent import literature, texscan  # noqa: E402
 from rp_agent.project import STAGE_LABELS, STAGES, Project  # noqa: E402
 
 LAST_PROMPT = ROOT / ".claude" / "last_user_prompt.txt"
@@ -128,7 +136,12 @@ def cmd_approve(a):
         verified = False
     if a.gate == "structure" and not p.state.novelty_approved:
         die("Novelty must be approved before the structure.")
-    setattr(p.state, f"{a.gate}_approved", True)
+    if a.gate == "draftplan":
+        if p.state.draft1_status != "audit":
+            die("Run `rp.py draft1-start` and present the audit and restructuring plan before approving it.")
+        p.state.draft1_status = "editing"
+    else:
+        setattr(p.state, f"{a.gate}_approved", True)
     p.state.approvals.append({"gate": a.gate, "quote": quote, "verified_by_hook": verified})
     p.save_state()
     print(f"Recorded the user's approval for '{a.gate}'.")
@@ -239,6 +252,128 @@ def cmd_compile(a):
     sys.exit(run_check(p))
 
 
+# ------------------------------------------------------------------ 1st-draft skill
+
+SOURCE_SUFFIXES = {".tex", ".bib", ".bst", ".cls", ".sty"}
+
+
+def _sources(p: Project) -> list[str]:
+    return [f for f in p.list_files()
+            if Path(f).suffix in SOURCE_SUFFIXES and not f.startswith("versions/") and not f.endswith("Notes.bib")]
+
+
+def cmd_draft1_start(a):
+    p = existing(a.project)
+    if not (p.root / "main.tex").exists():
+        die("main.tex does not exist; write the paper with the research-paper skill first.")
+    vdir = p.root / "versions"
+    n = 0
+    while (vdir / f"v{n}").exists():
+        n += 1
+    snap = vdir / f"v{n}"
+    for rel in _sources(p):
+        dst = snap / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(p.root / rel, dst)
+    p.state.draft1_status = "audit"
+    p.save_state()
+    print(f"Snapshot of {len(_sources(p))} source files saved to papers/{p.name}/versions/v{n}/ (never edit it).")
+    print("LaTeX edits are locked until the user approves the audit and restructuring plan "
+          "(rp.py approve <project> draftplan --quote ...).")
+
+
+def cmd_draft1_done(a):
+    p = existing(a.project)
+    p.state.draft1_status = "done"
+    p.save_state()
+    print("1st draft marked done.")
+
+
+def cmd_symbols(a):
+    p = existing(a.project)
+    lines = texscan.collect(p.root)
+    table = texscan.symbols(lines)
+    print(f"{len(table)} distinct math tokens, in order of first appearance "
+          f"(token | first use | count | sections). Macros defined in main.tex are listed by name.")
+    for tok, e in table.items():
+        print(f"{tok:28s} {e['first']:40s} {e['count']:4d}  {' / '.join(s[:30] for s in e['sections'])}")
+    defs = re.findall(r"\\(?:newcommand|renewcommand|DeclareMathOperator)\*?\{?(\\[A-Za-z]+)\}?(?:\[\d\])?\{(.+)\}",
+                      (p.root / "main.tex").read_text(errors="replace"))
+    if defs:
+        print("\nUser macros (main.tex):")
+        for name, body in defs:
+            print(f"  {name} -> {body[:60]}")
+
+
+def cmd_lint(a):
+    p = existing(a.project)
+    r = texscan.lint(texscan.collect(p.root))
+    st = r["stats"]
+    print(f"Main sections: {st.get('main_sections')} (target 6-7)")
+    for s in r["sections"]:
+        print(f"  - {s['title']}  [{s['where']}]")
+    print(f"\nSentences: {st.get('sentences')}, mean {st.get('mean_sentence_words')} words, "
+          f"{st.get('share_under_12_words')} under 12 words, {st.get('share_over_40_words')} over 40 words")
+    print(f"Equation references: {st.get('equation_refs')}, figure references: {st.get('figure_refs')}")
+    def block(title, items):
+        print(f"\n{title} ({len(items)}):")
+        for it in items[:80]:
+            print("  " + (it if isinstance(it, str) else str(it)))
+    block("Short subsections (<150 words; merge candidates)",
+          [f"{s['title']} — {s['words']} words [{s['where']}]" for s in r["short_subsections"]])
+    block("Banned or suspect phrases", r["banned"])
+    block("Very long sentences (>50 words)", r["long_sentences"])
+    block("Labels never referenced", r["unreferenced_labels"])
+    block("Figure citation order", r["figure_order"])
+    block("\\finding blocks", [f"{'cited' if f['cited_in_paragraph'] else 'NO CITATION in paragraph'}: "
+                               f"{f['text'][:100]}" for f in r["findings"]])
+
+
+def cmd_diff(a):
+    p = existing(a.project)
+    vdir = p.root / "versions"
+    versions = sorted((d.name for d in vdir.iterdir() if d.is_dir()), key=lambda v: int(v[1:])) if vdir.exists() else []
+    if not versions:
+        die("No snapshot found; run draft1-start first.")
+    base = vdir / (a.from_ or versions[-1])
+    if not base.exists():
+        die(f"No snapshot {a.from_}. Available: {', '.join(versions)}")
+    notes = p.root / "notes"
+    notes.mkdir(exist_ok=True)
+    out = notes / f"draft1_word_diff_{base.name}.txt"
+    chunks = []
+    for rel in sorted(set(_sources(p)) | {str(f.relative_to(base)) for f in base.rglob("*") if f.is_file()}):
+        old, new = base / rel, p.root / rel
+        proc = subprocess.run(["git", "diff", "--no-index", "--word-diff=plain", "--word-diff-regex=[^[:space:]]+",
+                               "-U2", str(old if old.exists() else "/dev/null"), str(new if new.exists() else "/dev/null")],
+                              capture_output=True, text=True)
+        if proc.stdout.strip():
+            chunks.append(f"=================== {rel}\n{proc.stdout}")
+    out.write_text("\n".join(chunks) or "No differences.\n")
+    print(f"Word diff ([-removed-] {{+added+}}) written to {out.relative_to(p.root.parent.parent)}")
+    if shutil.which("latexdiff"):
+        flat = shutil.which("latexpand")
+        diff_tex = p.root / "diff.tex"
+        if flat:
+            old_flat = subprocess.run(["latexpand", "main.tex"], cwd=base, capture_output=True, text=True).stdout
+            new_flat = subprocess.run(["latexpand", "main.tex"], cwd=p.root, capture_output=True, text=True).stdout
+            (notes / "_old_flat.tex").write_text(old_flat)
+            (notes / "_new_flat.tex").write_text(new_flat)
+            proc = subprocess.run(["latexdiff", str(notes / "_old_flat.tex"), str(notes / "_new_flat.tex")],
+                                  capture_output=True, text=True)
+        else:
+            proc = subprocess.run(["latexdiff", "--flatten", str(base / "main.tex"), str(p.root / "main.tex")],
+                                  capture_output=True, text=True)
+        if proc.returncode == 0:
+            diff_tex.write_text(proc.stdout)
+            print(f"latexdiff written to papers/{p.name}/diff.tex (compile it to see changes highlighted).")
+        else:
+            print("latexdiff failed: " + proc.stderr[-500:])
+    else:
+        print("latexdiff is not installed here. To get a highlighted PDF, run on a machine with LaTeX:\n"
+              f"  latexdiff --flatten versions/{base.name}/main.tex main.tex > diff.tex   (inside papers/{p.name}/)")
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -251,12 +386,18 @@ def main():
     s = sub.add_parser("addref"); s.add_argument("project"); s.add_argument("identifier"); s.add_argument("--key")
     s.set_defaults(f=cmd_addref)
     s = sub.add_parser("rmref"); s.add_argument("project"); s.add_argument("key"); s.set_defaults(f=cmd_rmref)
-    s = sub.add_parser("approve"); s.add_argument("project"); s.add_argument("gate", choices=["novelty", "structure"])
+    s = sub.add_parser("approve"); s.add_argument("project"); s.add_argument("gate", choices=["novelty", "structure", "draftplan"])
     s.add_argument("--quote", required=True); s.set_defaults(f=cmd_approve)
     s = sub.add_parser("stage"); s.add_argument("project"); s.add_argument("stage", choices=STAGES)
     s.add_argument("--title"); s.add_argument("--verdict"); s.set_defaults(f=cmd_stage)
     s = sub.add_parser("check"); s.add_argument("project"); s.set_defaults(f=cmd_check)
     s = sub.add_parser("compile"); s.add_argument("project"); s.set_defaults(f=cmd_compile)
+    s = sub.add_parser("draft1-start"); s.add_argument("project"); s.set_defaults(f=cmd_draft1_start)
+    s = sub.add_parser("draft1-done"); s.add_argument("project"); s.set_defaults(f=cmd_draft1_done)
+    s = sub.add_parser("symbols"); s.add_argument("project"); s.set_defaults(f=cmd_symbols)
+    s = sub.add_parser("lint"); s.add_argument("project"); s.set_defaults(f=cmd_lint)
+    s = sub.add_parser("diff"); s.add_argument("project"); s.add_argument("--from", dest="from_")
+    s.set_defaults(f=cmd_diff)
     a = ap.parse_args()
     a.f(a)
 
