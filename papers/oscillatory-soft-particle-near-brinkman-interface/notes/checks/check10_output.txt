@@ -1,0 +1,4 @@
+(a) min gamma_int over stored spectra: 0.0352529799929544  (key: x_2 )
+(a) total damping -Re F/U > 0 in all sampled cases (eps=1); (b) max spectral radius of S_inc M at eps=1: 0.5016
+    rigid, normal, Wo=0.01, eps=0.5: spectral radius = 0.6200
+    rigid, normal, Wo=0.01, eps=0.25: spectral radius = 0.6920

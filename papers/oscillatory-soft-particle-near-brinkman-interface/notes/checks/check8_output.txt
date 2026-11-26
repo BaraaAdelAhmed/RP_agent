@@ -1,0 +1,20 @@
+(a) sign changes of chi_int, parallel, eps=1, on 120-point grid Wo in [0.5,20]; base vs doubled quadrature
+   alpha_p= 5.00 quad=base: crossings at Wo~ [1.21 1.46]  max chi in windows=+0.0010
+   alpha_p= 5.00 quad=x2: crossings at Wo~ [1.21 1.46]  max chi in windows=+0.0010
+   alpha_p= 8.59 quad=base: crossings at Wo~ [1.   2.39 4.31 7.77]  max chi in windows=+0.0188
+   alpha_p= 8.59 quad=x2: crossings at Wo~ [1.   2.39 4.31 7.77]  max chi in windows=+0.0188
+   alpha_p=10.00 quad=base: crossings at Wo~ [ 0.97  2.88  3.26 11.27]  max chi in windows=+0.0267
+   alpha_p=10.00 quad=x2: crossings at Wo~ [ 0.97  2.88  3.26 11.27]  max chi in windows=+0.0267
+(b) -chi_int/(Wo/sqrt2) at Wo=0.01 (normal, eps=1) vs alpha_p
+   alpha_p=      0.1: 0.883
+   alpha_p=      0.3: 0.957
+   alpha_p=      1.0: 0.981
+   alpha_p=      3.0: 0.987
+   alpha_p=      5.0: 0.988
+   alpha_p=     20.0: 0.986
+   alpha_p=1000000.0: 0.989
+(c) rigid-wall damping slope d ln gamma / d ln Wo (normal, eps=1)
+   Wo=20: gamma_int=0.715  slope=0.796
+   Wo=50: gamma_int=1.559  slope=0.914
+   Wo=100: gamma_int=2.973  slope=0.956
+   Wo=200: gamma_int=5.805  slope=0.978
