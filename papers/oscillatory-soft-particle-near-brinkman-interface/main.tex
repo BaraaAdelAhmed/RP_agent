@@ -1,0 +1,94 @@
+\documentclass[aip,pof,reprint,amsmath,amssymb,nofootinbib]{revtex4-2}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\DeclareUnicodeCharacter{03BC}{\ensuremath{\mu}}
+\usepackage{graphicx}
+\usepackage{bm}
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{algpseudocode}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage[capitalise,nameinlink]{cleveref}
+
+\newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
+\newcommand{\figplaceholder}[1]{\fbox{\parbox[c][0.28\textwidth][c]{0.9\linewidth}{\centering\small #1}}}
+
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{assumption}{Assumption}
+\theoremstyle{remark}
+\newtheorem{remark}{Remark}
+\crefname{assumption}{Assumption}{Assumptions}
+\newcounter{algorithm}
+\crefname{algorithm}{Algorithm}{Algorithms}
+\Crefname{algorithm}{Algorithm}{Algorithms}
+
+% ---- notation ----
+\newcommand{\Wo}{\mathrm{Wo}}
+\newcommand{\bu}{\bm{u}}
+\newcommand{\bU}{\bm{U}}
+\newcommand{\be}{\bm{e}}
+\newcommand{\bx}{\bm{x}}
+\newcommand{\bn}{\bm{n}}
+\newcommand{\bF}{\bm{F}}
+\newcommand{\bsig}{\bm{\sigma}}
+\newcommand{\bI}{\bm{I}}
+\newcommand{\bk}{\bm{k}}
+\newcommand{\bM}{\mathsf{M}}
+\newcommand{\dd}{\mathrm{d}}
+\newcommand{\curl}{\nabla\times}
+
+\begin{document}
+
+% ------------------------------------------------------------------
+% Candidate titles (stage 3, see notes/title_options.md)
+% 1. Oscillatory hydrodynamics of a soft core--shell particle near a fluid--porous interface with stress jump  [CHOSEN]
+% 2. Unsteady Stokes--Brinkman reflection theory for a core--shell sphere oscillating near a permeable biological layer
+% 3. Porous walls shift and suppress the added-mass crossover of an oscillating soft particle
+% 4. How does a permeable biological interface modify the frequency-dependent drag and added mass of a nearby soft cell or vesicle?
+% 5. Hearing the glycocalyx: frequency-dependent drag and added mass of a soft particle oscillating near a Brinkman interface
+% ------------------------------------------------------------------
+\title{Oscillatory hydrodynamics of a soft core--shell particle near a fluid--porous interface with stress jump}
+
+\author{Baraa A. Ahmed}
+\email{\TODO{corresponding e-mail}}
+\affiliation{\TODO{affiliation}}
+\TODO{confirm author list and order}
+
+\date{\today}
+
+\begin{abstract}
+\input{sections/abstract}
+\end{abstract}
+
+\maketitle
+
+\input{sections/introduction}
+\input{sections/problem_formulation}
+\input{sections/analysis}
+\input{sections/results}
+\input{sections/conclusion}
+
+\appendix
+\input{sections/appendix}
+
+\begin{acknowledgments}
+\TODO{funding and acknowledgements}
+\end{acknowledgments}
+
+\section*{Data Availability Statement}
+{\sloppy The code that generates every figure and table (\texttt{code/osc\_solver.py},\linebreak[1] \texttt{code/make\_results*.py},
+\texttt{figures/make\_figures.py}) is \TODO{to be deposited in a public repository; give the link}.\par}
+
+\bibliography{references}
+
+\end{document}

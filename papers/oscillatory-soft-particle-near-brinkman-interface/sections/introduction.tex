@@ -1,0 +1,71 @@
+\section{Introduction}\label{sec:intro}
+% GUIDE POINTS ONLY -- the authors write the prose of this section.
+
+\subsection*{Motivation: oscillating particles next to permeable biological layers}
+\begin{itemize}
+  \item Blood vessels are lined by the endothelial glycocalyx, a hydrodynamically relevant porous surface layer
+        (near-wall $\mu$-PIV evidence~\cite{smith2003near}); airway and intestinal surfaces are covered by mucus
+        that acts as a permeable barrier to particles and carriers~\cite{pangeni2023airway}.
+  \item Particles near these layers are often driven harmonically: colloidal-probe AFM in dynamic mode
+        (non-contact microrheology), and acoustofluidic devices that sort circulating tumour cells (CTCs) from
+        leukocytes at $\Wo=O(1\text{--}10)$~\cite{wu2019acoustofluidic,hossein2023review}.
+  \item Cells, liposomes and PEGylated carriers are hydrodynamically ``soft'': a permeable polymer or glycocalyx-like
+        shell around a less permeable core. Both the particle and the wall are therefore porous.
+  \item Key question: how do the permeability and interfacial stress jump of the layer, and the softness of the particle,
+        reshape the frequency-dependent damping, added mass and phase lag of the near-wall force?
+\end{itemize}
+
+\subsection*{Unsteady hydrodynamics of a particle near a boundary}
+\begin{itemize}
+  \item Zhang \emph{et al.}~\cite{zhang2023unsteady}: rigid sphere oscillating normal to a rigid wall (FEM, asymptotics,
+        thermal-noise AFM); in-phase and out-of-phase forces depend strongly on $\Wo$; the resonance-frequency shift
+        crosses from positive to negative as $\Wo$ increases --- the benchmark generalised here.
+  \item Point-particle and method-of-reflections theories for unsteady Stokes flow near walls~\cite{simha2018unsteady};
+        generalised Faxén law for unsteady flow~\cite{mazur1974generalization}.
+  \item Recent extensions: elastic (deformable) walls in the lubrication regime~\cite{batalha2026elasto};
+        impermeable slip walls~\cite{elsapa2022force}; oscillation near a fluid--fluid interface~\cite{faltas2024oscillations}.
+  \item Classical steady limits: Brenner~\cite{brenner1961slow} (normal) and Goldman--Cox--Brenner~\cite{goldman1967slow}
+        (parallel).
+\end{itemize}
+
+\subsection*{Fluid--porous interfaces and porous particles}
+\begin{itemize}
+  \item Interface conditions: Beavers--Joseph slip~\cite{beavers1967boundary}; Ochoa-Tapia--Whitaker stress
+        jump~\cite{ochoatapia1995momentum}; Brinkman model~\cite{brinkman1949calculation}.
+  \item Unsteady flow next to a porous wall (no particle): Sherwood~\cite{sherwood2020unsteady}.
+  \item Steady particle motion near a Brinkman interface with stress jump~\cite{faltas2021axisymmetric} and near a plane
+        interface~\cite{richardson1996low}; Brinkman Green's functions near walls and plates~\cite{daddimoussaider2023axisymmetric,daddimoussaider2026asymptotic}.
+  \item Oscillating porous particles in unbounded fluid~\cite{prakash2011arbitrary,ollila2012hydrodynamic}; oscillating spheres in
+        Brinkman media~\cite{algatheem2025interaction}; Brinkman porous sphere with Beavers--Joseph slip~\cite{elsayed2026effect}.
+\end{itemize}
+
+\subsection*{Gap}
+\begin{itemize}
+  \item No study treats a finite-size particle oscillating near a \emph{permeable} half-space, nor a soft core--shell
+        particle oscillating near any wall; the frequency signature of wall permeability and stress jump is unknown.
+  \item Steady theories~\cite{faltas2021axisymmetric} miss inertia (added mass, Basset-type memory, phase lag); rigid-wall unsteady
+        theories~\cite{zhang2023unsteady} miss permeability, which is the property of interest in biology.
+\end{itemize}
+
+\subsection*{Contributions}
+\begin{itemize}
+  \item A semi-analytical solution of unsteady Stokes--Brinkman flow for a core--shell sphere (Brinkman shell, Navier-slip
+        core, OTW stress jump) oscillating normal or parallel to a Brinkman half-space with stress jump. It combines exact
+        $l=1$ sphere solutions, an exact Fourier-space reflection of the unsteady singularities at the porous interface and
+        a self-consistent dipolar closure that sums all orders of reflection (\cref{sec:analysis}).
+  \item Validation against the exact unsteady drag of rigid and porous spheres, Brenner's and Faxén's steady wall
+        corrections, and the inviscid image added mass, with a quantified accuracy envelope (\cref{sec:validation}).
+  \item Maps of the interaction damping $\gamma_{\rm int}$, the added-mass shift $m_{\rm int}$ and the crossover Womersley
+        numbers against $\alpha_p$, $\beta_p$, $\alpha_s$ and $\gamma$, for normal and parallel oscillation: permeable
+        layers raise the lower crossover, create an upper crossover at $\Wo\approx0.116\,\alpha_p^2$, and can remove the
+        positive-added-mass window (\cref{sec:results}).
+  \item Bio-relevant consequences: non-contact estimation of glycocalyx or mucus permeability, force- and phase-contrast
+        between cell-like particles of different softness, and design guidance for mucus-penetrating vesicles.
+\end{itemize}
+
+\subsection*{Organisation}
+\begin{itemize}
+  \item \cref{sec:formulation}: problem formulation; \cref{sec:analysis}: solution method and limiting cases;
+        \cref{sec:results}: validation, parametric results and biomedical implications; \cref{sec:conclusion}: conclusions;
+        appendix: radial functions and the interface system.
+\end{itemize}

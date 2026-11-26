@@ -7,6 +7,7 @@ and doi.org / arxiv.org for authoritative BibTeX.
 
 from __future__ import annotations
 
+import html
 import json
 import os
 import re
@@ -168,6 +169,8 @@ def make_key(bibtex: str) -> str:
 
 def _clean_bibtex(raw: str, key: str) -> str:
     raw = raw.strip().replace("–", "--").replace("—", "---")
+    # Some publishers return HTML entities (e.g. "&amp;"); decode them and escape bare "&" for LaTeX.
+    raw = re.sub(r"(?<!\\)&", r"\\&", html.unescape(raw))
     raw = re.sub(r"^@(\w+)\s*\{\s*[^,]*,", lambda m: f"@{m.group(1)}{{{key},", raw, count=1)
     # One field per line for readability.
     raw = re.sub(r",\s*(\w+)\s*=", r",\n  \1 = ", raw)

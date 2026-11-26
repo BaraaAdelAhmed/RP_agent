@@ -1,8 +1,19 @@
 {
-  "stage": "novelty",
-  "novelty_approved": false,
-  "structure_approved": false,
-  "working_title": "",
+  "stage": "review",
+  "novelty_approved": true,
+  "structure_approved": true,
+  "working_title": "Oscillatory hydrodynamics of a soft core\u2013shell particle near a fluid\u2013porous interface with stress jump",
   "novelty_verdict": "Novel (moderate-high confidence)",
-  "approvals": []
+  "approvals": [
+    {
+      "gate": "novelty",
+      "quote": "I approve the novelty assessment and accept the strong point.",
+      "verified_by_hook": false
+    },
+    {
+      "gate": "structure",
+      "quote": "I approve the structure and choose the title \"Oscillatory hydrodynamics of a soft core\u2013shell particle near a fluid\u2013porous interface with stress jump\".",
+      "verified_by_hook": false
+    }
+  ]
 }
