@@ -1,15 +1,15 @@
 \section{Soft Particles and Biomedical Implications}\label{sec:soft}
 
 We now make the particle permeable and place it near a glycocalyx-like layer ($\alpha_p=20$, $\beta_p=0$,
-$\varepsilon=1$). This section first shows how the shell permeability $\alpha_s$ and the core ratio $\kappa$ reshape the
-interaction, then applies the results to two cell-like particles relevant to acoustofluidic sorting, and closes with the
-limitations of the model.
+$\varepsilon=1$). This section shows how the shell permeability $\alpha_s$ and the core ratio $\kappa$ reshape the interaction. It then
+applies the results to two cell-like particles relevant to acoustofluidic sorting and closes with the limitations of the
+model.
 
 \subsection{Shell permeability and core size}\label{sec:soft_results}
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.85\textwidth]{figures/fig5_soft_particle.pdf}
+  \includegraphics[width=\linewidth]{figures/fig6_soft.pdf}
   \caption{Soft core--shell particles near a glycocalyx-like layer ($\alpha_p=20$, $\beta_p=0$, $\varepsilon=1$).
   (a,b) Damping $\hat\gamma_{\rm int}$ and reactive coefficient $\hat\chi_{\rm int}$ against $\Wo$ for $\kappa=0.7$ and
   $\alpha_s=2,5,10$, compared with an impermeable sphere (normal oscillation). (c,d) All crossover Womersley numbers
@@ -38,10 +38,12 @@ negative at all frequencies. For larger $\alpha_s$ the window reappears, with $\
 decreasing towards the impermeable value. Intermediate cores produce the richest behaviour. For $\kappa=0.5$, the normal
 crossover is non-monotonic in $\alpha_s$, peaking at $4.6$ for $\alpha_s=5$. In parallel oscillation the low crossover
 near $\Wo\approx1$ disappears for $\alpha_s\le5$, and the first crossover jumps to $\Wo=3.4$--$4.8$. For $\kappa=0.8$
-and $\alpha_s\le12$, parallel oscillation shows two separate positive windows. The upper crossover also falls, from
+and $\alpha_s\le12$, parallel oscillation shows two separate positive windows, for the reason identified in
+\cref{sec:woc}: a permeable particle, like a permeable layer, weakens and delays the potential image relative to the
+vortical contribution. The upper crossover also falls, from
 $46$ for the impermeable sphere to $8$--$20$ for $\kappa=0$ and for $\kappa=0.5$ with $\alpha_s\ge8$. The crossovers
-therefore carry information on the particle as well as on the layer. \TODO{authors: confirm the interpretation of the
-re-entrant parallel windows with a computation at finer $\alpha_s$ resolution.}
+therefore carry information on the particle as well as on the layer. \TODO{authors: confirm the double parallel windows at finer
+$\alpha_s$ resolution.}
 
 \begin{table}[t]
 \caption{Sensitivity to the slip length and the shell stress jump (normal oscillation, $\varepsilon=1$, $\alpha_p=20$,
@@ -81,11 +83,11 @@ into the mucus itself.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.9\textwidth]{figures/fig7_acoustic_contrast.pdf}
+  \includegraphics[width=\linewidth]{figures/fig7_acoustic.pdf}
   \caption{CTC-like ($\kappa=0.9$, $\alpha_s=20$) and leukocyte-like ($\kappa=0.7$, $\alpha_s=5$) particles of equal outer
   radius near an endothelial-like layer ($\alpha_p=20$, $\beta_p=0$). (a) Phase $\arg(-F_z/U_z)$ of the total resistance
   against $\Wo$ at $\varepsilon=1$ and $4$ (normal). (b,c) Ratio $|F^{\rm CTC}_{\rm int}|/|F^{\rm WBC}_{\rm int}|$ of the
-  wall-induced force magnitudes in the $(\Wo,\varepsilon)$ plane; white contours mark $1$, $1.5$ and $2$. (b) Normal, (c)
+  wall-induced force magnitudes in the $(\Wo,\varepsilon)$ plane; white contours mark $1.5$, $2$ and $2.5$. (b) Normal, (c)
   parallel oscillation.}
   \label{fig:acoustic}
 \end{figure*}
@@ -105,12 +107,13 @@ effective at $\Wo=O(1)$, where both the phase contrast and the wall-induced forc
 couple the force to an acoustic radiation-force model to predict trajectory separation, with device-specific
 parameters.}
 
-\subsection{Limitations}\label{sec:limitations}
+\paragraph*{Limitations.}
 The dipolar closure is accurate to $5\%$ in normal and $1.5\%$ in parallel oscillation at $\varepsilon=1$, and to better
 than $1\%$ for $\varepsilon\ge2$ (\cref{sec:validation}). It does not resolve lubrication, so the near-contact regime
 $\varepsilon<1$, relevant to probes in contact with a brush, requires higher multipoles. We expect the crossover locations
 to be less sensitive to this error than the force magnitudes, because the neglected $l\ge2$ terms mainly rescale the
 interaction. \TODO{authors: confirm with a multipole or finite-element computation at $\varepsilon=1$.} The model also
 assumes rigid porous matrices, a layer thick compared with $h$ (\cref{as:thick}), a non-rotating particle
-(\cref{as:norotation}) and Brinkman viscosities equal to $\mu$. Poroelastic deformation of the glycocalyx~\cite{batalha2026elasto} and a finite layer thickness are expected to
+(\cref{as:norotation}) and Brinkman viscosities equal to $\mu$. Positive stress-jump coefficients act as interfacial energy sources (\cref{rem:energy}), which restricts the
+admissible range to $\beta_s,\beta_p\le0.5$ for the particles considered here. Poroelastic deformation of the glycocalyx~\cite{batalha2026elasto} and a finite layer thickness are expected to
 modify mainly the high-frequency branch, where the flow penetrates the layer.

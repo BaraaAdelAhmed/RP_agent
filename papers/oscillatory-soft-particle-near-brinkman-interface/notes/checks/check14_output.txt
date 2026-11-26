@@ -1,0 +1,32 @@
+(a) unbounded porous/core-shell particle: min over Wo in [0.01, 200] of -Re F_inf/(6 pi U)
+   beta_s=0.25 kappa=0.0 alpha_s= 2.0: min=+0.114 at Wo=200.0
+   beta_s=0.25 kappa=0.0 alpha_s= 5.0: min=+0.710 at Wo=0.0
+   beta_s=0.25 kappa=0.0 alpha_s=20.0: min=+0.936 at Wo=0.0
+   beta_s=0.25 kappa=0.7 alpha_s= 2.0: min=+0.698 at Wo=0.0
+   beta_s=0.25 kappa=0.7 alpha_s= 5.0: min=+0.767 at Wo=0.0
+   beta_s=0.25 kappa=0.7 alpha_s=20.0: min=+0.937 at Wo=0.0
+   beta_s= 0.5 kappa=0.0 alpha_s= 2.0: min=-0.072 at Wo=200.0
+   beta_s= 0.5 kappa=0.0 alpha_s= 5.0: min=+0.613 at Wo=0.0
+   beta_s= 0.5 kappa=0.0 alpha_s=20.0: min=+0.905 at Wo=0.0
+   beta_s= 0.5 kappa=0.7 alpha_s= 2.0: min=+0.658 at Wo=0.0
+   beta_s= 0.5 kappa=0.7 alpha_s= 5.0: min=+0.694 at Wo=0.0
+   beta_s= 0.5 kappa=0.7 alpha_s=20.0: min=+0.906 at Wo=0.0
+   beta_s= 1.0 kappa=0.0 alpha_s= 2.0: min=-0.444 at Wo=200.0
+   beta_s= 1.0 kappa=0.0 alpha_s= 5.0: min=-0.201 at Wo=0.0
+   beta_s= 1.0 kappa=0.0 alpha_s=20.0: min=-0.050 at Wo=0.0
+   beta_s= 1.0 kappa=0.7 alpha_s= 2.0: min=+0.535 at Wo=0.0
+   beta_s= 1.0 kappa=0.7 alpha_s= 5.0: min=-0.001 at Wo=9.5
+   beta_s= 1.0 kappa=0.7 alpha_s=20.0: min=-0.050 at Wo=0.0
+(b1) rigid sphere, beta_p=+0.5, eps=1, normal/parallel: min total and min interaction damping over Wo in [0.05, 250]
+   alpha_p=  3.0 z: min total=+1.632  min gamma_int=+0.0208 at Wo=250.0
+   alpha_p=  3.0 x: min total=+1.255  min gamma_int=+0.0104 at Wo=250.0
+   alpha_p=  8.6 z: min total=+1.846  min gamma_int=+0.1873 at Wo=250.0
+   alpha_p=  8.6 x: min total=+1.318  min gamma_int=+0.0929 at Wo=0.8
+   alpha_p= 20.0 z: min total=+1.939  min gamma_int=+0.2549 at Wo=3.2
+   alpha_p= 20.0 x: min total=+1.344  min gamma_int=+0.1055 at Wo=1.0
+   alpha_p= 50.0 z: min total=+1.986  min gamma_int=+0.2840 at Wo=3.9
+   alpha_p= 50.0 x: min total=+1.357  min gamma_int=+0.1113 at Wo=1.0
+   alpha_p=100.0 z: min total=+2.002  min gamma_int=+0.2944 at Wo=3.9
+   alpha_p=100.0 x: min total=+1.361  min gamma_int=+0.1133 at Wo=1.0
+(b2) Table IV soft particle kappa=0.7, alpha_s=5, beta_s=+0.5, alpha_p=20: min total damping over Wo in [0.05, 50]
+   min total=1.082, min unbounded=0.708

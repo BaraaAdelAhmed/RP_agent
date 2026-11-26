@@ -1,0 +1,5 @@
+Wo= 0.05 eps= 1.0 z alpha_p=wall: rel.change=9.2e-15  rho=0.488
+Wo=  3.0 eps= 1.0 x alpha_p=10.0: rel.change=1.9e-16  rho=0.023
+Wo= 30.0 eps= 1.0 z alpha_p=20.0: rel.change=1.8e-16  rho=0.004
+Wo=  3.0 eps=0.25 z alpha_p=wall: rel.change=3.3e-16  rho=0.245
+Wo= 10.0 eps= 4.0 x alpha_p=50.0: rel.change=2.2e-16  rho=0.001

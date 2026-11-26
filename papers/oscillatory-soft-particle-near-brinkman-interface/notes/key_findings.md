@@ -45,3 +45,15 @@ Main points (bold lead-ins in the paper):
 ### Not marked as findings (classical or consequences)
 - Inviscid image added mass (Prop. 4): classical.
 - Closure of the positive window (main point 6): consequence of F1 and F3 meeting.
+
+## Second pass (v1 → v2)
+13. **(main point, Sec. V B) In parallel oscillation near a permeable layer the positive window can split into two.**
+
+### F5 — Double positive added-mass window in parallel oscillation (rigid.tex, Sec. V B)
+- **Statement:** the reactive interaction is the sum of a vortical-reflection part (positive near Wo ≈ 1, decaying once δ_v < gap) and a potential-image part (negative at low Wo, positive at high Wo); a permeable layer weakens and delays the image (sign change at Wo ≈ 3.4 instead of 2.6 for α_p = 10), so the sum returns to zero in between → two windows (crossings 0.97, 2.88, 3.26, 11.3 at α_p = 10).
+- **Evidence:** Fig. 3(d), Fig. 5(b), Fig. 6(d); decomposition `notes/checks/check9_decomposition.py`.
+- **Artefact check:** identical crossings on a 120-point grid with doubled quadrature (`check8a`).
+- **References:** Maxey & Riley (1983) and Mazur & Bedeaux (1974): the unsteady force separates into a viscous-memory part and an inviscid added-mass part; the finding is the near-wall counterpart of this separation.
+
+### Correction to the record
+- The admissibility of stress jumps was re-examined: positive β acts as an interfacial energy source (Remark 2); all findings above concern configurations with β ≤ 0.5, verified dissipative (`check14`).

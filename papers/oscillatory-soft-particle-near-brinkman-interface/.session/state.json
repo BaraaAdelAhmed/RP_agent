@@ -19,7 +19,12 @@
       "gate": "draftplan",
       "quote": "I approve the draft plan",
       "verified_by_hook": false
+    },
+    {
+      "gate": "draftplan",
+      "quote": "I agree on the draft  plan",
+      "verified_by_hook": true
     }
   ],
-  "draft1_status": "audit"
+  "draft1_status": "done"
 }

@@ -1,160 +1,201 @@
-"""Generate all figures from code/results.json (produced by code/make_results.py)."""
+"""Generate all figures at printed size (text width 396 pt = 5.48 in, single-column REVTeX layout).
+Data: code/results.json (validation points), code/results2.json (crossovers), code/results4.json (dense curves)."""
 import json, numpy as np, matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt, matplotlib.ticker
+import matplotlib.pyplot as plt, matplotlib.ticker as mt
 from matplotlib.patches import Circle, Rectangle, FancyArrowPatch
 from pathlib import Path
-H = Path(__file__).resolve().parent
-R = json.load(open(H.parent/'code'/'results.json'))
-plt.rcParams.update({'font.size': 9, 'axes.labelsize': 10, 'legend.fontsize': 7.5,
-                     'figure.dpi': 150, 'savefig.bbox': 'tight', 'mathtext.fontset': 'cm'})
-C = ['#1f4e79', '#c0392b', '#2e8b57', '#d68910', '#7d3c98', '#555555']
 
-# Fig 1 schematic
-fig, ax = plt.subplots(figsize=(3.4, 2.8))
-ax.add_patch(Rectangle((-3, -2.2), 6, 2.2, color='#c8a97e', alpha=.55))
-for x in np.linspace(-2.8, 2.8, 30):
-    for y in np.linspace(-1.0, -0.1, 5):
-        ax.add_patch(Circle((x + 0.1*(y*7 % 2), y), 0.04, color='#8b6b3e'))
-ax.add_patch(Circle((0, 1.9), 1.0, color='#9ecae1', alpha=.8))
-ax.add_patch(Circle((0, 1.9), 0.65, color='#1f4e79'))
-ax.plot([-3, 3], [0, 0], 'k', lw=1)
-ax.annotate('', (0, 3.25), (0, 2.65), arrowprops=dict(arrowstyle='<->', lw=1.4, color=C[1]))
-ax.annotate('', (1.65, 1.9), (1.05, 1.9), arrowprops=dict(arrowstyle='<->', lw=1.4, color=C[2]))
-ax.text(0.12, 3.05, r'$U_z e^{-i\omega t}$', color=C[1]); ax.text(1.1, 2.05, r'$U_x$', color=C[2])
-ax.plot([-1.6, -1.6], [0, 1.9], 'k:', lw=.8); ax.text(-1.55, 0.9, r'$h$')
-ax.plot([0, 0.65*np.cos(-.6)], [1.9, 1.9+0.65*np.sin(-.6)], 'w', lw=.8); ax.text(0.15, 1.55, r'$a$', color='w')
-ax.plot([0, -1.0*np.cos(.5)], [1.9, 1.9+np.sin(.5)], 'k', lw=.8); ax.text(-0.75, 2.35, r'$b$')
-ax.text(-2.9, 3.1, r'fluid $(\rho,\mu)$, $z>0$', fontsize=8)
-ax.text(-2.9, -1.75, r'Brinkman layer $(k_p,\mu_p)$, $z<0$', fontsize=8)
-ax.text(1.2, 0.12, r'interface: stress jump $\beta_p$', fontsize=7)
-ax.text(0.85, 0.95, r'shell $(k_s,\mu_s,\beta_s)$', fontsize=7)
-ax.text(-0.5, 1.95, 'core', color='w', fontsize=7); ax.text(-0.4, 1.7, r'slip $\ell_c$', color='w', fontsize=6.5)
-ax.set_xlim(-3, 3); ax.set_ylim(-2.2, 3.4); ax.set_aspect('equal'); ax.axis('off')
+H = Path(__file__).resolve().parent
+C0 = H.parent / 'code'
+R = json.load(open(C0 / 'results.json'))
+R2 = json.load(open(C0 / 'results2.json'))
+R4 = json.load(open(C0 / 'results4.json'))
+TW = 5.4                                         # printed width (in)
+plt.rcParams.update({'font.size': 8.5, 'axes.labelsize': 8.5, 'legend.fontsize': 7.5, 'xtick.labelsize': 7.5,
+                     'ytick.labelsize': 7.5, 'axes.titlesize': 8.5, 'lines.linewidth': 1.3, 'savefig.bbox': 'tight',
+                     'mathtext.fontset': 'cm', 'font.family': 'serif', 'legend.frameon': False})
+# Okabe-Ito palette (colour-blind safe); one colour + line style per parameter value, reused across figures
+OI = ['#000000', '#0072B2', '#D55E00', '#009E73', '#CC79A7', '#E69F00', '#56B4E9']
+STY = {'wall': (OI[0], '-'), '50': (OI[1], '--'), '20': (OI[2], '-.'), '10': (OI[3], ':'), '5': (OI[4], (0, (5, 1, 1, 1)))}
+LAB = {'wall': 'rigid wall', '50': r'$\alpha_p=50$', '20': r'$\alpha_p=20$', '10': r'$\alpha_p=10$', '5': r'$\alpha_p=5$'}
+
+def panel(ax, s):
+    ax.text(0.0, 1.03, s, transform=ax.transAxes, va='bottom', ha='left', fontsize=8.5)
+
+def logfmt(ax, axis='x'):
+    a = ax.xaxis if axis == 'x' else ax.yaxis
+    a.set_major_formatter(mt.LogFormatterMathtext())
+
+# ---------------------------------------------------------------- Fig. 1 schematic
+fig, ax = plt.subplots(figsize=(3.6, 3.0))
+ax.add_patch(Rectangle((-3, -1.7), 6, 1.7, facecolor='#E8D9BF', edgecolor='none'))
+rng = np.random.default_rng(1)
+for _ in range(260):
+    x, y = rng.uniform(-2.95, 2.95), rng.uniform(-1.65, -0.05)
+    ax.add_patch(Circle((x, y), 0.035, color='#9C7B4B', lw=0))
+ax.plot([-3, 3], [0, 0], color='k', lw=0.8)
+zc, b, a = 2.0, 1.0, 0.62
+ax.add_patch(Circle((0, zc), b, facecolor='#BFDDF2', edgecolor='#0072B2', lw=0.8))
+for _ in range(60):
+    rr, th = np.sqrt(rng.uniform(a**2+0.02, b**2-0.02)), rng.uniform(0, 2*np.pi)
+    ax.add_patch(Circle((rr*np.cos(th), zc+rr*np.sin(th)), 0.025, color='#0072B2', lw=0))
+ax.add_patch(Circle((0, zc), a, facecolor='#1F4E79', edgecolor='none'))
+# axes and origin
+ax.annotate('', (2.6, 0), (2.0, 0), arrowprops=dict(arrowstyle='->', lw=0.8))
+ax.annotate('', (2.0, 0.6), (2.0, 0), arrowprops=dict(arrowstyle='->', lw=0.8))
+ax.text(2.62, 0.05, r'$x$'); ax.text(2.05, 0.62, r'$z$'); ax.plot([0], [0], 'ko', ms=2.5); ax.text(0.06, -0.22, r'$O$')
+# radii
+ax.plot([0, -a*np.cos(0.9)], [zc, zc-a*np.sin(0.9)], color='w', lw=0.8); ax.text(-0.42, zc-0.2, r'$a$', color='w', fontsize=8)
+ax.plot([0, -b*np.cos(0.6)], [zc, zc+b*np.sin(0.6)], color='k', lw=0.8); ax.text(-1.05, zc+0.62, r'$b$')
+# height and gap
+ax.annotate('', (-1.55, zc), (-1.55, 0), arrowprops=dict(arrowstyle='<->', lw=0.7)); ax.text(-1.8, 0.95, r'$h$')
+ax.plot([-1.62, 0], [zc, zc], 'k:', lw=0.6)
+ax.annotate('', (0.0, zc-b), (0.0, 0), arrowprops=dict(arrowstyle='<->', lw=0.7, color='#D55E00'))
+ax.text(0.08, 0.38, r'$\varepsilon b$', color='#D55E00')
+# motion
+ax.annotate('', (0, zc+b+0.55), (0, zc+b+0.05), arrowprops=dict(arrowstyle='<->', lw=1.1, color='#D55E00'))
+ax.text(0.1, zc+b+0.3, r'$U\mathbf{e}_z e^{-i\omega t}$', color='#D55E00', fontsize=8)
+ax.annotate('', (b+0.6, zc), (b+0.05, zc), arrowprops=dict(arrowstyle='<->', lw=1.1, color='#009E73'))
+ax.text(b+0.1, zc+0.12, r'$U\mathbf{e}_x e^{-i\omega t}$', color='#009E73', fontsize=8)
+ax.text(-2.95, 3.35, r'fluid $(\rho,\mu)$', fontsize=8)
+ax.text(0.55, zc-b-0.15, r'shell $(k_s,\mu_s)$', fontsize=7.5, color='#0072B2')
+ax.text(-2.95, -1.5, r'porous layer $(k_p,\mu_p)$', fontsize=8)
+ax.set_xlim(-3, 3); ax.set_ylim(-1.7, 3.7); ax.set_aspect('equal'); ax.axis('off')
 fig.savefig(H/'fig1_schematic.pdf'); plt.close(fig)
 
-# Fig 2 validation
-v = R['validation_steady']; e = np.array(v['eps'])
-fig, axs = plt.subplots(1, 2, figsize=(6.8, 2.6))
+# ---------------------------------------------------------------- Fig. 2 validation
+v = R['validation_steady']; e9 = np.array(v['eps']); V4 = R4['validation']
+ed = np.logspace(np.log10(0.25), np.log10(5), 400); xd = 1/(1+ed)
+def brenner(h):
+    al = np.arccosh(h); n = np.arange(1, 80)
+    with np.errstate(over='ignore', invalid='ignore'):
+        t = n*(n+1)/((2*n-1)*(2*n+3))*((2*np.sinh((2*n+1)*al)+(2*n+1)*np.sinh(2*al))/(4*np.sinh((n+.5)*al)**2-(2*n+1)**2*np.sinh(al)**2)-1)
+    return 4/3*np.sinh(al)*np.nansum(t)
+fig, axs = plt.subplots(1, 2, figsize=(TW, 2.3))
 a = axs[0]
-a.plot(e, v['brenner'], 'k-', label='Brenner (exact), normal')
-a.plot(e, v['refl_n'], 'k--', lw=.8, label=r'reflection series $O(x^3)$, normal')
-a.plot(e, v['normal'], 'o', color=C[0], ms=4, label='present, normal')
-a.plot(e, v['faxen'], '-', color='gray', label=r'Faxén series $O(x^5)$, parallel')
-a.plot(e, v['parallel'], 's', color=C[1], ms=4, label='present, parallel')
-a.set_xscale('log'); a.set_xticks([0.25, 0.5, 1, 2, 5]); a.xaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter()); a.xaxis.set_minor_formatter(matplotlib.ticker.NullFormatter()); a.set_xlabel(r'$\varepsilon=(h-b)/b$'); a.set_ylabel(r'$F/F_\infty$ (steady)')
-a.legend(frameon=False); a.set_title('(a)', loc='left')
-hv = R['validation_inviscid']; W = np.array(hv['Wo'])
-a = axs[1]
-a.semilogx(W, hv['z'], 'o-', color=C[0], ms=4, label='present, normal')
-a.semilogx(W, hv['x'], 's-', color=C[1], ms=4, label='present, parallel')
-a.axhline(hv['pot_z'], color=C[0], ls='--', lw=.8, label='inviscid image, normal')
-a.axhline(hv['pot_x'], color=C[1], ls='--', lw=.8, label='inviscid image, parallel')
-a.set_xlabel(r'$\mathrm{Wo}$'); a.set_ylabel(r'$m_{\rm int}/m_f$'); a.legend(frameon=False)
-a.set_title(r'(b) rigid wall, $\varepsilon=1$', loc='left')
+a.plot(ed, [brenner(1+e) for e in ed], color=OI[0], label='Brenner (exact), normal')
+a.plot(ed, 1/(1-9/8*xd+xd**3/2), color=OI[0], ls=':', label=r'reflection series $O(x^3)$, normal')
+a.plot(V4['eps'], V4['z'], color=OI[1], label='present, normal')
+a.plot(ed, 1/(1-9/16*xd+xd**3/8-45/256*xd**4-xd**5/16), color=OI[2], ls=':', label=r'Faxén series $O(x^5)$, parallel')
+a.plot(V4['eps'], V4['x'], color=OI[2], ls='--', label='present, parallel')
+a.set_xscale('log'); a.set_xticks([0.25, 0.5, 1, 2, 5]); a.xaxis.set_major_formatter(mt.ScalarFormatter()); a.xaxis.set_minor_formatter(mt.NullFormatter())
+a.set_xlabel(r'$\varepsilon=(h-b)/b$'); a.set_ylabel(r'$F/F_\infty$ ($\mathrm{Wo}\to0$)'); panel(a, '(a)')
+a = axs[1]; hv = R['validation_inviscid']
+a.plot(V4['Wo'], V4['m_z'], color=OI[1]); a.plot(hv['Wo'], hv['z'], 'o', color=OI[1], ms=3.5, label='present, normal')
+a.plot(V4['Wo'], V4['m_x'], color=OI[2], ls='--'); a.plot(hv['Wo'], hv['x'], 's', color=OI[2], ms=3.5, label='present, parallel')
+a.axhline(hv['pot_z'], color=OI[1], ls=':', lw=1, label=r'image $3b^3/16h^3$')
+a.axhline(hv['pot_x'], color=OI[2], ls=':', lw=1, label=r'image $3b^3/32h^3$')
+a.set_xscale('log'); logfmt(a); a.set_xlabel(r'$\mathrm{Wo}$'); a.set_ylabel(r'$m_{\rm int}/m_f$ ($\varepsilon=1$)'); panel(a, '(b)')
+h1, l1 = axs[0].get_legend_handles_labels(); h2, l2 = axs[1].get_legend_handles_labels()
+fig.legend(h1+h2, l1+l2, loc='upper center', bbox_to_anchor=(0.5, 0.02), ncol=3, columnspacing=1.2)
 fig.tight_layout(); fig.savefig(H/'fig2_validation.pdf'); plt.close(fig)
 
-# Fig 3 spectra vs alpha_p
-S = R['spectra_ap']; W = np.array(S['Wo'])
-fig, axs = plt.subplots(2, 2, figsize=(6.8, 4.8), sharex=True)
-for j, d in enumerate(['z', 'x']):
-    for i, ap in enumerate(['wall', '50', '20', '10', '5']):
-        y = np.array(S[f'{d}_{ap}'])
-        lab = 'rigid wall' if ap == 'wall' else rf'$\alpha_p={ap}$'
-        axs[0, j].semilogx(W, y[:, 0], color=C[i], label=lab)
-        axs[1, j].semilogx(W, y[:, 1], color=C[i], label=lab)
-    axs[1, j].axhline(0, color='k', lw=.5)
-    axs[1, j].set_yscale('symlog', linthresh=1e-2)
-    axs[1, j].set_xlabel(r'$\mathrm{Wo}$')
-    axs[0, j].set_title(('(a) normal' if d == 'z' else '(b) parallel') + r', $\varepsilon=1$, $\beta_p=0$', loc='left')
-axs[0, 0].set_ylabel(r'$\hat\gamma_{\rm int}=-{\rm Re}\,F_{\rm int}/(6\pi\mu bU)$')
-axs[1, 0].set_ylabel(r'$\hat\chi_{\rm int}={\rm Im}\,F_{\rm int}/(6\pi\mu bU)$')
-axs[0, 0].legend(frameon=False)
-fig.tight_layout(); fig.savefig(H/'fig3_spectra_alphap.pdf'); plt.close(fig)
+# ---------------------------------------------------------------- Fig. 3 spectra vs alpha_p
+S = R4['spectra_ap']
+fig, axs = plt.subplots(2, 2, figsize=(TW, 4.2), sharex=True)
+for j, d in enumerate('zx'):
+    for k in ['wall', '50', '20', '10', '5']:
+        c, ls = STY[k]; dd = S[f'{d}_{k}']
+        axs[0, j].plot(dd['Wo'], dd['gam'], color=c, ls=ls, label=LAB[k])
+        axs[1, j].plot(dd['Wo'], dd['chi'], color=c, ls=ls)
+    axs[1, j].axhline(0, color='0.6', lw=0.5); axs[1, j].set_yscale('symlog', linthresh=1e-2, linscale=0.6)
+    axs[1, j].set_xscale('log'); logfmt(axs[1, j]); axs[1, j].set_xlabel(r'$\mathrm{Wo}$')
+    panel(axs[0, j], '(a) normal' if d == 'z' else '(b) parallel'); panel(axs[1, j], '(c) normal' if d == 'z' else '(d) parallel')
+axs[0, 0].set_ylabel(r'$\hat\gamma_{\rm int}$'); axs[1, 0].set_ylabel(r'$\hat\chi_{\rm int}$')
+h, l = axs[0, 0].get_legend_handles_labels()
+fig.tight_layout(); fig.subplots_adjust(top=0.9)
+fig.legend(h, l, loc='lower center', bbox_to_anchor=(0.5, 0.94), ncol=5); fig.savefig(H/'fig3_spectra.pdf'); plt.close(fig)
 
-# Fig 4 all crossovers vs alpha_p
-R2 = json.load(open(H.parent/'code'/'results2.json'))
+# ---------------------------------------------------------------- Fig. 4 steady resistance
+st = R4['steady']; eg = np.array(st['eps'])
+fig, axs = plt.subplots(1, 2, figsize=(TW, 2.2))
+SS = {'wall': (OI[0], '-', 'rigid wall'), 'ap50': (OI[1], '--', r'$\alpha_p=50$'), 'ap10': (OI[3], ':', r'$\alpha_p=10$'),
+      'ap10_bpm': (OI[5], '-.', r'$\alpha_p=10,\ \beta_p=-0.5$'), 'ap10_bpp': (OI[4], (0, (5, 1, 1, 1)), r'$\alpha_p=10,\ \beta_p=0.5$')}
+for j, d in enumerate('zx'):
+    for k, (c, ls, lab) in SS.items():
+        axs[j].plot(eg, st[f'{d}_{k}'], color=c, ls=ls, label=lab)
+    axs[j].set_xlabel(r'$\varepsilon$'); panel(axs[j], '(a) normal' if d == 'z' else '(b) parallel')
+axs[0].set_ylabel(r'$F/F_\infty$ ($\mathrm{Wo}\to0$)')
+h, l = axs[0].get_legend_handles_labels()
+fig.tight_layout(); fig.subplots_adjust(top=0.8)
+fig.legend(h, l, loc='lower center', bbox_to_anchor=(0.5, 0.88), ncol=5, columnspacing=1.0); fig.savefig(H/'fig4_steady.pdf'); plt.close(fig)
+
+# ---------------------------------------------------------------- Fig. 5 crossovers vs alpha_p
 c = R2['cross_ap']; ap = np.array(c['ap'])
-def scat(a, xs, lists, col, lab):
-    first = True
-    for x, L in zip(xs, lists):
-        for W, sg in L:
-            a.plot(x, W, 'o' if sg > 0 else '^', mfc=col if sg > 0 else 'none', mec=col, ms=4,
-                   label=lab if first else None); first = False
-fig, axs = plt.subplots(1, 2, figsize=(6.8, 2.8))
-for j, d in enumerate(['z', 'x']):
-    for i, bp in enumerate(['-0.5', '0.0', '0.5']):
-        scat(axs[j], ap*(1+0.04*(i-1)), c[f'{d}_{bp}'], C[i], rf'$\beta_p={float(bp):g}$')
+BS = {'-0.5': (OI[5], 0.96), '0.0': (OI[1], 1.0), '0.5': (OI[4], 1.04)}
+fig, axs = plt.subplots(1, 2, figsize=(TW, 2.4))
+for j, d in enumerate('zx'):
+    a = axs[j]
+    for bp, (col, off) in BS.items():
+        for x, L in zip(ap*off, c[f'{d}_{bp}']):
+            for W, sg in L:
+                a.plot(x, W, 'o' if sg > 0 else '^', mfc=col if sg > 0 else 'none', mec=col, ms=3.5)
     for W, sg in c[f'{d}_wall']:
-        axs[j].axhline(W, color='k', ls='--', lw=.8, label='rigid wall')
-    axs[j].plot(ap, 0.116*ap**2, ':', color='gray', lw=.8, label=r'$\mathrm{Wo}=0.116\,\alpha_p^2$')
-    axs[j].set_ylim(0.6, 250)
-    axs[j].set_xscale('log'); axs[j].set_yscale('log')
-    axs[j].set_xlabel(r'$\alpha_p=b/\sqrt{k_p}$'); axs[j].set_ylabel(r'crossover $\mathrm{Wo}$')
-    axs[j].set_title('(a) normal' if d == 'z' else '(b) parallel', loc='left')
-axs[0].legend(frameon=False, fontsize=6.5)
-fig.tight_layout(); fig.savefig(H/'fig4_Woc_alphap.pdf'); plt.close(fig)
+        a.axhline(W, color=OI[0], ls='--', lw=0.8)
+    aa = np.logspace(np.log10(3), 2, 200); a.plot(aa, 0.116*aa**2, ':', color='0.4', lw=0.9)
+    a.set_xscale('log'); a.set_yscale('log'); a.set_ylim(0.6, 250); logfmt(a); logfmt(a, 'y')
+    a.set_xlabel(r'$\alpha_p=b/\sqrt{k_p}$'); panel(a, '(a) normal' if d == 'z' else '(b) parallel')
+axs[0].set_ylabel(r'crossover $\mathrm{Wo}$')
+from matplotlib.lines import Line2D
+hd = [Line2D([], [], color=BS[k][0], marker='s', ls='none', ms=4, label=rf'$\beta_p={float(k):g}$') for k in BS] + \
+     [Line2D([], [], color='k', marker='o', ls='none', ms=4, label=r'$\mathrm{Wo}_c^{\uparrow}$ (filled)'),
+      Line2D([], [], color='k', marker='^', mfc='none', ls='none', ms=4, label=r'$\mathrm{Wo}_c^{\downarrow}$ (open)'),
+      Line2D([], [], color=OI[0], ls='--', label='rigid wall'), Line2D([], [], color='0.4', ls=':', label=r'$0.116\,\alpha_p^2$')]
+fig.tight_layout(); fig.subplots_adjust(top=0.78)
+fig.legend(handles=hd, loc='lower center', bbox_to_anchor=(0.5, 0.86), ncol=4); fig.savefig(H/'fig5_crossovers.pdf'); plt.close(fig)
 
-# Fig 5 soft particle
-s = R['spectra_soft']; W = np.array(s['Wo']); cs = R2['cross_soft']; als = np.array(cs['alpha_s'])
-fig, axs = plt.subplots(2, 2, figsize=(6.8, 4.8))
-for i, As in enumerate(['2', '5', '10', 'rigid']):
-    y = np.array(s[f'z_{As}'])
-    lab = 'rigid sphere' if As == 'rigid' else rf'$\alpha_s={As}$'
-    axs[0, 0].semilogx(W, y[:, 0], color=C[i], label=lab)
-    axs[0, 1].semilogx(W, y[:, 1], color=C[i], label=lab)
-axs[0, 1].set_yscale('symlog', linthresh=1e-2); axs[0, 1].axhline(0, color='k', lw=.5)
+# ---------------------------------------------------------------- Fig. 6 soft particles
+s4 = R4['spectra_soft']; cs = R2['cross_soft']; als = np.array(cs['alpha_s'])
+SA = {'2': (OI[2], '-.', r'$\alpha_s=2$'), '5': (OI[3], ':', r'$\alpha_s=5$'), '10': (OI[1], '--', r'$\alpha_s=10$'),
+      'rigid': (OI[0], '-', 'impermeable')}
+KA = {'0.0': (OI[2], 0.94), '0.5': (OI[4], 0.98), '0.8': (OI[3], 1.02), '0.95': (OI[1], 1.06)}
+fig, axs = plt.subplots(2, 2, figsize=(TW, 4.4))
+for k, (col, ls, lab) in SA.items():
+    dd = s4[f'z_{k}']
+    axs[0, 0].plot(dd['Wo'], dd['gam'], color=col, ls=ls, label=lab); axs[0, 1].plot(dd['Wo'], dd['chi'], color=col, ls=ls)
+for a in axs[0]:
+    a.set_xscale('log'); logfmt(a); a.set_xlabel(r'$\mathrm{Wo}$')
+axs[0, 1].set_yscale('symlog', linthresh=1e-2, linscale=0.6); axs[0, 1].axhline(0, color='0.6', lw=0.5)
 axs[0, 0].set_ylabel(r'$\hat\gamma_{\rm int}$'); axs[0, 1].set_ylabel(r'$\hat\chi_{\rm int}$')
-for a in axs[0]: a.set_xlabel(r'$\mathrm{Wo}$')
-axs[0, 0].legend(frameon=False)
-axs[0, 0].set_title(r'(a) normal, $\kappa=0.7$, $\alpha_p=20$', loc='left'); axs[0, 1].set_title('(b)', loc='left')
-for j, d in enumerate(['z', 'x']):
-    for i, g in enumerate(['0.0', '0.5', '0.8', '0.95']):
-        scat(axs[1, j], als*(1+0.05*(i-1.5)), cs[f'{d}_{g}'], C[i], rf'$\kappa={float(g):g}$')
-    for Wc, sg in cs[f'{d}_rigid']:
-        axs[1, j].axhline(Wc, color='k', ls='--', lw=.8, label='rigid sphere')
-    axs[1, j].set_xscale('log'); axs[1, j].set_yscale('log')
-    axs[1, j].yaxis.set_major_formatter(matplotlib.ticker.ScalarFormatter()); axs[1, j].yaxis.set_minor_formatter(matplotlib.ticker.NullFormatter())
-    axs[1, j].set_yticks([1, 2, 5, 10, 20, 50])
-    axs[1, j].set_xlabel(r'$\alpha_s=b/\sqrt{k_s}$'); axs[1, j].set_ylabel(r'crossover $\mathrm{Wo}$')
-    axs[1, j].set_title(('(c) normal' if d == 'z' else '(d) parallel') + r', $\alpha_p=20$', loc='left')
-axs[1, 0].legend(frameon=False, fontsize=6.5, ncol=2)
-fig.tight_layout(); fig.savefig(H/'fig5_soft_particle.pdf'); plt.close(fig)
+panel(axs[0, 0], r'(a) $\kappa=0.7$'); panel(axs[0, 1], r'(b) $\kappa=0.7$')
+hs, ls_ = axs[0, 0].get_legend_handles_labels()
+for j, d in enumerate('zx'):
+    a = axs[1, j]
+    for g, (col, off) in KA.items():
+        for x, L in zip(als*off, cs[f'{d}_{g}']):
+            for W, sg in L:
+                a.plot(x, W, 'o' if sg > 0 else '^', mfc=col if sg > 0 else 'none', mec=col, ms=3.5)
+    for W, sg in cs[f'{d}_rigid']:
+        a.axhline(W, color=OI[0], ls='--', lw=0.8)
+    a.set_xscale('log'); a.set_yscale('log'); logfmt(a); a.yaxis.set_major_formatter(mt.ScalarFormatter())
+    a.yaxis.set_minor_formatter(mt.NullFormatter()); a.set_yticks([1, 2, 5, 10, 20, 50])
+    a.set_xlabel(r'$\alpha_s=b/\sqrt{k_s}$'); panel(a, '(c) normal' if d == 'z' else '(d) parallel')
+axs[1, 0].set_ylabel(r'crossover $\mathrm{Wo}$')
+hd = [Line2D([], [], color=KA[k][0], marker='s', ls='none', ms=4, label=rf'$\kappa={float(k):g}$') for k in KA] + \
+     [Line2D([], [], color=OI[0], ls='--', label='impermeable')]
+fig.tight_layout(h_pad=1.5); fig.subplots_adjust(top=0.91, bottom=0.14)
+fig.legend(hs, ls_, loc='lower center', bbox_to_anchor=(0.5, 0.95), ncol=4)
+fig.legend(handles=hd, loc='upper center', bbox_to_anchor=(0.5, 0.045), ncol=5); fig.savefig(H/'fig6_soft.pdf'); plt.close(fig)
 
-# Fig 6 steady
-st = R['steady']; e = np.array(st['eps'])
-fig, axs = plt.subplots(1, 2, figsize=(6.8, 2.6))
-labs = {'wall': 'rigid wall', 'ap50': r'$\alpha_p=50$', 'ap10': r'$\alpha_p=10$',
-        'ap10_bpm': r'$\alpha_p=10,\ \beta_p=-0.5$', 'ap10_bpp': r'$\alpha_p=10,\ \beta_p=0.5$'}
-for j, d in enumerate(['z', 'x']):
-    for i, k in enumerate(labs):
-        axs[j].plot(e, st[f'{d}_{k}'], color=C[i], ls='-' if i < 3 else ':', label=labs[k])
-    axs[j].set_xlabel(r'$\varepsilon$'); axs[j].set_ylabel(r'$F/F_\infty$ ($\mathrm{Wo}\to0$)')
-    axs[j].set_title('(a) normal' if d == 'z' else '(b) parallel', loc='left')
-axs[0].legend(frameon=False)
-fig.tight_layout(); fig.savefig(H/'fig6_steady.pdf'); plt.close(fig)
-
-# Fig 7 acoustofluidic contrast
-ac = R2['acoustic2']; e = np.array(ac['eps']); W = np.array(ac['Wo'])
-def get(lab, d):
-    Fi = np.array(ac[f'{lab}_{d}_Fint'][0]); Fi = Fi[0] + 1j*Fi[1]
-    Fz = np.array(ac[f'{lab}_{d}_Finf']); Fz = Fz[0] + 1j*Fz[1]
-    return Fi, Fz
-fig, axs = plt.subplots(1, 3, figsize=(7.2, 2.6), constrained_layout=True)
-for lab, col, nm in [('ctc', C[1], 'CTC-like'), ('wbc', C[0], 'leukocyte-like')]:
-    Fi, Fz = get(lab, 'z')
-    for i, ls in [(0, '-'), (len(e)-1, ':')]:
-        axs[0].semilogx(W, np.degrees(np.angle(-(Fz + Fi[i]))), ls, color=col,
-                        label=f'{nm}, ' + rf'$\varepsilon={e[i]:g}$')
-axs[0].set_xlabel(r'$\mathrm{Wo}$'); axs[0].set_ylabel(r'$\arg(-F_z/U_z)$ (deg)')
-axs[0].legend(frameon=False, fontsize=6); axs[0].set_title('(a) normal, phase', loc='left')
-for j, d in enumerate(['z', 'x']):
-    a = axs[j+1]; Fc, _ = get('ctc', d); Fw, _ = get('wbc', d)
-    r = np.abs(Fc)/np.abs(Fw)
-    cs_ = a.contourf(W, e, r, levels=np.linspace(0.8, 3.0, 12), cmap='viridis', extend='both')
-    a.contour(W, e, r, levels=[1.0, 1.5, 2.0], colors='w', linewidths=.6)
-    a.set_xscale('log'); a.set_xlabel(r'$\mathrm{Wo}$'); a.set_ylabel(r'$\varepsilon$')
-    a.set_title(('(b) normal' if d == 'z' else '(c) parallel') + r', $|F^{\rm CTC}_{\rm int}|/|F^{\rm WBC}_{\rm int}|$', loc='left', fontsize=7.5)
-fig.colorbar(cs_, ax=axs[1:], shrink=.9, label=r'$|F^{\rm CTC}_{\rm int}|/|F^{\rm WBC}_{\rm int}|$')
-fig.savefig(H/'fig7_acoustic_contrast.pdf'); plt.close(fig)
+# ---------------------------------------------------------------- Fig. 7 acoustofluidic contrast
+ac = R4['acoustic']; Wl = np.array(ac['Wo_line']); e2 = np.array(ac['eps']); W2 = np.array(ac['Wo'])
+fig = plt.figure(figsize=(TW, 2.3))
+gs = fig.add_gridspec(1, 4, width_ratios=[1.15, 1, 1, 0.06], wspace=0.45)
+a = fig.add_subplot(gs[0])
+for lab, col, nm in [('ctc', OI[2], 'CTC-like'), ('wbc', OI[1], 'leukocyte-like')]:
+    a.plot(Wl, ac[f'{lab}_phase_eps1'], color=col, label=nm + r', $\varepsilon=1$')
+    a.plot(Wl, ac[f'{lab}_phase_eps4'], color=col, ls=':', label=nm + r', $\varepsilon=4$')
+a.set_xscale('log'); logfmt(a); a.set_xlabel(r'$\mathrm{Wo}$'); a.set_ylabel(r'$\arg(-F_z/U_z)$ (deg)'); panel(a, '(a)')
+a.legend(loc='lower center', bbox_to_anchor=(1.75, 1.13), ncol=4, columnspacing=1.0)
+lev = np.linspace(1.2, 2.8, 17)
+for j, d in enumerate('zx'):
+    a = fig.add_subplot(gs[j+1])
+    r = np.array(ac[f'ctc_{d}_absFint'])/np.array(ac[f'wbc_{d}_absFint'])
+    cf = a.contourf(W2, e2, r, levels=lev, cmap='cividis', extend='both')
+    cl = a.contour(W2, e2, r, levels=[1.5, 2.0, 2.5], colors='w', linewidths=0.6); a.clabel(cl, fontsize=6.5, fmt='%.1f')
+    a.set_xscale('log'); logfmt(a); a.set_xlabel(r'$\mathrm{Wo}$'); a.set_ylabel(r'$\varepsilon$')
+    panel(a, '(b) normal' if d == 'z' else '(c) parallel')
+cax = fig.add_subplot(gs[3]); fig.colorbar(cf, cax=cax, label=r'$|F^{\rm CTC}_{\rm int}|/|F^{\rm WBC}_{\rm int}|$', ticks=[1.2, 1.6, 2.0, 2.4, 2.8])
+fig.savefig(H/'fig7_acoustic.pdf'); plt.close(fig)
 print('figures written')

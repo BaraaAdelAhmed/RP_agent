@@ -19,12 +19,11 @@ between the particle surface and the layer.
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=0.8\linewidth]{figures/fig1_schematic.pdf}
-  \caption{Core--shell particle (impermeable core of radius $a=\kappa b$ with Navier slip length $\ell_c$; Brinkman
-  shell of permeability $k_s$, viscosity $\mu_s$ and surface stress-jump coefficient $\beta_s$) oscillating with velocity
-  $U\be\,e^{-i\omega t}$, normal ($\be=\be_z$) or parallel ($\be=\be_x$) to a semi-infinite Brinkman layer of
-  permeability $k_p$ and viscosity $\mu_p$. The layer is coupled to the clear fluid through a stress-jump condition with
-  coefficient $\beta_p$, and the centre of the particle lies at height $h$ above it.}
+  \includegraphics[width=0.66\linewidth]{figures/fig1_schematic.pdf}
+  \caption{Configuration. A core--shell particle (impermeable core of radius $a=\kappa b$, Brinkman shell of outer
+  radius $b$, permeability $k_s$ and viscosity $\mu_s$) oscillates with velocity $U\be\,e^{-i\omega t}$, normal
+  ($\be=\be_z$) or parallel ($\be=\be_x$) to a semi-infinite porous layer of permeability $k_p$ and Brinkman viscosity
+  $\mu_p$. Its centre lies at height $h$ above the layer surface $z=0$, leaving a gap $\varepsilon b=h-b$.}
   \label{fig:schematic}
 \end{figure}
 
@@ -108,6 +107,25 @@ coefficient $\beta_p$ apply:
 \end{equation}
 All disturbances decay far from the particle, in the fluid and in the layer.
 
+\begin{remark}[Uniqueness and admissible stress jumps]\label{rem:energy}
+For the homogeneous problem ($U=0$), multiplying each momentum equation \eqref{eq:governing} by $\bar\bu$, integrating
+over the three domains and using the interface conditions gives, for the real part,
+\begin{equation*}
+  0=\mathcal D_\mu+\mathcal D_{\rm Darcy}+\mathcal D_{\rm slip}
+  -\frac{\beta_s\mu}{\sqrt{k_s}}\oint_{r=b}\bigl|\bm\Pi\cdot\bu^{(1)}\bigr|^2\dd S
+  -\frac{\beta_p\mu}{\sqrt{k_p}}\int_{z=0}\bigl|\bu^{(1)}_\tau\bigr|^2\dd S ,
+\end{equation*}
+where $\mathcal D_\mu$, $\mathcal D_{\rm Darcy}$ and $\mathcal D_{\rm slip}$ are the non-negative rates of viscous, Darcy
+and core-slip dissipation (\cref{app:checks}). For $\beta_s,\beta_p\le0$ every term is non-negative, so the
+homogeneous solution vanishes and the problem has at most one solution. The same identity shows that a positive stress
+jump acts as an interfacial energy source. For $\beta_s=1$ a homogeneous porous particle with $\alpha_s\ge5$ indeed has
+negative steady dissipation, which is inadmissible. We therefore restrict $\beta_s,\beta_p\le0.5$. In this range, and for
+every configuration reported below, the total damping $-\operatorname{Re}(F/U)$ was verified to be positive
+(\cref{app:checks}). \TODO{authors: confirm the sign convention of the OTW coefficient against
+Refs.~\onlinecite{ochoatapia1995momentum,faltas2021axisymmetric}; with the opposite convention the admissible range
+reverses.}
+\end{remark}
+
 \begin{remark}[Limits of the layer]\label{rem:bj}
 As $k_p\to0$ the layer velocity vanishes and \cref{eq:bc_plane} becomes no slip on a rigid impermeable wall, the
 configuration of Zhang \emph{et al.}~\cite{zhang2023unsteady}. For $\mu_p=\mu$, $\beta_p=0$ and $k_p\to\infty$ the layer
@@ -143,7 +161,7 @@ Gap & $\varepsilon=(h-b)/b$ & $1$ -- $5$ (this work)\\
 Core ratio & $\kappa=a/b$ & $0$ -- $1$ ($0.5$--$0.95$ for cells, liposomes)\\
 Shell permeability & $\alpha_s=b/\sqrt{k_s}$ & $1$ -- $50$\\
 Layer permeability & $\alpha_p=b/\sqrt{k_p}$ & $3$ -- $100$ (glycocalyx, mucus)\\
-Stress-jump coefficients & $\beta_s,\ \beta_p$ & $-1$ -- $1$\\
+Stress-jump coefficients & $\beta_s,\ \beta_p$ & $-1$ -- $0.5$ (admissible range, \cref{rem:energy})\\
 Slip length & $\hat\ell_c=\ell_c/b$ & $0$ -- $0.5$ (core, or surface of an impermeable sphere)\\
 Viscosity ratios & $\mu_s/\mu,\ \mu_p/\mu$ & $1$ (this work)\\
 \end{tabular}

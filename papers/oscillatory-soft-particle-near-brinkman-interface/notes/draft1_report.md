@@ -79,3 +79,58 @@ Introduction prose; abstract and conclusion prose.
    standard Gor'kov radiation-force model or reduce the claim to the force contrast only.
 8. **Rotation.** "Parallel oscillation near a wall couples to rotation." — *Fix:* quantify the torque in the dipolar
    closure, or state the O((b/h)⁴) estimate with a reference.
+
+---
+
+# Second pass (v1 → v2) — 2026-11-26
+
+Snapshot before the pass: `versions/v1/`. Word diff: `notes/draft1_word_diff_v1.txt`. Audit: `notes/draft_audit.md`
+(first audit kept as `notes/draft_audit_v0.md`); figure review: `notes/figure_review.md`. Approval: "I agree on the
+draft  plan". Unanswered questions resolved with the recommended defaults: single-column layout kept; Appendix C added;
+double parallel window presented as a finding.
+
+## What changed
+- **Problem Formulation:** new Remark 1 (uniqueness and admissible stress jumps) from the energy identity of the
+  homogeneous problem; Table I stress-jump range restricted to β ≤ 0.5; schematic caption rewritten.
+- **Solution Method:** traction amplitudes displayed (removes the 16.9 pt overflow); reflection matrix written with both
+  columns explicitly; coefficients listed in words (second overflow); convergence of the reflection series and the
+  order of the dipolar truncation stated with pointers to Appendix C.
+- **Validation:** admissibility statement (positive wall-induced and total damping).
+- **Sec. V:** title "Impermeable Particle …"; new main point and **finding F5** (double parallel window, mechanism from
+  the potential/vortical decomposition); panel references updated to the new Fig. 3 layout.
+- **Sec. VI:** limitations as a closing paragraph (with the β restriction); double windows of soft particles linked to
+  the mechanism of Sec. V B.
+- **Appendices:** short introductions; kernel derivatives (verified, `notes/checks/check12`); new **Appendix C**
+  (energy identity, quadrature, reflection-series radius, dipolar truncation order, admissibility).
+- **Figures:** all regenerated at the printed width (5.4 in, 8.5 pt fonts), Okabe–Ito palette with line styles,
+  shared legends outside the axes, panel labels above the axes; dense data from `code/make_results4.py`
+  (≥ 200 points per curve, refined at sign changes; 30 × 50 contour grid); schematic redrawn without interface
+  conditions, with axes, origin and the gap εb. Files renamed to match their numbers (fig1–fig7).
+- **Layout:** no overfull boxes left (`rp.py layout`).
+
+## Corrections (verified)
+| # | Correction | Verification |
+|---|---|---|
+| C1 | **Stress-jump admissibility.** With the paper's sign convention a positive β is an interfacial energy source; for β_s = 1 a porous particle (κ = 0, α_s ≥ 5) has negative steady dissipation. Table I range −1…1 → −1…0.5; Remark 1 added. All reported configurations (β ≤ 0.5) verified dissipative. My first audit of this pass had the sign the wrong way round; corrected in `draft_audit.md`. | `check11b`, `check14`, `code/admissibility.py` |
+| C2 | Energy identity restricted to the homogeneous problem (the version with F omitted a non-vanishing shell-inertia term) | derivation, Appendix C |
+| C3 | Two overfull displays fixed | `rp.py layout` |
+No change to the solver or to any computed value; the figures use denser sampling of the same computation.
+
+## Findings (blue)
+F1–F4 as in the first pass; **F5** double positive window in parallel oscillation (Maxey & Riley 1983; Mazur &
+Bedeaux 1974). Details in `notes/key_findings.md`.
+
+## Remaining `\TODO`s (12)
+As before, plus: **confirm the sign convention of the OTW coefficient** (Remark 1) — with the opposite convention the
+admissible range reverses.
+
+## Simulated referee report (updated)
+1. Accuracy of the dipolar closure at ε ≈ 1 → multipole or FEM check of Wo_c at ε = 1 (unchanged).
+2. Quantitative comparison with Zhang et al. (2023) → overlay their curves on Fig. 3(c) (unchanged).
+3. The α_p² law lacks a derivation → asymptotics for Wo ≫ α_p (unchanged; a simple balance argument was tested and rejected).
+4. **Sign and range of the stress-jump coefficient.** "Positive β makes the interface an energy source; is the OTW
+   convention used consistent with the original?" → resolve the convention (TODO in Remark 1) and cite measured β.
+5. Physiological parameters for glycocalyx vs mucus → tabulate b, k_p, α_p and frequencies separately.
+6. μ_p/μ fixed at 1 → sensitivity to μ_p/μ ∈ {1, 2, 5}.
+7. Rigid porous matrices at MHz frequencies → poroelastic estimate.
+8. Acoustofluidic application illustrative → couple to a radiation-force model or limit the claim.

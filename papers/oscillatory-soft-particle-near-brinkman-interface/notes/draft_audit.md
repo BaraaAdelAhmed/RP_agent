@@ -32,7 +32,8 @@ All terms flagged in v0 are now defined physically at first use. New in this dra
 |---|---|---|
 | Positivity of wall-induced damping over all stored spectra | min γ̂_int = 0.035 > 0 ✓ | check10 |
 | Positivity of total damping (sampled κ, α_s, α_p, Wo, both directions) | > 0 in all cases ✓ | check10 |
-| Positivity of total damping with β_p, β_s ∈ {−1, −0.5} (the OTW jump removes dissipation when β < 0) | min 0.75 > 0 ✓ — the full stated range β ∈ [−1, 1] is admissible for the tested parameters | check11 |
+| Positivity of total damping with β_p, β_s ∈ {−1, −0.5} | min 0.75 > 0 ✓ | check11 |
+| **Correction (made during Pass 2):** the energy identity shows that, with the paper's sign convention, a **positive** β removes dissipation (the row above wrongly said negative). check11b/check14: for β_s = 1 an isolated porous particle has negative dissipation (κ = 0, α_s ≥ 5, even steady); for β_s = 0.5 only at α_s = 2, Wo ≈ 200. All reported configurations (β ≤ 0.5) are dissipative. **Critical** → Remark (uniqueness and admissible stress jumps) added; Table I range restricted to β ≤ 0.5; sign convention flagged to the author | check11b, check14 |
 | Convergence of the reflection series (Prop. 2): spectral radius of 𝖲_inc𝐌 | ≤ 0.50 at ε = 1; 0.62 at ε = 0.5; 0.69 at ε = 0.25 ✓ | check10 |
 | High-Wo rigid-wall damping γ_int ∝ Wo (Stokes layer) | local slope 0.80 → 0.98 for Wo = 20 → 200 ✓ | check8c |
 | Low-Wo memory removal for permeable layers | −χ̂/(Wo/√2) = 0.98–0.99 at Wo = 0.01 for α_p ≥ 1; 0.96 (α_p = 0.3); 0.88 (α_p = 0.1) ✓ (holds while δ_v ≫ max(h, √k_p)) | check8b |

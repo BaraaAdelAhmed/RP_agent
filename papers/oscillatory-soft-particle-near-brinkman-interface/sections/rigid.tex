@@ -1,4 +1,4 @@
-\section{Rigid Particle near a Permeable Layer: Spectra, Crossovers and Transparency}\label{sec:rigid}
+\section{Impermeable Particle near a Permeable Layer: Spectra, Crossovers and Transparency}\label{sec:rigid}
 
 We first isolate the effect of the layer by keeping the particle impermeable ($\kappa=1$). This section follows the
 interaction force from the steady regime to the inertial regime, and then condenses the spectra into a map of the
@@ -8,16 +8,18 @@ crossover Womersley numbers, which is the quantity accessible to AFM and acousti
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.85\textwidth]{figures/fig3_spectra_alphap.pdf}
+  \includegraphics[width=\linewidth]{figures/fig3_spectra.pdf}
   \caption{Interaction spectra of an impermeable sphere at $\varepsilon=1$ and $\beta_p=0$, for a rigid wall and for
-  layers with $\alpha_p=50,20,10,5$. Top: wall-induced damping $\hat\gamma_{\rm int}$ against $\Wo$. Bottom: reactive
+  layers with $\alpha_p=50,20,10,5$. (a,b) Wall-induced damping $\hat\gamma_{\rm int}$ against $\Wo$. (c,d) Reactive
   coefficient $\hat\chi_{\rm int}=\omega m_{\rm int}/(6\pi\mu b)$ against $\Wo$, on a symmetric logarithmic axis that is
-  linear for $|\hat\chi_{\rm int}|<10^{-2}$; its sign is that of $m_{\rm int}$. (a) Normal, (b) parallel oscillation.}
+  linear for $|\hat\chi_{\rm int}|<10^{-2}$; its sign is that of $m_{\rm int}$. (a,c) Normal, (b,d) parallel oscillation.
+  Note the single sign change near a rigid wall, the second (downward) sign change for permeable layers, and the
+  double positive window in (d) for $\alpha_p=10$.}
   \label{fig:spectra}
 \end{figure*}
 
 \textbf{Near a rigid wall, the wall-induced added mass is negative at low frequency and positive at high frequency.} In
-\cref{fig:spectra} (blue curves), $\hat\chi_{\rm int}$ changes sign at $\Wo_c=2.92$ in normal and at $0.955$ in parallel
+\cref{fig:spectra}(c,d) (solid black curves), $\hat\chi_{\rm int}$ changes sign at $\Wo_c=2.92$ in normal and at $0.955$ in parallel
 oscillation. Above the crossover the added mass approaches the image value of \cref{prop:inviscid}. Below it the sign
 is opposite to that of any inviscid image, which points to a viscous origin. In an unbounded fluid, the term
 $-6\pi\lambda$ of $Z_U$ is the frequency-domain form of the Basset history force~\cite{maxey1983equation}. Its reactive
@@ -52,7 +54,7 @@ positive added mass found near a rigid wall is absent; the next subsection expla
 
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig6_steady.pdf}
+  \includegraphics[width=\linewidth]{figures/fig4_steady.pdf}
   \caption{Steady ($\Wo\to0$) resistance $F/F_\infty$ of an impermeable sphere against the gap $\varepsilon$, for a
   rigid wall and for layers with $\alpha_p=50$ and $10$ and stress jumps $\beta_p=\pm0.5$. (a) Normal, (b) parallel
   oscillation.}
@@ -71,7 +73,7 @@ response analysed next.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.85\textwidth]{figures/fig4_Woc_alphap.pdf}
+  \includegraphics[width=\linewidth]{figures/fig5_crossovers.pdf}
   \caption{All crossover Womersley numbers of $m_{\rm int}$ against the layer permeability $\alpha_p$ at
   $\varepsilon=1$, for $\beta_p=-0.5,0,0.5$ (markers offset slightly in $\alpha_p$ for visibility). Filled circles:
   upward crossovers $\Wo_c^{\uparrow}$; open triangles: downward crossovers $\Wo_c^{\downarrow}$. Dashed: rigid wall.
@@ -106,8 +108,21 @@ asymptotically for $\Wo\gg\alpha_p$.}
 \textbf{Below a threshold permeability the positive-added-mass window closes.} As $\alpha_p$ decreases, the two
 crossovers approach each other and meet. Between grid points, the window closes for $6.1<\alpha_p<8.6$ in normal and
 $4.3<\alpha_p<6.1$ in parallel oscillation. Below this threshold the wall-induced added mass is negative at every
-frequency. Close to the threshold the parallel window splits into two (four crossovers at $\alpha_p=8.6$). A positive
-$\beta_p$ widens the window, raising $\Wo_c^{\downarrow}$ from $7.19$ to $8.40$ at $\alpha_p=8.6$.
+frequency. A positive $\beta_p$ widens the window, raising $\Wo_c^{\downarrow}$ from $7.19$ to $8.40$ at
+$\alpha_p=8.6$.
+
+\textbf{In parallel oscillation near a permeable layer the positive window can split into two.} At $\alpha_p=8.6$ and
+$10$, \cref{fig:spectra}(d) and \cref{fig:woc_ap}(b) show four sign changes of $m_{\rm int}$, at
+$\Wo\approx0.97$, $2.88$, $3.26$ and $11.3$ for $\alpha_p=10$. These are unchanged on a 120-point grid with doubled
+quadrature. Splitting the reactive force of \cref{eq:response} into its potential-image part $Z_pU_p$ and its
+vortical-reflection part $Z_ww_0$ explains them. \finding{In parallel motion the reflected vorticity produces a
+positive reactive force near $\Wo\approx1$, which decays once the viscous penetration depth becomes smaller than the
+gap. The potential image is negative at low $\Wo$ and turns positive only at higher frequency. Near a rigid wall the
+image turns positive ($\Wo\approx2.6$) before the vortical contribution has decayed, so a single window results. A
+permeable layer weakens the image and delays its change of sign ($\Wo\approx3.4$ for $\alpha_p=10$), so that the sum
+returns to zero between the two contributions. The split thus reflects the separation of the viscous-memory and
+inviscid added-mass parts of the unsteady force~\cite{maxey1983equation,mazur1974generalization}.} In normal
+oscillation the vortical contribution is weaker relative to the image, and no split occurs.
 
 \textbf{The two crossovers provide a gap-independent measure of layer permeability.} A frequency sweep of the near-wall
 force at fixed $\varepsilon$ yields $\Wo_c^{\uparrow}$, which is sensitive for $\alpha_p\lesssim30$, and

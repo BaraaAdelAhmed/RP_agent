@@ -77,15 +77,19 @@ The first two terms of \cref{eq:field_ext} are the flow incident from the layer.
 values \eqref{eq:centre_values}, because $\mathcal I_f(r)=\lambda+\lambda^3r^2/6+O(r^4)$ gives $w_0=-\tfrac23\lambda^3D$.
 The coefficients $B$ and $C$ measure the potential and vortical dipoles scattered by the particle. Writing
 $u_r=\mathcal U(r)\cos\theta$, $u_\theta=\mathcal V(r)\sin\theta$ and $p=\mathcal P(r)\cos\theta$ gives the traction
-amplitudes $\mathcal S_{rr}=-\mathcal P+2\mu_j\mathcal U'$ and $\mathcal S_{r\theta}=\mu_j(\mathcal V'-\mathcal
-V/r-\mathcal U/r)$. Integrating over the sphere yields the force
+amplitudes
+\begin{equation*}
+  \mathcal S_{rr}=-\mathcal P+2\mu_j\,\mathcal U',\qquad
+  \mathcal S_{r\theta}=\mu_j\Bigl(\mathcal V'-\frac{\mathcal V}{r}-\frac{\mathcal U}{r}\Bigr),
+\end{equation*}
+in which $\mu_j$ is written in units of $\mu$. Integrating the traction over the sphere yields the force
 \begin{equation}
   F=\frac{4\pi}{3}\left[\mathcal S^{(1)}_{rr}(1)-2\,\mathcal S^{(1)}_{r\theta}(1)\right].
   \label{eq:force_amplitudes}
 \end{equation}
 
-The conditions \eqref{eq:bc_core} at $r=\kappa$ and \eqref{eq:bc_shell} at $r=1$ give six linear equations for
-$(B,C,E_1,E_2,G_1,G_2)$, driven by $U$, $U_p$ and $w_0$ (\cref{app:sphere}). For $\kappa=0$, regularity at the centre
+The conditions \eqref{eq:bc_core} at $r=\kappa$ and \eqref{eq:bc_shell} at $r=1$ give six linear equations for the
+coefficients $B$, $C$, $E_1$, $E_2$, $G_1$ and $G_2$, driven by $U$, $U_p$ and $w_0$ (\cref{app:sphere}). For $\kappa=0$, regularity at the centre
 removes $E_2$, $G_2$ and the core conditions; for $\kappa=1$ the two slip conditions on $r=1$ determine $B$ and $C$.
 Linearity and \cref{lem:faxen} then give the response of the particle to its own motion and to any incident flow,
 \begin{equation}
@@ -152,20 +156,23 @@ $(T_\Phi,T_{\rm pol},T_{\rm tor})$ at every wavevector through a $6\times6$ syst
   \label{eq:interface_system}
 \end{equation}
 whose right-hand side contains the velocity and traction of \cref{eq:incident_fourier} at $z=0$ (\cref{app:interface}).
+Let $R_\Phi^{(n)}$, $R_{\rm pol}^{(n)}$ and $R_{\rm tor}^{(n)}$ denote the reflected amplitudes for a unit source of
+type $n$, with $n=1$ for the potential dipole ($B=1$, $C=0$) and $n=2$ for the vortical dipole ($B=0$, $C=1$).
 Projecting the reflected potential and vortical velocities at $\bx_0$ on $\be$ gives the centre values of the incident
-flow in terms of the scattered dipoles:
+flow in terms of the scattered dipoles,
 \begin{equation}
   \begin{pmatrix}U_p\\ w_0\end{pmatrix}=\bM\begin{pmatrix}B\\ C\end{pmatrix},\qquad
   \bM=\int\!\frac{\dd^2k}{(2\pi)^2}
   \begin{pmatrix}
-    \be\cdot\bm g_k^-\,R_\Phi\,e^{-kh} & \cdots\\
-    \be\cdot\left(R_{\rm pol}\bm p_q^-+R_{\rm tor}\bm t\right)e^{-qh} & \cdots
+    \be\cdot\bm g_k^-\,R^{(1)}_\Phi\,e^{-kh} & \be\cdot\bm g_k^-\,R^{(2)}_\Phi\,e^{-kh}\\[2pt]
+    \be\cdot\bm v^{(1)}\,e^{-qh} & \be\cdot\bm v^{(2)}\,e^{-qh}
   \end{pmatrix},
   \label{eq:reflection_matrix}
 \end{equation}
-with $\bm g_k^-=(ik_x,ik_y,-k)$, $\bm p_q^-=(-iqk_x,-iqk_y,k^2)$ and $\bm t=(ik_y,-ik_x,0)$. The first column
-corresponds to $(B,C)=(1,0)$ and the second to $(0,1)$. The reflection matrix $\bM$ depends on the layer, the height and
-the frequency but not on the particle, so that one matrix serves every particle in a parametric sweep.
+where $\bm v^{(n)}=R^{(n)}_{\rm pol}\bm p_q^-+R^{(n)}_{\rm tor}\bm t$ is the reflected vortical velocity, with
+$\bm g_k^-=(ik_x,ik_y,-k)$, $\bm p_q^-=(-iqk_x,-iqk_y,k^2)$ and $\bm t=(ik_y,-ik_x,0)$. The reflection matrix depends on
+the layer, the height and the frequency but not on the particle, so that one matrix serves every particle in a
+parametric sweep.
 
 \begin{proposition}[Transparent and impermeable limits]\label{prop:limits}
 (i) If $\mu_p=\mu$, $\beta_p=0$ and $\alpha_p=0$, then $\bM=\mathsf 0$ and $F_{\rm int}=0$. (ii) As $\alpha_p\to\infty$,
@@ -204,9 +211,13 @@ the layer, and each factor $\mathsf S_{\rm inc}$ is the dipolar response of the 
 (\cref{lem:faxen}).
 \end{proof}
 
-\Cref{prop:series} identifies the approximation: the closure keeps every order of reflection but discards the $l\ge2$
-parts of the reflected flow. These parts exert no force directly, but the particle's response to them would be
-reflected again; the resulting error is quantified in \cref{sec:validation}. The complete procedure is summarised in
+The hypothesis of \cref{prop:series} holds throughout this work: the spectral radius of $\mathsf S_{\rm inc}\bM$ does not
+exceed $0.50$ at $\varepsilon=1$ and is $0.69$ even at $\varepsilon=0.25$ (\cref{app:checks}). The proposition also
+identifies the approximation: the closure keeps every order of reflection but discards the $l\ge2$ parts of the
+reflected flow. These parts exert no force directly, but the particle's response to them would be reflected again. For
+an impermeable sphere near a rigid wall in the steady limit, the closure agrees with the classical reflection series
+through $O(x^3)$, $x=b/h$, and differs from it by terms of size $O(x^4)$; the resulting error is quantified against the
+exact solution in \cref{sec:validation} and \cref{app:checks}. The complete procedure is summarised in
 \cref{alg:force}. One evaluation of $\bM$ requires about $1.6\times10^4$ solutions of the $6\times6$ system
 \eqref{eq:interface_system}, which takes about $0.05$\,s vectorised on one laptop core, while the particle response costs
 $O(1)$. Crossover numbers are found by bracketing $\hat\chi_{\rm int}$ on a logarithmic grid of 70 values of $\Wo$ and

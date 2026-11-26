@@ -1,0 +1,1 @@
+minimum total damping -Re F/(6 pi U) over beta_p, beta_s in {+0.5,+1}: -0.4411 {'bp': 1.0, 'ap': 100.0, 'Wo': 30.0, 'd': 'z', 'gam': 0.0, 'alpha_s': 2.0, 'beta_s': 1.0}  (unbounded part -0.4409 )

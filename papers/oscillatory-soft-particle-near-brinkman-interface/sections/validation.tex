@@ -57,16 +57,19 @@ The particle solver is exact in the absence of the wall, as \cref{tab:validation
 \eqref{eq:rigid_BC} of an impermeable sphere to all printed digits, and the Debye--Bueche--Brinkman drag of a porous
 sphere~\cite{brinkman1949calculation} to within $10^{-4}$, which is the $O(\Wo)$ unsteady correction at $\Wo=10^{-4}$. It
 also reproduces the closed forms \eqref{eq:rigid_Z} and the transparent-interface limit of \cref{prop:limits}(i), for
-which $|F_{\rm int}/F_\infty|<10^{-14}$. A layer with $\alpha_p=10^5$ reproduces the rigid-wall reflection matrix to four digits.
+which $|F_{\rm int}/F_\infty|<10^{-14}$. A layer with $\alpha_p=10^5$ reproduces the rigid-wall reflection matrix to four digits. The computed forces are
+also physically admissible: the wall-induced damping is positive in every spectrum reported below (its minimum is
+$0.035$), and the total damping is positive in every configuration, including those with stress jumps
+(\cref{rem:energy,app:checks}).
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=0.85\textwidth]{figures/fig2_validation.pdf}
+  \includegraphics[width=\linewidth]{figures/fig2_validation.pdf}
   \caption{Validation for an impermeable sphere near a rigid wall. (a) Steady wall correction $F/F_\infty$ against the
   gap $\varepsilon$, compared with Brenner's exact solution~\cite{brenner1961slow} and the classical reflection series
   $1/(1-\tfrac98x+\tfrac12x^3)$, $x=b/h$ (normal), and with Faxén's series to $O(x^5)$ (parallel). (b) Wall-induced
   added mass $m_{\rm int}/m_f$ against $\Wo$ at $\varepsilon=1$, approaching the inviscid image values of
-  \cref{prop:inviscid} (dashed).}
+  \cref{prop:inviscid} (dotted); markers show the values tabulated in the text.}
   \label{fig:validation}
 \end{figure*}
 
