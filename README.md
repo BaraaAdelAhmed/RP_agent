@@ -2,7 +2,27 @@
 
 A local web app that helps you turn a research idea into a structured LaTeX paper. You can start from a chat message, a PDF or an image. The agent is built on the Claude API (`claude-opus-5-5`) and runs on your own machine.
 
-## What it does
+## Quick start with Claude Code (no API key needed)
+
+If you have a Claude plan with Claude Code (for example a university Team seat), you don't need an API key:
+
+1. Open **claude.ai/code** and start a session on this repository.
+2. Type `/research-paper` followed by your idea, or attach a PDF or image of it. For example:
+   `/research-paper I want to study ... ; I can run Python simulations; target: IEEE journal`
+3. Follow the stages. Approve each gate in your own words, for example *"I approve the novelty assessment"* or
+   *"use title 2 and this structure"*.
+4. Claude commits the paper to `papers/<project>/` on the session branch. Download it from GitHub, or upload the
+   folder to Overleaf.
+
+To continue later, start a new session on that branch and say *"continue my paper <project>"*.
+
+The skill lives in `.claude/skills/research-paper/SKILL.md`, its helper commands in `scripts/rp.py`. The hooks in
+`.claude/settings.json` (`scripts/rp_hook.py`) block `.tex` writing until both gates are approved, and block
+hand-editing `references.bib`.
+
+## Standalone web app (needs an Anthropic API key)
+
+### What it does
 
 | Stage | What happens | Output |
 |---|---|---|
@@ -18,7 +38,7 @@ The two **gates** are enforced in code: the agent cannot write any `.tex` file u
 - `references.bib` can only be changed through `add_reference`. That tool downloads the official BibTeX from doi.org, arXiv or OpenAlex, so the agent can't make up a reference. When a claim needs a citation it couldn't find, it writes `\TODO{citation needed}`.
 - Numbers in the Results section come only from Python scripts the agent actually ran (if you turn that on) or from data you uploaded. Otherwise the Results section gets clearly marked `\figplaceholder{}` / `\TODO{}` items and the expected trends. Every script that made a figure is saved under `figures/` so you can rerun it.
 
-## Setup
+### Setup
 
 ```bash
 python -m venv .venv && source .venv/bin/activate
@@ -35,7 +55,7 @@ Optional:
 - `S2_API_KEY`: a Semantic Scholar key for more reliable searches there. Without it, the source is skipped when rate-limited.
 - `RP_AGENT_EFFORT` (`medium`/`high`/`xhigh`/`max`), `RP_AGENT_MODEL` and `RP_AGENT_PAPERS_DIR`: environment overrides.
 
-## Project layout
+### Project layout
 
 ```
 app.py                 Streamlit UI (chat, file uploads, progress, file viewer, zip download)
@@ -47,7 +67,7 @@ rp_agent/literature.py OpenAlex / arXiv / Semantic Scholar search, DOI/arXiv Bib
 papers/<project>/      One folder per paper; .session/ holds the saved conversation so you can resume it
 ```
 
-## Notes
+### Notes
 - No literature search can prove novelty with 100% certainty. The novelty report lists every query and source used, so you can judge how thorough the search was and extend it.
 - The agent also uses Anthropic's server-side `web_search`/`web_fetch` tools. Web searches are billed per use on top of tokens.
 - If a safety classifier declines a request, it is retried on a fallback model (`fallbacks: "default"`).
