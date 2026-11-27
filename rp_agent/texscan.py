@@ -424,3 +424,66 @@ def style_check(lines: list[TexLine]) -> dict:
         else:
             para.append(tl)
     return r
+
+
+# ------------------------------------------------------------------ inventories for the 2nd-draft skill
+
+def _section_at(lines: list[TexLine]) -> list[str]:
+    sec, out = "(front matter)", []
+    for tl in lines:
+        m = SECTION_RE.search(tl.text)
+        if m and m.group(1) == "section":
+            sec = m.group(2)
+        out.append(sec)
+    return out
+
+
+def figure_inventory(root: Path, lines: list[TexLine]) -> list[dict]:
+    full = "\n".join(tl.text for tl in lines)
+    offsets, pos = [], 0
+    for tl in lines:
+        offsets.append(pos)
+        pos += len(tl.text) + 1
+    secs = _section_at(lines)
+
+    def where(off: int) -> str:
+        i = max(j for j, o in enumerate(offsets) if o <= off)
+        return f"{lines[i].file}:{lines[i].lineno} [{secs[i][:40]}]"
+
+    scripts = [p for p in root.rglob("*.py") if "versions" not in p.parts]
+    figs = []
+    for m in re.finditer(r"\\begin\{figure\*?\}(.*?)\\end\{figure\*?\}", full, re.S):
+        body = m.group(1)
+        lab = re.search(r"\\label\{([^}]+)\}", body)
+        cap = re.search(r"\\caption\{(.*)", body, re.S)
+        files = re.findall(r"\\includegraphics(?:\[[^\]]*\])?\{([^}]+)\}", body)
+        label = lab.group(1) if lab else "(no label)"
+        refs = [where(r.start()) for r in re.finditer(r"\\(?:[cC]ref|ref|autoref)\{[^}]*\b" + re.escape(label) + r"\b", full)] if lab else []
+        makers = []
+        for f in files:
+            stem = Path(f).stem
+            for s in scripts:
+                try:
+                    if stem in s.read_text(errors="replace"):
+                        makers.append(str(s.relative_to(root)))
+                except OSError:
+                    pass
+        figs.append({"label": label, "at": where(m.start()), "wide": m.group(0).startswith("\\begin{figure*"),
+                     "files": files, "caption": " ".join((cap.group(1) if cap else "").split())[:400],
+                     "panels": len({c for grp in re.findall(r"\(([a-h](?:\s*[,\u2013\-]+\s*[a-h])*)\)",
+                                                             cap.group(1) if cap else "")
+                                    for c in re.findall(r"[a-h]", grp)}),
+                     "referenced_at": refs, "scripts": sorted(set(makers))})
+    return figs
+
+
+def citation_map(lines: list[TexLine], bib_keys: list[str]) -> dict:
+    secs = _section_at(lines)
+    uses: dict[str, list[str]] = {k: [] for k in bib_keys}
+    contexts: dict[str, list[str]] = {k: [] for k in bib_keys}
+    for i, tl in enumerate(lines):
+        for group in re.findall(r"\\(?:cite|citep|citet|onlinecite|citealp)\*?(?:\[[^\]]*\]){0,2}\{([^}]+)\}", tl.text):
+            for k in (x.strip() for x in group.split(",")):
+                uses.setdefault(k, []).append(f"{tl.file}:{tl.lineno} [{secs[i][:30]}]")
+                contexts.setdefault(k, []).append(" ".join(tl.text.split())[:160])
+    return {"uses": uses, "contexts": contexts}

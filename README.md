@@ -38,7 +38,19 @@ When the structured paper exists, type `/1st-draft-paper <project>` in a Claude 
 
 The Introduction stays as guide points for you to write.
 
-Both skills follow `docs/paper-standards.md`, which covers:
+### Second draft
+
+`/2nd-draft-paper <project>` reviews the paper like a severe referee:
+- it verifies the key results independently, with a convergence study, an error budget, realistic parameter ranges,
+  a check for new competing papers and a number-consistency check;
+- it fixes what it finds;
+- it extracts the paper's 5 strongest points and places them in the title, abstract, conclusion and body;
+- it adds figures: streamlines with at least 4 panels, error analysis, a regime map, asymptotic-vs-exact overlays and
+  a comparison with published data;
+- it audits where every reference is cited;
+- it moves non-essential mathematics to appendices.
+
+All the skills follow `docs/paper-standards.md`, which covers:
 - the applied-mathematics standard, with long derivations moved to appendices in full;
 - equations and tables that fit their column, with crowded equation blocks split;
 - a **physical-validity review of every figure** before it is discussed;

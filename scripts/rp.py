@@ -19,7 +19,12 @@
   python3 scripts/rp.py diff <project> [--from vN]  # latexdiff (if installed) + word diff in notes/
   python3 scripts/rp.py draft1-done <project>
 
-  Layout and figures (both skills):
+  2nd-draft skill:
+  python3 scripts/rp.py snapshot <project>     # copy sources to versions/vN/ before a revision pass (no lock)
+  python3 scripts/rp.py figures <project>      # every figure: label, files, panels, caption, where cited, script
+  python3 scripts/rp.py cites <project>        # every reference: where cited (file:line, section), context; uncited
+
+  Layout and figures (all skills):
   python3 scripts/rp.py layout <project> [--log main.log]  # overfull equations/tables from the LaTeX log + static estimate
   python3 scripts/rp.py render <project> [--pages 1-4] [--figures]  # PNGs of PDF pages / figure files to look at
 """
@@ -445,6 +450,47 @@ def cmd_render(a):
     print("notes/render/ is scratch output; do not commit it.")
 
 
+def cmd_snapshot(a):
+    p = existing(a.project)
+    vdir = p.root / "versions"
+    n = 0
+    while (vdir / f"v{n}").exists():
+        n += 1
+    for rel in _sources(p):
+        dst = vdir / f"v{n}" / rel
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(p.root / rel, dst)
+    print(f"Snapshot of {len(_sources(p))} source files saved to papers/{p.name}/versions/v{n}/ (never edit it). "
+          f"`rp.py diff {p.name}` compares against it.")
+
+
+def cmd_figures(a):
+    p = existing(a.project)
+    figs = texscan.figure_inventory(p.root, texscan.collect(p.root))
+    print(f"{len(figs)} figures")
+    for i, f in enumerate(figs, 1):
+        print(f"\n[{i}] {f['label']}  {'(full width)' if f['wide'] else ''}  at {f['at']}")
+        print(f"    files: {', '.join(f['files']) or '(none)'}   panels in caption: {f['panels']}")
+        print(f"    made by: {', '.join(f['scripts']) or 'NO SCRIPT FOUND'}")
+        print(f"    cited at: {'; '.join(f['referenced_at']) or 'NEVER CITED'}")
+        print(f"    caption: {f['caption']}")
+
+
+def cmd_cites(a):
+    p = existing(a.project)
+    bib = p.root / "references.bib"
+    keys = literature.bib_keys(bib.read_text()) if bib.exists() else []
+    cm = texscan.citation_map(texscan.collect(p.root), keys)
+    for k in keys:
+        uses = cm["uses"].get(k, [])
+        print(f"\n{k}: {len(uses)} citation(s)" + ("  <-- UNCITED" if not uses else ""))
+        for u, c in zip(uses, cm["contexts"].get(k, [])):
+            print(f"    {u}: {c}")
+    missing = [k for k in cm["uses"] if k not in keys]
+    if missing:
+        print("\nCited but not in references.bib: " + ", ".join(missing))
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = ap.add_subparsers(dest="cmd", required=True)
@@ -473,6 +519,9 @@ def main():
     s = sub.add_parser("render"); s.add_argument("project"); s.add_argument("--pages"); s.add_argument("--figures",
                                                                                                     action="store_true")
     s.set_defaults(f=cmd_render)
+    s = sub.add_parser("snapshot"); s.add_argument("project"); s.set_defaults(f=cmd_snapshot)
+    s = sub.add_parser("figures"); s.add_argument("project"); s.set_defaults(f=cmd_figures)
+    s = sub.add_parser("cites"); s.add_argument("project"); s.set_defaults(f=cmd_cites)
     a = ap.parse_args()
     a.f(a)
 
