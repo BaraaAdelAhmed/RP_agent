@@ -160,7 +160,9 @@ LaTeX conventions:
   ```
 - Follow the house writing style of `docs/paper-standards.md` §6 in every fully written section: section openings
   that do not list contents, every symbol and acronym defined at first use, author-named citations ("studied by
-  Faltas et al. [12]", never "Ref. [12]"), no bold/italic or titled paragraphs, no theorem-like environments.
+  Faltas et al. [12]", never "Ref. [12]"), no bold/italic or titled paragraphs, no theorem-like environments, and no step justified by a word alone ("by
+  symmetry", "can be expressed as", "it follows that": say which symmetry, why it is linear, why the representation
+  holds).
 - Use `\label`/`\cref` consistently (eq:, fig:, tab:, sec:, app:). Use `\bm` for vectors and matrices, and the
   same symbols in every section.
 - The project must compile. Escape special characters; make sure every `\input` file exists and every figure either

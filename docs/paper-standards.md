@@ -131,6 +131,25 @@ The schematic shows the physical configuration, not the mathematics:
     nowhere else) moves to an appendix, with a one-sentence statement of the consequence in the body; content that
     serves the discussion (a physical interpretation, a limit, an implication) is woven into the body text.
   Remove the theorem-environment definitions from the preamble once nothing uses them.
+- **No unjustified bridging words.** A mathematical or physical step is never carried by a word alone. Phrases such
+  as "by symmetry", "by linearity", "by superposition", "by reciprocity", "it follows that", "can be expressed as",
+  "can be written as", "takes the form", "it can be shown", "one can show", "it is easy to see", "clearly",
+  "obviously", "trivially", "straightforward", "readily", "naturally", "without loss of generality", "similarly" or
+  "in general" may appear only together with the justification, in the same or the next sentence (or with a pointer
+  to the appendix that gives it):
+  - symmetry: name the symmetry (axisymmetry about the z axis, reflection in a plane, time-reversal, …) and the
+    property of the governing equations and boundary conditions that preserves it;
+  - linearity / superposition: state that the governing equations and every boundary and interface condition are
+    linear (and homogeneous where required) in the unknowns, so that solutions add, and say which problems are added;
+  - a representation ("the velocity can be expressed as …", "the general solution takes the form …"): say why it
+    is valid and complete (which equation it solves identically, which theorem or classical result guarantees
+    generality, e.g. Lamb's general solution, a Fourier/Hankel transform with its decay conditions), with a citation
+    or a derivation in an appendix;
+  - "it follows that" / "it can be shown": show the step, or give the two or three operations that produce it and
+    put the full derivation in an appendix;
+  - reciprocity, energy or uniqueness arguments: name the theorem and its conditions and confirm the problem meets
+    them.
+  If a justification cannot be given, the statement is an assumption: state it as such, with its range of validity.
 
 `python3 scripts/rp.py lint <slug>` reports violations of these rules ("House style" sections); the symbol rule is
 checked against `rp.py symbols`, one symbol at a time.

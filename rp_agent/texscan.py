@@ -316,13 +316,20 @@ THEOREM_ENVS = r"remark|lemma|proposition|theorem|corollary|definition|assumptio
 ROADMAP_PHRASES = ["in this section", "this section", "in what follows", "in the following", "we first", "we then",
                    "we begin by", "we start by", "is organised", "is organized", "the rest of", "the remainder of",
                    "we present", "we describe", "we derive", "we discuss", "will be", "below we", "next, we"]
+BRIDGING_PHRASES = ["by symmetry", "by linearity", "by superposition", "by reciprocity", "owing to symmetry",
+                    "due to symmetry", "from symmetry", "it follows that", "it follows from", "can be expressed as",
+                    "can be written as", "may be written as", "may be expressed as", "takes the form", "take the form",
+                    "it can be shown", "can be shown", "one can show", "one may show", "it is easy to see",
+                    "it is easily seen", "easily shown", "clearly", "obviously", "trivially", "trivial",
+                    "straightforward", "readily", "naturally", "without loss of generality", "similarly",
+                    "in general", "it is evident", "evidently", "immediately", "hence", "thus", "therefore"]
 NOT_ACRONYMS = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "OK", "TODO", "PDF", "LHS",
                 "RHS", "MHz", "GHz", "kHz", "MPa", "GPa", "kPa", "DC", "AC"}
 
 
 def style_check(lines: list[TexLine]) -> dict:
     r = {"paragraph_titles": [], "emphasis": [], "theorem_envs": [], "citation_wording": [], "crossref_mix": [],
-         "acronyms": [], "roadmap_openers": [], "short_paragraphs": []}
+         "acronyms": [], "roadmap_openers": [], "short_paragraphs": [], "bridging_words": []}
     body = [tl for tl in lines if not tl.in_display]
 
     for tl in lines:
@@ -349,6 +356,16 @@ def style_check(lines: list[TexLine]) -> dict:
                           "citation used as the subject")):
             if re.search(pat, low):
                 r["citation_wording"].append(f"{loc}: {why}: {tl.text.strip()[:90]}")
+
+    # Bridging words that must come with a justification (candidates; the reader judges each one).
+    strong = BRIDGING_PHRASES[:-3]
+    for tl in body:
+        if "introduction.tex" in tl.file or "abstract.tex" in tl.file:
+            continue
+        low = tl.text.lower()
+        for ph in strong:
+            if re.search(r"(?<![a-z])" + re.escape(ph) + r"(?![a-z])", low):
+                r["bridging_words"].append(f"{tl.file}:{tl.lineno}: '{ph}': {tl.text.strip()[:90]}")
 
     text = "\n".join(tl.text for tl in body)
     # Mixed cross-reference styles.

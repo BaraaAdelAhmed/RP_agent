@@ -75,7 +75,11 @@ undefined; **major**: breaks the reader's flow; **minor**: wording):
    sentences, overlong sentences, inconsistent tense; section openings that list contents; acronyms not spelled out;
    "Ref. [n]"-style citations and mixed citation or cross-reference styles; bold/italic in the text; titled or
    fragmented paragraphs; and every remark/lemma/proposition/definition/assumption environment with its proposed
-   destination (sentence in the body, discussion in the body, or appendix).
+   destination (sentence in the body, discussion in the body, or appendix); and every bridging word ("by symmetry",
+   "by superposition", "can be expressed as", "it follows that", "clearly", …) whose justification is missing, with
+   the justification you will add (which symmetry and why it holds, why the problem is linear, why the
+   representation is valid and complete, with a citation or an appendix derivation) or a note that it is really an
+   assumption.
 8. **Restructuring plan** to **6–7 main sections** (Introduction through Conclusion; appendices do not count): a
    table old section/subsection → new section/subsection, merging short ones (see `lint`) and anything too thin to
    stand alone. Give each new heading a title that suits the paper.
@@ -150,6 +154,9 @@ approve or adjust the plan. Only when they explicitly approve, run `rp.py approv
 - **Citations:** cite as a writer: "as shown by Faltas et al. [12]", "studied by Ochoa-Tapia and Whitaker [7]",
   never "Ref. [12]", "in [12]" or a citation as the subject; names from references.bib. One citation command and
   one cross-reference style throughout (standards §6).
+- **No step carried by a word:** "by symmetry", "by superposition", "can be expressed as", "it follows that",
+  "clearly" and their relatives always come with the justification next to them (standards §6); otherwise state the
+  step as an assumption.
 - **Typography:** no bold or italic in the running text (not even "et al."), no `\paragraph` headings.
 - **Claims:** calibrated hedging ("suggests" for indirect evidence, "shows" for direct); "novel" or "first" only where
   the novelty report supports it.

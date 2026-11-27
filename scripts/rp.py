@@ -342,6 +342,8 @@ def cmd_lint(a):
     block("House style: acronyms not spelled out at first use", sc["acronyms"])
     block("House style: section openers that announce contents", sc["roadmap_openers"])
     block("House style: short paragraphs (<60 words; merge into fuller paragraphs)", sc["short_paragraphs"])
+    block("House style: bridging words that need a justification next to them ('by symmetry', 'can be expressed as', ...)",
+          sc["bridging_words"])
     block("\\finding blocks", [f"{'cited' if f['cited_in_paragraph'] else 'NO CITATION in paragraph'}: "
                                f"{f['text'][:100]}" for f in r["findings"]])
 
