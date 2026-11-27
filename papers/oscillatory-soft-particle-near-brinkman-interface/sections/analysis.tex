@@ -25,7 +25,7 @@ Subtracting the rigid-body velocity $\bu_{\rm rig}$ (equal to $\be$ in domain~2 
 velocity $\nabla\Phi^{(j)}$ from the total velocity leaves a remainder $\bm w^{(j)}=\bu^{(j)}-\bu_{\rm rig}-\nabla\Phi^{(j)}$.
 Because $\nabla^2\nabla\Phi^{(j)}=\bm 0$, the pressure gradients cancel identically in \cref{eq:governing}, and
 $\bm w^{(j)}$ satisfies both $\nabla\cdot\bm w^{(j)}=0$ and the homogeneous vector Helmholtz equation
-$(\nabla^2-\lambda_j^2)\bm w^{(j)}=\bm 0$. Thus, the velocity in each domain naturally decomposes into a rigid part, an
+$(\nabla^2-\lambda_j^2)\bm w^{(j)}=\bm 0$. The velocity in each domain therefore decomposes into a rigid part, an
 irrotational pressure-carrying potential part, and a pressure-free vortical part: $\bu=\bu_{\rm rig}+\nabla\Phi+\bm w$.
 Because the core--shell particle is spherically symmetric, its hydrodynamic response preserves each spherical-harmonic
 sector of degree $l$ about $\bx_0$. When an incident unsteady Stokes flow $\bu_{\rm inc}=\nabla\Phi_{\rm inc}+\bm w_{\rm
@@ -50,7 +50,7 @@ linearly independent modified spherical Bessel functions of order zero: the deca
 and the regular kernel $\mathcal I_j(r)=(\sinh\lambda_jr)/r$ for $j\in\{f,s\}$. Applying the double-curl operator to
 $\be g$ generates the axisymmetric $l=1$ poloidal solenoidal vortical fields; using the vector identity
 $\curl\curl(\be g)=\nabla(\nabla\cdot(\be g))-\nabla^2(\be g)=\nabla(\be\cdot\nabla g)-\lambda_j^2\be g$, their radial and
-polar velocity components take the form
+polar velocity components are
 \begin{equation}
   u_r=\left(g''-\lambda_j^2g\right)\cos\theta,\qquad u_\theta=\left(\lambda_j^2g-\frac{g'}{r}\right)\sin\theta,
   \label{eq:vort_radial}
@@ -83,7 +83,7 @@ sphere $r=1$ yields the dimensionless hydrodynamic force
   F=\frac{4\pi}{3}\left[\mathcal S^{(1)}_{rr}(1)-2\,\mathcal S^{(1)}_{r\theta}(1)\right].
   \label{eq:force_amplitudes}
 \end{equation}
-Enforcing the two core conditions \eqref{eq:bc_core} at $r=\kappa$ and the four shell conditions \eqref{eq:bc_shell} at
+Enforcing the two core conditions \cref{eq:bc_core} at $r=\kappa$ and the four shell conditions \cref{eq:bc_shell} at
 $r=1$ yields a $6\times6$ linear system for the coefficients $B$, $C$, $E_1$, $E_2$, $G_1$ and $G_2$, driven by $U$,
 $U_p$, and $w_0$, as assembled in \cref{app:sphere}. For a homogeneous porous sphere ($\kappa=0$), regularity at $r=0$
 eliminates $E_2$, $G_2$, and the core conditions; for an impermeable sphere ($\kappa=1$), the two slip conditions on
@@ -146,7 +146,7 @@ $(R_\Phi,R_{\rm pol},R_{\rm tor})$, and the transmitted basis
 $\{\nabla e^{kz},\curl\curl(\be_ze^{q_pz}),\curl(\be_ze^{q_pz})\}$ in $z<0$ with amplitudes
 $(T_\Phi,T_{\rm pol},T_{\rm tor})$, where $q_p=\sqrt{k^2+\lambda_p^2}$ ($\operatorname{Re}q_p>0$) is the vertical vortical
 decay rate in the substrate and every mode carries the horizontal factor $e^{i\bk\cdot\bx_\parallel}$. Enforcing the six
-scalar interface conditions \eqref{eq:bc_plane} at $z=0$ yields a $6\times6$ linear system at each wavevector,
+scalar interface conditions \cref{eq:bc_plane} at $z=0$ yields a $6\times6$ linear system at each wavevector,
 \begin{equation}
   \mathsf A(\bk;\Wo,\alpha_p,\beta_p,\mu_p/\mu)\,\bm x(\bk)=\bm r(\bk),
   \label{eq:interface_system}
@@ -158,7 +158,7 @@ as detailed in \cref{app:interface}. Denoting by $R^{(n)}_\Phi$, $R^{(n)}_{\rm p
 amplitudes produced by a unit source of type $n\in\{1,2\}$---with $n=1$ for the potential dipole ($B=1$, $C=0$) and $n=2$
 for the vortical dipole ($B=0$, $C=1$)---we evaluate the inverse Fourier transform of the reflected potential and
 vortical velocities at the particle centre $\bx_0=(0,0,h)$ (where $e^{i\bk\cdot\bx_\parallel}=1$) and project onto $\be$.
-This expresses the centre values \eqref{eq:centre_values} linearly in terms of the scattered dipoles through the
+This expresses the centre values \cref{eq:centre_values} linearly in terms of the scattered dipoles through the
 $2\times2$ reflection matrix $\bM$,
 \begin{equation}
   \begin{pmatrix}U_p\\ w_0\end{pmatrix}=\bM\begin{pmatrix}B\\ C\end{pmatrix},\qquad
@@ -174,7 +174,7 @@ $\bm g_k^-=(ik_x,ik_y,-k)$, $\bm p_q^-=(-iqk_x,-iqk_y,k^2)$, and $\bm t=(ik_y,-i
 the substrate properties, the height $h$, and the frequency $\Wo$, a single evaluation of $\bM$ serves all particle
 structures in a parametric sweep.
 
-The Fourier-space reflection system \eqref{eq:interface_system} reproduces both limiting behaviours of the substrate
+The Fourier-space reflection system \cref{eq:interface_system} reproduces both limiting behaviours of the substrate
 directly. When $\mu_p=\mu$, $\beta_p=0$, and $\alpha_p=0$, the transmitted basis modes coincide with the incident modes and
 the tangential stress jump vanishes, so zero reflection satisfies \cref{eq:interface_system} and uniqueness yields
 $\bM=\mathsf 0$ and $F_{\rm int}=0$. Conversely, in the impermeable limit $\alpha_p\to\infty$, both $q_p\sim\alpha_p$ and
@@ -189,8 +189,8 @@ geometric grading towards $k=0$, giving a total of $N_k\approx2000$ radial nodes
 changes $\bM$ by less than $10^{-13}$ relative (\cref{app:checks}).
 
 \subsection{Self-consistent dipolar closure and limiting regimes}\label{sec:closure}
-Substituting the reflected centre values \eqref{eq:reflection_matrix} into the particle scattering and force relations
-\eqref{eq:response} eliminates $(U_p,w_0)$ and closes the coupled fluid--particle--substrate problem self-consistently
+Substituting the reflected centre values \cref{eq:reflection_matrix} into the particle scattering and force relations
+\cref{eq:response} eliminates $(U_p,w_0)$ and closes the coupled fluid--particle--substrate problem self-consistently
 within the dipolar sector:
 \begin{equation}
   \left(\mathsf I-\mathsf S_{\rm inc}\bM\right)\begin{pmatrix}B\\ C\end{pmatrix}=\bm s_U\,U,
@@ -214,7 +214,7 @@ closure therefore agrees with the classical reflection series through $O(x^3)$, 
 ratio, and differs from it by terms of size $O(x^4)$; the resulting error is quantified against exact solutions in
 \cref{sec:validation} and \cref{app:checks}. The complete numerical procedure is summarised in \cref{alg:force}. One
 evaluation of $\bM$ requires approximately $1.6\times10^4$ solutions of the $6\times6$ interface system
-\eqref{eq:interface_system}, taking about $0.05$\,s in vectorised form on a single laptop core, while the particle
+\cref{eq:interface_system}, taking about $0.05$\,s in vectorised form on a single laptop core, while the particle
 response costs $O(1)$. Crossover Womersley numbers are located by bracketing the sign changes of $\hat\chi_{\rm int}$ on a
 logarithmic grid of 70 values of $\Wo$ and refining each root using Brent's method.
 
@@ -237,15 +237,10 @@ logarithmic grid of 70 values of $\Wo$ and refining each root using Brent's meth
 \end{minipage}\end{center}
 
 The dipolar closure recovers the expected asymptotic behaviour at both ends of the frequency spectrum. In the
-high-frequency inviscid limit ($\Wo\to\infty$ at fixed $h$) for an impermeable no-slip sphere near a rigid wall,
-\cref{eq:rigid_BC,eq:rigid_Z} give $B\to\tfrac12$ and $Z_p\to2\pi\lambda^2$, while both the scattered and reflected
-vortical fields are confined to Stokes boundary layers of thickness $O(|\lambda|^{-1})$ around the sphere and the wall,
-making their contribution at $\bx_0$ exponentially small in $|\lambda|h$. The no-penetration condition on $z=0$ then
-reflects the potential dipole into a mirror image at $-h\be_z$ of opposite sign for normal oscillation ($\be=\be_z$) and
-equal sign for parallel oscillation ($\be=\be_x$), which induces a reflected potential velocity $U_p=-B/(4h^3)$ or
-$U_p=-B/(8h^3)$, respectively, at the sphere centre (distance $2h$). Combining $F_{\rm int}=Z_pU_p$ with
-$\lambda^2=-i\Wo^2$ and \cref{eq:observables} yields the leading inviscid image added-mass corrections to the unbounded
-added-mass coefficient $\tfrac12$:
+high-frequency inviscid limit ($\Wo\to\infty$ at fixed $h$) for an impermeable no-slip sphere near a rigid wall, the
+vortical fields are confined to Stokes boundary layers and only the potential image of the particle acts back on it; the
+derivation in \cref{app:asymptotics} gives the leading image corrections to the unbounded added-mass coefficient
+$\tfrac12$,
 \begin{equation}
   \frac{m_{\rm int}}{m_f}\to\frac{3}{16}\frac{b^3}{h^3}\ \ (\be=\be_z),\qquad
   \frac{m_{\rm int}}{m_f}\to\frac{3}{32}\frac{b^3}{h^3}\ \ (\be=\be_x).

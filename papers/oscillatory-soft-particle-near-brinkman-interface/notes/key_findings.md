@@ -57,3 +57,9 @@ Main points (bold lead-ins in the paper):
 
 ### Correction to the record
 - The admissibility of stress jumps was re-examined: positive β acts as an interfacial energy source (Remark 2); all findings above concern configurations with β ≤ 0.5, verified dissipative (`check14`).
+
+## 2nd-draft pass
+- F3 is now **derived** (authors' third draft): Wo_c↓ = α_p²/(6√2), verified independently in `notes/checks/check15`
+  (R_Φ from the full system, Z_pB expansion, prefactor √2/12, computed crossovers → 0.985–0.993 of the law).
+- New visual evidence for F1 and F3: Fig. 4 flow fields (blocking of vorticity at low Wo; transmission of the dipole at
+  high Wo); regime map Fig. 6.

@@ -1,31 +1,29 @@
 \section{Conclusions}\label{sec:conclusion}
 % GUIDE BULLETS -- the authors turn these into prose.
 \begin{itemize}
-  \item \textbf{Summary:} semi-analytical theory for the oscillatory force on a soft core--shell particle near a
-        Brinkman half-space with stress jump, built from the exact dipolar particle response, an exact Fourier reflection
-        and a self-consistent dipolar closure; validated against exact, steady and inviscid limits, with an error of
-        $5\%$ (normal) and $1.5\%$ (parallel) at $\varepsilon=1$ that decreases rapidly with the gap.
-  \item \textbf{Rigid reference:} near a rigid wall the wall-induced added mass changes sign once, at $\Wo_c\approx2.9$
-        (normal) and $0.95$ (parallel) for $\varepsilon=1$, consistent qualitatively with the AFM frequency-shift crossover
-        of Ref.~\onlinecite{zhang2023unsteady}. Its negative low-frequency part is the Basset memory force removed by the
-        wall and tends to the full Basset term as $\Wo\to0$.
-  \item \textbf{Permeable layer:} a finite $\alpha_p$ raises the lower crossover, adds an upper crossover
-        $\Wo_c^{\downarrow}\approx0.116\,\alpha_p^2$ that is independent of the gap and marks the frequency above which the
-        layer becomes transparent, and closes the positive-added-mass window below $\alpha_p\approx6$--$9$ (normal) and
-        $4$--$6$ (parallel). The damping has a maximum at $\Wo/\alpha_p\approx1$--$2$, up to twice the rigid-wall value.
-        The stress jump $\beta_p$ shifts these boundaries only weakly; the steady drag changes by a few per cent.
-  \item \textbf{Soft particle:} permeable shells reduce the near-wall damping approximately as $\Omega^2$; homogeneous
-        porous particles ($\kappa=0$, $\alpha_s\le8$) lose the crossover in normal oscillation, and intermediate cores
-        produce non-monotonic and re-entrant crossovers. Surface slip matters for impermeable particles ($-42\%$ damping
-        for $\hat\ell_c=0.5$), the shell stress jump for soft ones ($-31\%$ to $+17\%$ for $\beta_s=\pm0.5$).
-  \item \textbf{Biomedical takeaways:} (i) the crossover frequencies could serve as a non-contact, gap-independent
-        fingerprint of layer permeability (glycocalyx degradation, mucus hydration), e.g.\ in the kHz--MHz range for
-        $10\,\mu$m probes; (ii) cell-like particles of different softness differ in near-wall force amplitude (factor
-        $1.4$--$2.7$) and phase (up to $13^\circ$), most usefully at $\Wo=O(1)$ for acoustofluidic sorting; (iii) soft,
-        permeable shells reduce near-wall resistance, which supports their use in mucus-penetrating carriers.
-  \item \textbf{Limitations:} dipolar closure valid for $\varepsilon\gtrsim1$ (no lubrication); rigid stationary porous
-        matrices; no particle rotation; layer modelled as a half-space; Brinkman viscosities equal to $\mu$.
-  \item \textbf{Future work:} asymptotic theory of the transparency law $\Wo_c^{\downarrow}\propto\alpha_p^2$; full
-        multipole collocation for $\varepsilon<1$; finite-thickness and poroelastic layers; free rotation; comparison with
-        colloidal-probe AFM on glycocalyx-mimicking brushes.
+  \item Transparency law: a permeable layer becomes hydrodynamically transparent above
+        $\Wo_c^{\downarrow}=\alpha_p^2/(6\sqrt2)\approx0.118\,\alpha_p^2$ ($\omega\approx\mu b^2/(72\rho k_p^2)$), independent
+        of the gap and, at leading order, of the direction of oscillation; derived asymptotically and confirmed by the
+        full computation to within $1.5\%$.
+  \item Memory removal: near a wall the wall-induced added mass is negative at low frequency because the wall
+        removes the Basset memory force; $-\hat\chi_{\rm int}$ tends to the full Basset term $\Wo/\sqrt2$ (ratio $0.99$ normal,
+        $0.96$ parallel at $\Wo=0.01$). This explains, qualitatively, the frequency-shift crossover observed with
+        colloidal-probe AFM by Zhang et al.~\cite{zhang2023unsteady}.
+  \item Crossover map: near a rigid wall the added mass changes sign once ($\Wo_c\approx2.9$ normal, $0.95$
+        parallel at $\varepsilon=1$); permeability raises this crossover, closes the positive-added-mass window below
+        $\alpha_p\approx6$--$9$ (normal) and $4$--$6$ (parallel), and splits it in two in parallel oscillation near the
+        threshold. The damping peaks at $\Wo/\alpha_p\approx1$--$2$; the steady drag changes by only a few per cent.
+  \item Soft particles: permeable shells reduce the near-wall damping approximately as $\Omega^2$ and reshape the
+        crossovers; slip matters for impermeable particles ($-42\%$ damping for $\hat\ell_c=0.5$), the shell stress jump
+        for soft ones ($-31\%$ to $+17\%$ for $\beta_s=\pm0.5$); cell-like particles of different softness differ in
+        near-wall force by a factor $1.4$--$2.7$ and in phase by up to $13^\circ$.
+  \item Method and admissibility: exact dipolar particle response, exact Fourier reflection and a
+        self-consistent closure, accurate to $5\%$ (normal) and $1.5\%$ (parallel) at $\varepsilon=1$; the energy identity
+        shows that positive stress-jump coefficients act as interfacial energy sources, restricting $\beta_s,\beta_p\le0.5$.
+  \item Applications: gap-independent, non-contact estimation of the permeability of mucus-like layers
+        (kHz--MHz for $10\,\mu$m probes); for the much denser glycocalyx, micrometre particles see an almost rigid wall.
+  \item Limitations and future work: dipolar closure for $\varepsilon\gtrsim1$ (no lubrication); rigid
+        stationary porous matrices; no rotation; half-space layer; Brinkman viscosities equal to $\mu$. Next: multipole
+        collocation for $\varepsilon<1$, finite-thickness and poroelastic layers, free rotation, comparison with
+        colloidal-probe AFM on hydrogel layers.
 \end{itemize}

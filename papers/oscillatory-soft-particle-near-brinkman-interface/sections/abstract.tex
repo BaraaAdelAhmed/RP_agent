@@ -1,34 +1,25 @@
 % Guide bullets: the authors turn these into the final abstract (single paragraph, <= 250 words).
 \begin{itemize}
   \item \textbf{Context:} colloidal probes, cells and vesicles oscillate (AFM, acoustofluidics) next to permeable
-        biological layers such as the endothelial glycocalyx and mucus; the frequency-dependent force carries information
-        on both the particle and the layer.
-  \item \textbf{Gap:} the unsteady force has been resolved only for a rigid sphere near a rigid wall; the porous layer
-        (Brinkman, Ochoa-Tapia--Whitaker stress jump) and the soft (permeable-shell) particle have not been treated.
+        biological layers such as mucus; the frequency-dependent force carries information on both the particle and the
+        layer.
+  \item \textbf{Gap:} the unsteady force on a rigid sphere near a rigid wall is known, and a homogeneous porous sphere near a
+        Brinkman half-space has just been treated; the sign structure of the wall-induced added mass near a permeable
+        layer, and the role of particle softness, are not known.
   \item \textbf{What we do:} a semi-analytical solution of the unsteady Stokes--Brinkman problem for a core--shell
-        particle oscillating normal or parallel to a Brinkman half-space, combining the exact particle response, an exact
-        Fourier reflection and a self-consistent dipolar closure; validated against exact, steady and inviscid limits
-        (error $5\%$ normal, $1.5\%$ parallel at $\varepsilon=1$).
-  \item \textbf{Key results:} near a rigid wall the wall-induced added mass changes sign at $\Wo_c\approx2.9$ (normal) and
-        $0.95$ (parallel); its low-frequency negative part is the Basset memory force removed by the wall. A permeable
-        layer raises the lower crossover, adds a gap-independent upper crossover $\Wo_c^{\downarrow}\approx0.116\,\alpha_p^2$
-        above which it becomes transparent, and below a threshold ($\alpha_p\approx6$--$9$ normal, $4$--$6$ parallel)
-        removes the positive-added-mass window. Soft shells reduce the near-wall damping approximately as the square of
-        the particle's drag ratio and shift the crossovers non-monotonically.
-  \item \textbf{Implication:} a frequency sweep of the near-wall force could provide a non-contact, gap-independent
-        measure of layer permeability and of particle softness, relevant to glycocalyx microrheology, acoustofluidic CTC
-        sorting and mucus-penetrating carriers.
+        particle oscillating normal or parallel to a Brinkman half-space with stress jump, combining the exact particle
+        response, an exact Fourier reflection and a self-consistent dipolar closure (error $5\%$ normal, $1.5\%$
+        parallel at $\varepsilon=1$, converging as $x^4$); positive stress jumps act as interfacial energy sources, which
+        restricts the admissible range.
+  \item \textbf{Key results:} (i) a permeable layer becomes hydrodynamically transparent above a gap-independent
+        crossover $\Wo_c^{\downarrow}=\alpha_p^2/(6\sqrt2)\approx0.118\,\alpha_p^2$, derived asymptotically and confirmed
+        numerically to $1.5\%$; (ii) the negative wall-induced added mass at low frequency is the Basset memory force
+        removed by the wall, tending to the full Basset term; (iii) permeability raises the lower crossover
+        ($\Wo_c\approx2.9$ normal, $0.95$ parallel near a rigid wall) and closes the positive-added-mass window below
+        $\alpha_p\approx6$--$9$ (normal), $4$--$6$ (parallel); (iv) particle softness suppresses the near-wall damping
+        approximately as the square of the particle's drag ratio.
+  \item \textbf{Implication:} a frequency sweep of the near-wall force could measure layer permeability without knowing
+        the probe--wall distance (kHz--MHz for $10\,\mu$m probes near mucus-like layers) and distinguishes particles of
+        different softness, relevant to colloidal-probe microrheology, acoustofluidic cell sorting and
+        mucus-penetrating carriers.
 \end{itemize}
-% Draft paragraph (to be refined by the authors):
-% Oscillating colloidal probes, cells and vesicles near permeable biological layers experience a frequency-dependent
-% hydrodynamic force whose dissipative and inertial parts encode both particle and layer properties. We solve the
-% unsteady Stokes--Brinkman problem for a core--shell particle, with a Brinkman shell, a Navier-slip core and a
-% stress-jump surface, oscillating normal or parallel to a semi-infinite Brinkman medium with an Ochoa-Tapia--Whitaker
-% stress jump. The method combines the exact response of the particle with an exact Fourier-space reflection at the porous
-% interface and a self-consistent dipolar closure that sums all orders of reflection. Near a rigid wall the wall-induced
-% added mass changes sign at a critical Womersley number; its low-frequency negative part is the Basset memory force
-% removed by the wall. A permeable layer raises this crossover, adds a gap-independent upper crossover that scales as the
-% square of the inverse Darcy screening length, and for sufficiently permeable layers suppresses the positive-added-mass
-% window entirely. Soft shells reduce the near-wall damping approximately as the square of the particle's own drag ratio.
-% These signatures suggest a non-contact spectroscopy of glycocalyx and mucus permeability and inform acoustofluidic
-% sorting of cells that differ in softness.

@@ -105,3 +105,35 @@ Printed width: the class (REVTeX `aip,pof,reprint`) produces a **single 396 pt (
 | 7 acoustic | valid | coarse grid, fonts | regenerate |
 
 No figure shows wrong physics. All need regeneration for §4 quality (print-size fonts and density).
+
+---
+
+# 2nd-draft pass additions (2026-11-27)
+
+Figure numbers changed: 4 flow fields (new), 5 steady, 6 regime map (replaces the crossover scatter), 7 soft, 8 acoustic,
+9 error analysis (new, Appendix C). Files renamed to match.
+
+## Fig. 4 — flow fields (`code/flow_fields.py`)
+- **Expected:** (a) Wo = 0.5, rigid wall: no-slip at z = 0 (flow tangential, |u| → 0), instantaneous vortex rings at a
+  distance ~δ_v = √2/Wo ≈ 2.8 b from the particle (phase-lagged unsteady Stokes flow); (b) permeable layer: flow crosses
+  z = 0 continuously (velocity continuity) and decays in the layer over ~1/|λ_p|; (c) Wo = 10: potential-dipole field
+  with image, Stokes layers too thin to see (δ_v = 0.14 b); (d) Wo = 10 ≫ α_p = 5: layer nearly transparent → dipole
+  field continues into the layer. |u| ≈ U on the sphere surface.
+- **Shows:** all of the above; streamlines continuous across z = 0 in (b, d); max |u| ≈ 1.0–1.17 next to the sphere (the
+  dipolar closure does not enforce the l ≥ 2 part of the boundary condition, so |u| slightly exceeds U at the surface
+  in (a, b) — consistent with the closure's stated 5 % error at ε = 1).
+- **Verdict:** valid.
+
+## Fig. 6 — regime map (`code/make_results5.py`, 90 × 60 grid per direction)
+- **Expected:** sign boundary passes through every computed crossover; the upper boundary follows α_p²/(6√2) for
+  α_p ≳ 12 and lies above Wo = α_p; the window closes at α_p ≈ 6–9 (normal), 4–6 (parallel); double window in parallel.
+- **Shows:** all of the above (contour coincides with the Brent-refined crossovers).
+- **Verdict:** valid.
+
+## Fig. 9 — error analysis (`code/make_results5.py`)
+- **Expected:** exponential convergence of Gauss–Legendre quadrature for an analytic integrand; dipolar-closure error
+  ∝ x⁴.
+- **Shows:** round-off (10⁻¹⁴–10⁻¹⁶) reached with 8 nodes per panel; error slope ≈ 4.2 over x = 0.12–0.8.
+- **Verdict:** valid.
+
+## Fig. 3 — added Basset asymptote −Wo/√2: coincides with all curves at low Wo (check6/check8b). Valid.

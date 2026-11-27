@@ -1,8 +1,12 @@
 \section{Impermeable Particle near a Permeable Layer: Spectra, Crossovers and Transparency}\label{sec:rigid}
 
-Isolating the hydrodynamic signature of the porous substrate by considering an impermeable no-slip sphere ($\kappa=1$,
-$\hat\ell_c=0$) reveals how finite permeability reshapes both dissipation and added mass across the transition from
-viscous to inertial flow.
+Can a frequency sweep of the force on an oscillating probe tell a permeable layer from a rigid wall, and measure how
+permeable it is? Answering this requires isolating the hydrodynamic signature of the porous substrate, which we do by
+considering an impermeable no-slip sphere ($\kappa=1$, $\hat\ell_c=0$), so that every difference from the rigid-wall
+baseline of \cref{sec:validation} is due to the layer. What is at stake physically is how finite permeability reshapes
+dissipation and added mass across the transition from viscous to inertial flow: whether the wall still blocks the
+vorticity diffusing from the particle at low frequency, and whether it still reflects the inviscid image of the particle
+at high frequency.
 
 \subsection{Interaction spectra from the viscous to the inertial regime}\label{sec:spectra}
 
@@ -12,8 +16,9 @@ viscous to inertial flow.
   \caption{Interaction spectra of an impermeable sphere at $\varepsilon=1$ and $\beta_p=0$, for a rigid wall and for
   layers with $\alpha_p=50,20,10,5$. (a,b) Wall-induced damping $\hat\gamma_{\rm int}$ against $\Wo$. (c,d) Reactive
   coefficient $\hat\chi_{\rm int}=\omega m_{\rm int}/(6\pi\mu b)$ against $\Wo$, on a symmetric logarithmic axis that is
-  linear for $|\hat\chi_{\rm int}|<10^{-2}$; its sign is that of $m_{\rm int}$. (a,c) Normal, (b,d) parallel oscillation.
-  Note the single sign change near a rigid wall, the second (downward) sign change for permeable layers, and the
+  linear for $|\hat\chi_{\rm int}|<10^{-2}$, with the Basset asymptote $-\Wo/\sqrt2$ (thick grey line); its sign is that of $m_{\rm int}$. (a,c) Normal, (b,d) parallel oscillation.
+  Note the negative added mass at low $\Wo$, where the wall removes the Basset memory force, the single sign change near a
+  rigid wall, the second (downward) sign change for permeable layers above which the layer is transparent, and the
   double positive window in (d) for $\alpha_p=10$.}
   \label{fig:spectra}
 \end{figure*}
@@ -40,9 +45,33 @@ well within the operating range of colloidal-probe AFM. The rigid-wall damping $
 $\Wo\approx3.7$ before rising again as the Stokes boundary layer of thickness $\delta_v$ on the wall thins and dissipates
 more energy.
 
+The flow fields in \cref{fig:flow} show the two mechanisms behind these spectra directly. At $\Wo=0.5$
+[\cref{fig:flow}(a,b)] the instantaneous streamlines close into vortex rings at a distance of order $\delta_v$ from the
+particle, the signature of vorticity diffusing outwards during each period; near a rigid wall this vorticity is stopped
+at $z=0$, where the flow becomes tangential, whereas a permeable layer with $\alpha_p=5$ lets the streamlines cross the
+interface and decay inside the porous medium. Both walls truncate the outward diffusion of vorticity, which is why the
+low-frequency reactive force in \cref{fig:spectra}(c,d) follows the Basset asymptote $-\Wo/\sqrt2$ for every layer. At
+$\Wo=10$ [\cref{fig:flow}(c,d)] the disturbance is essentially the potential dipole of the particle: the rigid wall
+reflects it into its image, with closed streamlines between the particle and the wall, whereas the same dipole passes
+through the permeable layer almost undisturbed. This is the transparency that removes the positive image added mass at
+high frequency, analysed quantitatively in \cref{sec:woc}.
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig4_flow_fields.pdf}
+  \caption{Instantaneous flow around an impermeable sphere oscillating normal to the layer ($\varepsilon=1$, phase
+  $\omega t=0$, velocity $U\be_z$), computed from the self-consistent dipolar solution: streamlines of
+  $\operatorname{Re}\bu$ and its magnitude (colour, logarithmic and common to all panels) in the plane $y=0$, including the
+  flow transmitted into the porous layer. (a,c) Rigid wall; (b,d) permeable layer with $\alpha_p=5$; (a,b) $\Wo=0.5$,
+  where vortex rings at a distance of order $\delta_v$ are blocked by the rigid wall but cross the permeable interface;
+  (c,d) $\Wo=10$, where the potential dipole is reflected by the rigid wall but transmitted almost unchanged into the
+  permeable layer.}
+  \label{fig:flow}
+\end{figure*}
+
 \begin{figure}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig4_steady.pdf}
+  \includegraphics[width=\linewidth]{figures/fig5_steady.pdf}
   \caption{Steady ($\Wo\to0$) resistance $F/F_\infty$ of an impermeable sphere against the gap $\varepsilon$, for a
   rigid wall and for layers with $\alpha_p=50$ and $10$ and stress jumps $\beta_p=\pm0.5$. (a) Normal, (b) parallel
   oscillation.}
@@ -74,16 +103,19 @@ window altogether.
 
 \begin{figure*}[t]
   \centering
-  \includegraphics[width=\linewidth]{figures/fig5_crossovers.pdf}
-  \caption{All crossover Womersley numbers of $m_{\rm int}$ against the layer permeability $\alpha_p$ at
-  $\varepsilon=1$, for $\beta_p=-0.5,0,0.5$ (markers offset slightly in $\alpha_p$ for visibility). Filled circles:
-  upward crossovers $\Wo_c^{\uparrow}$; open triangles: downward crossovers $\Wo_c^{\downarrow}$. Dashed: rigid wall.
-  Dotted: $\Wo_c^{\downarrow}=0.116\,\alpha_p^2$. Downward crossovers above the scanned range
-  $\Wo\le\max(150,2.5\alpha_p)$ are not shown. (a) Normal, (b) parallel oscillation.}
+  \includegraphics[width=\linewidth]{figures/fig6_regime_map.pdf}
+  \caption{Regime map of the wall-induced added mass for an impermeable sphere at $\varepsilon=1$: sign of $m_{\rm int}$
+  over the plane of layer permeability $\alpha_p$ and Womersley number $\Wo$ (shaded: $m_{\rm int}>0$; solid line:
+  $m_{\rm int}=0$, $\beta_p=0$), with every computed crossover for $\beta_p=-0.5,0,0.5$ (filled circles: upward
+  $\Wo_c^{\uparrow}$; open triangles: downward $\Wo_c^{\downarrow}$; markers offset slightly in $\alpha_p$). Dashed: the
+  closed-form transparency law $\Wo_c^{\downarrow}=\alpha_p^2/(6\sqrt2)$ of \cref{eq:transparency}; dotted: $\Wo=\alpha_p$,
+  above which inertia dominates the Darcy drag in the layer. The positive-added-mass window is bounded above by the
+  transparency law and closes below $\alpha_p\approx8$ (normal) and $\alpha_p\approx5$ (parallel). (a) Normal,
+  (b) parallel oscillation.}
   \label{fig:woc_ap}
 \end{figure*}
 
-Collecting every sign change of $m_{\rm int}$ in \cref{fig:woc_ap} shows that substrate permeability both raises the lower
+Collecting every sign change of $m_{\rm int}$ in the regime map of \cref{fig:woc_ap} shows that substrate permeability both raises the lower
 upward crossover $\Wo_c^{\uparrow}$ and introduces a gap-independent upper downward crossover $\Wo_c^{\downarrow}$. In
 normal oscillation with $\beta_p=0$, $\Wo_c^{\uparrow}$ increases from $2.92$ for the rigid wall to $2.96$, $3.10$, $3.31$,
 and $4.01$ for $\alpha_p=35$, $17$, $12$, and $8.6$, with the shift steepening as the layer becomes more permeable so that
@@ -94,26 +126,20 @@ $\alpha_p$ introduces a downward crossover $\Wo_c^{\downarrow}$ beyond which $m_
 Numerically, $\Wo_c^{\downarrow}/\alpha_p^2$ remains within $0.112$--$0.116$ for $\alpha_p\ge12$ (a least-squares fit
 gives $\Wo_c^{\downarrow}\propto\alpha_p^{2.08}$), and varying the gap alters $\Wo_c^{\downarrow}$ by less than $3\%$: at
 $\alpha_p=17.3$, $\Wo_c^{\downarrow}=34.7$, $35.3$, and $35.5$ for $\varepsilon=1$, $2$, and $3$, and at $\alpha_p=24.6$ it
-equals $70.2$, $71.2$, and $71.5$. \finding{For $\mu_p=\mu$ and $\beta_p=0$, this quadratic transparency law follows
-directly from a high-frequency asymptotic expansion for $\Wo\gg\alpha_p\gg1$. In this regime, reflected vorticity at
-$\bx_0$ is exponentially small and the interaction is governed by the potential image $F_{\rm int}\approx Z_pU_p$. For
-wavenumbers $k=O(h^{-1})\ll\Wo$, continuity of normal stress and normal velocity across $z=0$ yields the potential
-reflection coefficient
-$R_\Phi\approx(c_3-c_1)/(c_3+c_1)=i\alpha_p^2/(2\Wo^2)+\alpha_p^4/(4\Wo^4)+O(\alpha_p^6/\Wo^6)$, while
-\cref{eq:rigid_BC,eq:rigid_Z} give $Z_pB=-i\pi\Wo^2[1+3\sqrt2(1+i)/\Wo+O(\Wo^{-2})]$. Because $U_p\propto-R_\Phi B/h^3$,
-the leading $O(\alpha_p^2/\Wo^2)$ imaginary part of $R_\Phi$ produces Darcy damping, whereas the reactive force
-$\hat\chi_{\rm int}$ is set by the competition between the $O(\alpha_p^4/\Wo^4)$ real part of $R_\Phi$ (positive added
-mass) and the product of the $O(\Wo^{-1})$ viscous boundary-layer phase of $Z_pB$ with the $O(\alpha_p^2/\Wo^2)$
-imaginary part of $R_\Phi$ (negative added mass). Balancing these two terms,
-$\alpha_p^4/(4\Wo^4)=3\sqrt2\,\alpha_p^2/(2\Wo^3)$, yields the closed-form transparency law
+equals $70.2$, $71.2$, and $71.5$. \finding{For $\mu_p=\mu$ and $\beta_p=0$, this quadratic transparency law follows from a high-frequency asymptotic
+expansion for $\Wo\gg\alpha_p\gg1$, derived in \cref{app:asymptotics}. In this regime the reflected vorticity at $\bx_0$ is
+exponentially small and the interaction is carried by the potential image, whose reflection coefficient is small,
+$R_\Phi\approx i\alpha_p^2/(2\Wo^2)+\alpha_p^4/(4\Wo^4)$, because the layer differs from the fluid only through its Darcy
+drag. The imaginary part of $R_\Phi$ produces Darcy damping and, combined with the viscous boundary-layer phase of the
+particle's response, a negative added mass, whereas its real part produces a positive added mass. The two balance at
 \begin{equation}
   \Wo_c^{\downarrow}=\frac{\alpha_p^2}{6\sqrt2}\approx0.1179\,\alpha_p^2,
   \label{eq:transparency}
 \end{equation}
-which matches the numerical prefactor $0.116$ to within $2\%$ and, because the geometric factor $h^{-3}$ and directional
-image prefactor cancel identically, explains why $\Wo_c^{\downarrow}$ is independent of the gap $\varepsilon$ and,
-at leading order, identical for normal and parallel oscillation; the computed crossovers approach the law from below,
-reaching $98.5\%$ (normal) and $99.3\%$ (parallel) of it at $\alpha_p=35$.} In dimensional form, \cref{eq:transparency} corresponds to
+which matches the numerical prefactor $0.116$ to within $2\%$. Because the image geometry enters both terms through the
+same factor, $\Wo_c^{\downarrow}$ is independent of the gap $\varepsilon$ and, at leading order, of the direction of
+oscillation; the computed crossovers approach the law from below, reaching $98.5\%$ (normal) and $99.3\%$ (parallel) of it
+at $\alpha_p=35$.} In dimensional form, \cref{eq:transparency} corresponds to
 $\omega\approx\mu b^2/(72\rho k_p^2)$, extending to a finite particle the high-frequency transparency of an unsteady
 Brinkman wall~\cite{sherwood2020unsteady}.
 

@@ -1,74 +1,6 @@
-\section{Linear system for the core--shell particle}\label{app:sphere}
-This appendix lists the radial kernels, mode amplitudes, and boundary equations required to assemble the particle response
-\eqref{eq:response}. The radial kernels $\mathcal K_j(r)$ and $\mathcal I_j(r)$ introduced in \cref{sec:sphere} and their
-radial derivatives, which enter $\mathcal U$, $\mathcal V$, and their derivatives through \cref{eq:vort_radial}, are
-\begin{align*}
-  \mathcal K_j'&=-\frac{(1+\lambda_jr)\,e^{-\lambda_jr}}{r^2}, &
-  \mathcal I_j'&=\frac{\lambda_jr\cosh\lambda_jr-\sinh\lambda_jr}{r^2},\\
-  \mathcal K_j''&=\frac{(2+2\lambda_jr+\lambda_j^2r^2)\,e^{-\lambda_jr}}{r^3}, &
-  \mathcal I_j''&=\frac{(\lambda_j^2r^2+2)\sinh\lambda_jr-2\lambda_jr\cosh\lambda_jr}{r^3},
-\end{align*}
-\begin{align*}
-  \mathcal K_j'''&=-\frac{(6+6\lambda_jr+3\lambda_j^2r^2+\lambda_j^3r^3)\,e^{-\lambda_jr}}{r^4},\\
-  \mathcal I_j'''&=\frac{(\lambda_j^3r^3+6\lambda_jr)\cosh\lambda_jr-(3\lambda_j^2r^2+6)\sinh\lambda_jr}{r^4}.
-\end{align*}
-For a vortical term with radial kernel $g\in\{\mathcal K_j,\mathcal I_j\}$, the radial amplitudes are
-$\mathcal U=g''-\lambda_j^2g$, $\mathcal V=\lambda_j^2g-g'/r$, $\mathcal U'=g'''-\lambda_j^2g'$, and
-$\mathcal V'=\lambda_j^2g'-g''/r+g'/r^2$, with $\mathcal P=0$. For the potential terms, using the pressure coefficients
-$c_j$ of \cref{eq:pressures},
-\begin{align*}
-  \be:&\quad \mathcal U=1,\ \mathcal V=-1,\ \mathcal P=c_j\,r,\\
-  \nabla(\be\cdot\nabla r^{-1}):&\quad \mathcal U=2r^{-3},\ \mathcal V=r^{-3},\ \mathcal P=-c_j\,r^{-2}.
-\end{align*}
-The rigid-body part $\be$ of \cref{eq:field_shell} carries the inertial pressure $i\Wo^2\be\cdot\bx$, so its amplitudes
-at $r=1$ are $\mathcal U=1$, $\mathcal V=-1$, $\mathcal S_{rr}=-i\Wo^2$, and $\mathcal S_{r\theta}=0$. Denoting the shell
-field minus its rigid-body part by a tilde and evaluating shell tractions with $\mu_s/\mu$, the core conditions
-\eqref{eq:bc_core} at $r=\kappa$ take the form
-\begin{equation*}
-  \tilde{\mathcal U}^{(2)}=0,\qquad \tilde{\mathcal V}^{(2)}-\frac{\hat\ell_c}{\mu_s/\mu}\,\tilde{\mathcal S}^{(2)}_{r\theta}=0,
-\end{equation*}
-and the shell conditions \eqref{eq:bc_shell} at $r=1$ become
-\begin{equation*}
-  \mathcal U^{(1)}=\mathcal U^{(2)},\qquad \mathcal V^{(1)}=\mathcal V^{(2)},\qquad
-  \mathcal S^{(1)}_{rr}=\mathcal S^{(2)}_{rr},\qquad
-  \mathcal S^{(2)}_{r\theta}-\mathcal S^{(1)}_{r\theta}=\beta_s\alpha_s\bigl(\mathcal V^{(1)}+1\bigr).
-\end{equation*}
-These six equations form a linear system for $(B,C,E_1,E_2,G_1,G_2)$ with right-hand sides proportional to $U$, $U_p$,
-and $w_0$. Solving the system for the three unit inputs yields the columns of $\bm s_U$ and $\mathsf S_{\rm inc}$, and
-\cref{eq:force_amplitudes} yields $Z_U$, $Z_p$, and $Z_w$. To prevent numerical overflow when $|\lambda_s|$ or $|\lambda|$
-is large, the kernels are evaluated in the rescaled forms $\mathcal K_s(r)e^{\lambda_s\kappa}$, $\mathcal I_s(r)e^{-\lambda_s}$,
-$\mathcal K_f(r)e^{\lambda}$, and $\mathcal I_f(r)e^{-\lambda}$, with the exponential scale factors removed from the
-solution coefficients afterwards. For a homogeneous porous particle ($\kappa=0$, $\beta_s=0$, $\mu_s=\mu$, $\Wo\to0$), the
-solver reproduces the Debye--Bueche--Brinkman drag ratio
-$\Omega=2\alpha_s^2(1-\alpha_s^{-1}\tanh\alpha_s)/[2\alpha_s^2+3(1-\alpha_s^{-1}\tanh\alpha_s)]$ (\cref{tab:validation}).
-
-\section{Interface system in Fourier space}\label{app:interface}
-This appendix specifies the six scalar rows of the Fourier-space interface system \eqref{eq:interface_system}. For a
-plane mode proportional to $e^{i\bk\cdot\bx_\parallel+sz}$ with vertical decay exponent $s$, Fourier velocity amplitude
-$\hat\bu=(\hat u_x,\hat u_y,\hat u_z)$, and Fourier pressure amplitude $\hat p$, the Newtonian stress components at $z=0$
-in a medium of dimensionless viscosity $\mu_j$ are
-\begin{equation*}
-  \hat\sigma_{xz}=\mu_j\left(s\hat u_x+ik_x\hat u_z\right),\quad
-  \hat\sigma_{yz}=\mu_j\left(s\hat u_y+ik_y\hat u_z\right),\quad
-  \hat\sigma_{zz}=-\hat p+2\mu_js\hat u_z .
-\end{equation*}
-The potential mode has $\hat\bu=(ik_x,ik_y,s)$ and $\hat p=c_j$, with $s=-k$ for the reflected branch and $s=k$ for the
-transmitted branch. The poloidal vortical mode has $\hat\bu=(ik_xs,ik_ys,k^2)$ and the toroidal vortical mode has
-$\hat\bu=(ik_y,-ik_x,0)$, both with $\hat p=0$ and with $s=-q$ (reflected) or $s=q_p$ (transmitted). Labelling the
-incident, reflected, and transmitted amplitudes with superscripts inc, $R$, and $T$, respectively, the six interface
-conditions \eqref{eq:bc_plane} at $z=0$ read
-\begin{align*}
-  &\hat\bu^{R}-\hat\bu^{T}=-\hat\bu^{\rm inc}\quad(3\ \text{rows}),\qquad
-  \hat\sigma^{R}_{zz}-\hat\sigma^{T}_{zz}=-\hat\sigma^{\rm inc}_{zz},\\
-  &\hat\sigma^{T}_{\tau z}-\hat\sigma^{R}_{\tau z}-\beta_p\alpha_p\hat u^{R}_\tau
-   =\hat\sigma^{\rm inc}_{\tau z}+\beta_p\alpha_p\hat u^{\rm inc}_\tau\quad(\tau=x,y).
-\end{align*}
-Before solving, the columns of $\mathsf A$ are normalised to unit Euclidean norm to remove the $O(k)$ degeneracy of the
-mode vectors as $k\to0$. In the rigid-wall limit, the system reduces to the three no-slip rows $\hat\bu^R=-\hat\bu^{\rm inc}$.
-
 \section{Convergence and admissibility checks}\label{app:checks}
-To establish uniqueness and physical admissibility for the boundary-value problem of \cref{sec:equations}, we derive the
-energy-dissipation balance for the homogeneous problem ($U=0$). Taking the dot product of each momentum equation in
+Uniqueness and physical admissibility of the boundary-value problem of \cref{sec:equations} rest on the
+energy-dissipation balance of the homogeneous problem ($U=0$), whose sign is controlled by the stress-jump coefficients. Taking the dot product of each momentum equation in
 \cref{eq:governing} with the complex-conjugate velocity $\bar\bu^{(j)}$ and integrating over its domain volume $V_j$
 ($j\in\{1,2,3\}$) using the divergence theorem yields
 \begin{equation*}
@@ -105,7 +37,10 @@ $3\le\alpha_p\le100$ (minimum $1.26$) and for the soft particle of \cref{tab:sen
 $1.08$).
 
 The numerical accuracy of the hybrid scheme is verified across quadrature, series convergence, and multipole truncation
-using the scripts listed in the Data Availability Statement. Doubling both the radial quadrature nodes $N_k$ and the
+using the scripts listed in the Data Availability Statement. \Cref{fig:errors} summarises the two convergence studies: the Gauss--Legendre
+quadrature of $\bM$ converges exponentially with the number of nodes per panel to the round-off level, and the error of
+the dipolar closure against Brenner's exact solution decreases as $x^4$, as expected when the first neglected
+reflection is of fourth order. Doubling both the radial quadrature nodes $N_k$ and the
 angular nodes ($N_\theta=8\to16$) changes the reflection matrix $\bM$ by at most $9\times10^{-15}$ relative across five
 representative test cases: the steady rigid wall ($\Wo=0.05$, $\varepsilon=1$, normal), $\Wo=3$ at $\varepsilon=1$ and
 $\alpha_p=10$ (parallel), $\Wo=30$ at $\varepsilon=1$ and $\alpha_p=20$ (normal), $\Wo=3$ at $\varepsilon=0.25$ (rigid
@@ -119,3 +54,127 @@ reflection series $1/(1-\tfrac98x+\tfrac12x^3)$ equals $1.8\times10^{-2}$, $1.4\
 $x=1/2$, $1/3$, and $1/5$, corresponding to $(0.29,\,0.11,\,0.04)\,x^4$ and confirming that the leading omitted multipole
 contribution is of order $O(x^4)$; for $\varepsilon\gtrsim9$, the steady comparison is limited by the Richardson
 extrapolation, whose error grows with $\Wo\,h$.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig9_error_analysis.pdf}
+  \caption{Error analysis. (a) Maximum relative change of the reflection matrix $\bM$ against the number of
+  Gauss--Legendre nodes per panel, relative to a reference with 128 nodes per panel and $N_\theta=16$, for three
+  representative cases; convergence is exponential down to round-off. (b) Relative error of the steady dipolar closure
+  against Brenner's exact wall correction for normal motion, against $x=b/h$; the dashed line has slope 4.}
+  \label{fig:errors}
+\end{figure}
+
+\section{Linear system for the core--shell particle}\label{app:sphere}
+This appendix lists the radial kernels, mode amplitudes, and boundary equations required to assemble the particle response
+\cref{eq:response}. The radial kernels $\mathcal K_j(r)$ and $\mathcal I_j(r)$ introduced in \cref{sec:sphere} and their
+radial derivatives, which enter $\mathcal U$, $\mathcal V$, and their derivatives through \cref{eq:vort_radial}, are
+\begin{align*}
+  \mathcal K_j'&=-\frac{(1+\lambda_jr)\,e^{-\lambda_jr}}{r^2}, &
+  \mathcal I_j'&=\frac{\lambda_jr\cosh\lambda_jr-\sinh\lambda_jr}{r^2},\\
+  \mathcal K_j''&=\frac{(2+2\lambda_jr+\lambda_j^2r^2)\,e^{-\lambda_jr}}{r^3}, &
+  \mathcal I_j''&=\frac{(\lambda_j^2r^2+2)\sinh\lambda_jr-2\lambda_jr\cosh\lambda_jr}{r^3},
+\end{align*}
+\begin{align*}
+  \mathcal K_j'''&=-\frac{(6+6\lambda_jr+3\lambda_j^2r^2+\lambda_j^3r^3)\,e^{-\lambda_jr}}{r^4},\\
+  \mathcal I_j'''&=\frac{(\lambda_j^3r^3+6\lambda_jr)\cosh\lambda_jr-(3\lambda_j^2r^2+6)\sinh\lambda_jr}{r^4}.
+\end{align*}
+For a vortical term with radial kernel $g\in\{\mathcal K_j,\mathcal I_j\}$, the radial amplitudes are
+$\mathcal U=g''-\lambda_j^2g$, $\mathcal V=\lambda_j^2g-g'/r$, $\mathcal U'=g'''-\lambda_j^2g'$, and
+$\mathcal V'=\lambda_j^2g'-g''/r+g'/r^2$, with $\mathcal P=0$. For the potential terms, using the pressure coefficients
+$c_j$ of \cref{eq:pressures},
+\begin{align*}
+  \be:&\quad \mathcal U=1,\ \mathcal V=-1,\ \mathcal P=c_j\,r,\\
+  \nabla(\be\cdot\nabla r^{-1}):&\quad \mathcal U=2r^{-3},\ \mathcal V=r^{-3},\ \mathcal P=-c_j\,r^{-2}.
+\end{align*}
+The rigid-body part $\be$ of \cref{eq:field_shell} carries the inertial pressure $i\Wo^2\be\cdot\bx$, so its amplitudes
+at $r=1$ are $\mathcal U=1$, $\mathcal V=-1$, $\mathcal S_{rr}=-i\Wo^2$, and $\mathcal S_{r\theta}=0$. Denoting the shell
+field minus its rigid-body part by a tilde and evaluating shell tractions with $\mu_s/\mu$, the core conditions
+\cref{eq:bc_core} at $r=\kappa$ read
+\begin{equation*}
+  \tilde{\mathcal U}^{(2)}=0,\qquad \tilde{\mathcal V}^{(2)}-\frac{\hat\ell_c}{\mu_s/\mu}\,\tilde{\mathcal S}^{(2)}_{r\theta}=0,
+\end{equation*}
+and the shell conditions \cref{eq:bc_shell} at $r=1$ become
+\begin{equation*}
+  \mathcal U^{(1)}=\mathcal U^{(2)},\qquad \mathcal V^{(1)}=\mathcal V^{(2)},\qquad
+  \mathcal S^{(1)}_{rr}=\mathcal S^{(2)}_{rr},\qquad
+  \mathcal S^{(2)}_{r\theta}-\mathcal S^{(1)}_{r\theta}=\beta_s\alpha_s\bigl(\mathcal V^{(1)}+1\bigr).
+\end{equation*}
+These six equations form a linear system for $(B,C,E_1,E_2,G_1,G_2)$ with right-hand sides proportional to $U$, $U_p$,
+and $w_0$. Solving the system for the three unit inputs yields the columns of $\bm s_U$ and $\mathsf S_{\rm inc}$, and
+\cref{eq:force_amplitudes} yields $Z_U$, $Z_p$, and $Z_w$. To prevent numerical overflow when $|\lambda_s|$ or $|\lambda|$
+is large, the kernels are evaluated in the rescaled forms $\mathcal K_s(r)e^{\lambda_s\kappa}$, $\mathcal I_s(r)e^{-\lambda_s}$,
+$\mathcal K_f(r)e^{\lambda}$, and $\mathcal I_f(r)e^{-\lambda}$, with the exponential scale factors removed from the
+solution coefficients afterwards. For a homogeneous porous particle ($\kappa=0$, $\beta_s=0$, $\mu_s=\mu$, $\Wo\to0$), the
+solver reproduces the Debye--Bueche--Brinkman drag ratio
+$\Omega=2\alpha_s^2(1-\alpha_s^{-1}\tanh\alpha_s)/[2\alpha_s^2+3(1-\alpha_s^{-1}\tanh\alpha_s)]$ (\cref{tab:validation}).
+
+\section{Interface system in Fourier space}\label{app:interface}
+This appendix specifies the six scalar rows of the Fourier-space interface system \cref{eq:interface_system}. For a
+plane mode proportional to $e^{i\bk\cdot\bx_\parallel+sz}$ with vertical decay exponent $s$, Fourier velocity amplitude
+$\hat\bu=(\hat u_x,\hat u_y,\hat u_z)$, and Fourier pressure amplitude $\hat p$, the Newtonian stress components at $z=0$
+in a medium of dimensionless viscosity $\mu_j$ are
+\begin{equation*}
+  \hat\sigma_{xz}=\mu_j\left(s\hat u_x+ik_x\hat u_z\right),\quad
+  \hat\sigma_{yz}=\mu_j\left(s\hat u_y+ik_y\hat u_z\right),\quad
+  \hat\sigma_{zz}=-\hat p+2\mu_js\hat u_z .
+\end{equation*}
+The potential mode has $\hat\bu=(ik_x,ik_y,s)$ and $\hat p=c_j$, with $s=-k$ for the reflected branch and $s=k$ for the
+transmitted branch. The poloidal vortical mode has $\hat\bu=(ik_xs,ik_ys,k^2)$ and the toroidal vortical mode has
+$\hat\bu=(ik_y,-ik_x,0)$, both with $\hat p=0$ and with $s=-q$ (reflected) or $s=q_p$ (transmitted). Labelling the
+incident, reflected, and transmitted amplitudes with superscripts inc, $R$, and $T$, respectively, the six interface
+conditions \cref{eq:bc_plane} at $z=0$ read
+\begin{align*}
+  &\hat\bu^{R}-\hat\bu^{T}=-\hat\bu^{\rm inc}\quad(3\ \text{rows}),\qquad
+  \hat\sigma^{R}_{zz}-\hat\sigma^{T}_{zz}=-\hat\sigma^{\rm inc}_{zz},\\
+  &\hat\sigma^{T}_{\tau z}-\hat\sigma^{R}_{\tau z}-\beta_p\alpha_p\hat u^{R}_\tau
+   =\hat\sigma^{\rm inc}_{\tau z}+\beta_p\alpha_p\hat u^{\rm inc}_\tau\quad(\tau=x,y).
+\end{align*}
+Before solving, the columns of $\mathsf A$ are normalised to unit Euclidean norm to remove the $O(k)$ degeneracy of the
+mode vectors as $k\to0$. In the rigid-wall limit, the system reduces to the three no-slip rows $\hat\bu^R=-\hat\bu^{\rm inc}$.
+
+\section{Asymptotic limits}\label{app:asymptotics}
+This appendix derives the two high-frequency limits used in the body: the inviscid image added mass
+\cref{eq:inviscid} near a rigid wall and the transparency law \cref{eq:transparency} near a permeable layer. For the inviscid image, as $\Wo\to\infty$ at fixed $h$, \cref{eq:rigid_BC,eq:rigid_Z} give $B\to\tfrac12$ and
+$Z_p\to2\pi\lambda^2$, while the scattered vortical field $C\,\mathcal K_f\propto e^{-\lambda(r-1)}$ and the vortical
+field reflected at $z=0$ are confined to Stokes layers of thickness $O(|\lambda|^{-1})$ around the sphere and the wall,
+so that their contribution at $\bx_0$ is $O(e^{-|\lambda|h})$. The no-penetration condition at $z=0$ reflects the
+potential dipole $B\nabla(\be\cdot\nabla r^{-1})$ into a mirror dipole at $-h\be_z$: the normal velocity of the image
+must cancel that of the source on $z=0$, which requires the opposite sign for $\be=\be_z$ and the same sign for
+$\be=\be_x$. At the distance $2h$ the image induces the velocity $U_p=-B/(4h^3)$ for $\be=\be_z$, from the on-axis
+gradient $2/(2h)^3$ of $\be_z\cdot\nabla r^{-1}$, and $U_p=-B/(8h^3)$ for $\be=\be_x$, from the transverse value
+$-1/(2h)^3$. With $F_{\rm int}=Z_pU_p$, $\lambda^2=-i\Wo^2$ and \cref{eq:observables}, $\operatorname{Im}\hat F_{\rm
+int}=\pi\Wo^2/(4h^3)$ and $\pi\Wo^2/(8h^3)$, which give \cref{eq:inviscid}.
+
+For the transparency law, let $\mu_p=\mu$, $\beta_p=0$ and $\Wo\gg\alpha_p\gg1$. The reflected vorticity at $\bx_0$ is
+again exponentially small, so $F_{\rm int}\approx Z_pU_p$ with $U_p$ produced by the reflected potential mode. For
+wavenumbers $k=O(h^{-1})\ll\Wo$ the viscous stresses of the potential modes are smaller than their pressures by
+$O(k/\Wo^2)$, so the normal-velocity and normal-stress conditions \cref{eq:bc_plane} reduce, for an incident potential
+mode of unit amplitude at $z=0$, to $1-R_\Phi=T_\Phi$ and $c_1(1+R_\Phi)=c_3T_\Phi$, with the pressure coefficients of
+\cref{eq:pressures}. Hence
+\begin{equation*}
+  R_\Phi=\frac{c_3-c_1}{c_3+c_1}=\frac{-\alpha_p^2}{2i\Wo^2-\alpha_p^2}
+  =\frac{i\alpha_p^2}{2\Wo^2}+\frac{\alpha_p^4}{4\Wo^4}+O\Bigl(\frac{\alpha_p^6}{\Wo^6}\Bigr),
+\end{equation*}
+independent of $k$ at this order, so that the image is the rigid-wall image multiplied by $R_\Phi$ and
+$U_p=-R_\Phi\,B\,\mathcal G/h^3$, with the geometric factor $\mathcal G=\tfrac14$ (normal) or $\tfrac18$ (parallel) found above. Expanding
+\cref{eq:rigid_BC,eq:rigid_Z} for large $|\lambda|$ gives
+$Z_pB=\pi\lambda^2(1+6/\lambda+15/\lambda^2+\dots)$, and with $\lambda=e^{-i\pi/4}\Wo$,
+\begin{equation*}
+  Z_pB=-i\pi\Wo^2\Bigl[1+\frac{3\sqrt2(1+i)}{\Wo}+O(\Wo^{-2})\Bigr].
+\end{equation*}
+Writing $R_\Phi=i\Gamma_1+\Gamma_2$ with $\Gamma_1=\alpha_p^2/(2\Wo^2)$ and $\Gamma_2=\alpha_p^4/(4\Wo^4)$, and $\eta=3\sqrt2/\Wo$, the interaction
+force is
+\begin{equation*}
+  F_{\rm int}=-\frac{\mathcal G}{h^3}R_\Phi Z_pB
+  =\frac{i\pi\Wo^2\mathcal G}{h^3}\,(i\Gamma_1+\Gamma_2)(1+\eta+i\eta)+\dots,
+\end{equation*}
+whose imaginary part, which sets the sign of $m_{\rm int}$, is
+$\operatorname{Im}F_{\rm int}=(\pi\Wo^2\mathcal G/h^3)\,[\,\Gamma_2(1+\eta)-\Gamma_1\eta\,]$. The positive term $\Gamma_2$ is the inviscid image weakened by
+the factor $\alpha_p^4/(4\Wo^4)$; the negative term $\Gamma_1\eta$ couples the Darcy part $\Gamma_1$ of the reflection with the
+boundary-layer phase $\eta$ of the particle response. Their balance at leading order, $\Gamma_2=\Gamma_1\eta$, gives
+$\alpha_p^4/(4\Wo^4)=3\sqrt2\,\alpha_p^2/(2\Wo^3)$, i.e. \cref{eq:transparency}. Since $\mathcal G/h^3$ multiplies both terms,
+the crossover is independent of the gap and of the direction of oscillation at this order; the omitted terms change it by
+relative amounts $O(\alpha_p^{-2})$ and $O(\Wo^{-1})$. The real part, $\operatorname{Re}F_{\rm int}\approx
+-(\pi\Wo^2\mathcal G/h^3)\,\Gamma_1$, is the Darcy damping of the image. The steps were checked symbolically and against the full
+interface system in \texttt{notes/checks/check15\_transparency\_asymptotics.py}.
