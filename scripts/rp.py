@@ -331,6 +331,17 @@ def cmd_lint(a):
     block("Very long sentences (>50 words)", r["long_sentences"])
     block("Labels never referenced", r["unreferenced_labels"])
     block("Figure citation order", r["figure_order"])
+    sc = texscan.style_check(texscan.collect(p.root))
+    block("House style: titled paragraphs or bold lead-ins (fold into running prose)", sc["paragraph_titles"])
+    block("House style: italic/bold in the text", sc["emphasis"])
+    block("House style: remark/lemma/proposition/definition environments (discuss in prose; heavy maths to an appendix)",
+          sc["theorem_envs"])
+    block("House style: citation wording ('Ref. [n]', 'in [n]'; write 'studied by Author et al. [n]')",
+          sc["citation_wording"])
+    block("House style: mixed cross-reference or citation styles", sc["crossref_mix"])
+    block("House style: acronyms not spelled out at first use", sc["acronyms"])
+    block("House style: section openers that announce contents", sc["roadmap_openers"])
+    block("House style: short paragraphs (<60 words; merge into fuller paragraphs)", sc["short_paragraphs"])
     block("\\finding blocks", [f"{'cited' if f['cited_in_paragraph'] else 'NO CITATION in paragraph'}: "
                                f"{f['text'][:100]}" for f in r["findings"]])
 

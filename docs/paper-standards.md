@@ -20,7 +20,7 @@ The paper is judged as applied mathematics: the analysis must be complete and ch
   symmetries and reciprocity of the problem, and gives physically admissible quantities (for example dissipation
   cannot be negative).
 - **Main text vs appendix:** the Analysis section keeps the logic, the key intermediate results and the final results
-  (stated as propositions or with numbered equations). Any derivation longer than about half a column, routine
+  (stated in the text with numbered equations, never as propositions; see §6). Any derivation longer than about half a column, routine
   algebra, coefficient lists, matrix entries and convergence studies go to an appendix, **in full detail with every
   step**, and the main text points to it ("the coefficients are given in \cref{app:coeffs}"). An appendix is not a
   dumping ground: it has its own short introduction and the same notation.
@@ -91,3 +91,46 @@ The schematic shows the physical configuration, not the mathematics:
   equations), governing equations, solution-method elements, or result values. Those belong in the text.
 - Symbols identical to those in the text; minimal words; same fonts and colours as the other figures; scaled so that
   labels are legible at column width.
+
+## 6. House writing style (the author's rules — apply everywhere except the Introduction guide points)
+
+- **Section openings:** open each section with a strong paragraph that states the scientific question the section
+  answers, why it matters at this point of the argument, and what is at stake physically. Never list or announce the
+  section's contents ("In this section we first …, then …", "This section is organised as …", "The rest of …").
+  Also, the paper has no "organisation of the paper" paragraph outside the Introduction guide points.
+- **Every symbol defined at its first appearance**: all symbols, including familiar ones (p for pressure, t for time,
+  ρ, μ, the imaginary unit i, Re/Im, ∇, the differential d), in the sentence where the symbol first appears, with its
+  meaning (and units if dimensional). A notation table supplements this; it does not replace it.
+- **Acronyms:** spell out every acronym at its first use in the main text, with the acronym in parentheses ("atomic
+  force microscopy (AFM)"), even if the abstract already did; afterwards use only the acronym. Avoid acronyms that are
+  used only once or twice.
+- **Citing literature as a writer, not as a catalogue:** never write "Ref. [12]", "Refs. [3,4]", "in [12]", "see [12]",
+  and never use a citation as the subject of a sentence ("[12] showed"). Name the authors: "as shown by Faltas et
+  al. [12]", "studied by Ochoa-Tapia and Whitaker [7]", "following the formulation of Brinkman [3]", "consistent with
+  the measurements of Smith et al. [9]". Use "et al." for three or more authors, both names for two. For general
+  support, place the citation at the end of the claim ("… decays as Ω² [4,5]."). Take author names from
+  references.bib, never from memory. Write "et al." in roman type.
+- **One citation and cross-reference style throughout:** one citation command (for example `\cite` in REVTeX; not a
+  mix with `\onlinecite`), one cross-reference command for figures, equations, sections and tables (for example
+  `\cref` everywhere, or `\eqref` for every equation — not both), and the same printed forms ("Fig."/"Figs.",
+  "Eq."/"Eqs.", "Sec.", "Table") everywhere.
+- **No titled paragraphs, no paragraph-by-paragraph fragmentation:** no `\paragraph{…}` headings, no bold or italic
+  lead-in phrases, no one-idea micro-paragraphs. Plan how to carry the reader through the information and write one
+  or two substantial paragraphs per subsection topic, each with a clear progression (the observation, its evidence,
+  the mechanism, the consequence), linked by transitions rather than by headings.
+- **No bold or italic in the running text** (including "et al." and emphasis of key words); emphasis comes from
+  sentence construction. Upright and italic type in mathematics follow mathematical convention as usual. The blue
+  `\finding{}` highlight is the only exception, and it is removed for submission.
+- **No remark, lemma, proposition, theorem, corollary, definition or assumption environments, and no such labels in
+  the text.** Say what is needed directly:
+  - a definition becomes a sentence that introduces the quantity where it is first needed;
+  - assumptions become a short sequence of sentences (or one paragraph) stating each assumption and why it holds;
+  - a result that the flow needs is stated in the text with its numbered equation and its physical meaning, and its
+    derivation or proof goes to an appendix, referred to from the text ("the derivation is given in Appendix B");
+  - a side result, special case or technical point that interrupts the flow (heavy mathematics, new symbols used
+    nowhere else) moves to an appendix, with a one-sentence statement of the consequence in the body; content that
+    serves the discussion (a physical interpretation, a limit, an implication) is woven into the body text.
+  Remove the theorem-environment definitions from the preamble once nothing uses them.
+
+`python3 scripts/rp.py lint <slug>` reports violations of these rules ("House style" sections); the symbol rule is
+checked against `rp.py symbols`, one symbol at a time.

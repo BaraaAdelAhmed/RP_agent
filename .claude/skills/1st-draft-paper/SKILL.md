@@ -1,6 +1,6 @@
 ---
 name: 1st-draft-paper
-description: Turn a structured LaTeX paper (made with the research-paper skill) into a polished first draft. A line-by-line audit of every symbol, term, equation, claim and figure (physical validity first), layout fixes for equations and tables that overflow columns or margins; a narrative pass over the Problem Formulation, Analysis and Results; a language pass towards scientific-paper register; merging to 6-7 sections; results discussed by main point, with new physical insights backed by well-established references and highlighted in blue. Use when the user asks for a first draft, a polish, or a language/consistency revision of a paper in papers/.
+description: Turn a structured LaTeX paper (made with the research-paper skill) into a polished first draft. A line-by-line audit of every symbol, term, equation, claim and figure (physical validity first), layout fixes for equations and tables that overflow columns or margins; a narrative pass over the Problem Formulation, Analysis and Results; a language pass towards scientific-paper register; merging to 6-7 sections; results discussed by main point in flowing prose (house style: no theorem-like environments, no titled paragraphs, no bold/italic, author-named citations, every symbol and acronym defined at first use), with new physical insights backed by well-established references and highlighted in blue. Use when the user asks for a first draft, a polish, or a language/consistency revision of a paper in papers/.
 ---
 
 # 1st draft paper
@@ -30,7 +30,8 @@ Everything from the research-paper skill (`python3 scripts/rp.py ...`: `status`,
 | `rp.py render <slug> [--pages a-b] [--figures]` | PNGs of PDF pages or of each figure, to inspect with the Read tool |
 
 `docs/paper-standards.md` (mathematics, equation and table typesetting, figure validity and quality, the schematic)
-is part of these instructions: read it before Pass 1.
+is part of these instructions: read it before Pass 1. Its §6 holds the author's house writing style; those rules
+override any general habit, including the ones below.
 
 The scanners find candidates; they do not judge. Read every flagged line yourself (the sentence scanner, for
 example, also counts table rows and captions).
@@ -70,7 +71,11 @@ undefined; **major**: breaks the reader's flow; **minor**: wording):
    that supports it. Flag unsupported claims and claims stronger than the evidence.
 6. **Referencing**: equations referenced never or too often; figures cited after they appear, or never discussed;
    figure captions that are not self-contained; axes without variables or units.
-7. **Language**: banned phrases, textbook tone, stacked short sentences, overlong sentences, inconsistent tense.
+7. **Language and house style** (standards §6, `rp.py lint`): banned phrases, textbook tone, stacked short
+   sentences, overlong sentences, inconsistent tense; section openings that list contents; acronyms not spelled out;
+   "Ref. [n]"-style citations and mixed citation or cross-reference styles; bold/italic in the text; titled or
+   fragmented paragraphs; and every remark/lemma/proposition/definition/assumption environment with its proposed
+   destination (sentence in the body, discussion in the body, or appendix).
 8. **Restructuring plan** to **6–7 main sections** (Introduction through Conclusion; appendices do not count): a
    table old section/subsection → new section/subsection, merging short ones (see `lint`) and anything too thin to
    stand alone. Give each new heading a title that suits the paper.
@@ -97,15 +102,24 @@ approve or adjust the plan. Only when they explicitly approve, run `rp.py approv
 ## Pass 2 — Structure, narrative and definitions
 - Apply the approved restructuring. Keep `main.tex`, labels, `\cref`s and the outline consistent; move labels with
   their content, never renumber by hand.
-- Define every symbol at its first use, in the sentence that introduces it, with its physical meaning (and units for
-  dimensional quantities). Define each physical term the first time it is used. If the paper has many symbols, keep a
+- Define every symbol at its first appearance, in the sentence where it appears, with its physical meaning (and units
+  for dimensional quantities). This means every symbol, including familiar ones such as p, t, ρ, μ, i, Re, ∇ and d:
+  go through the `rp.py symbols` list one symbol at a time. Define each physical term and spell out each acronym the
+  first time it is used in the main text. If the paper has many symbols, keep a
   compact notation table in the Problem Formulation. Use one symbol per quantity and one meaning per symbol everywhere.
-- Build the narrative of the core sections: every section opens by saying what it does and why it is needed after the
-  previous one, and closes with what the reader now has. Introduce each important equation by its purpose and follow
+- Build the narrative of the core sections: every section opens with a strong paragraph on the question it answers
+  and why it matters at this point, never with a list of what the section contains, and closes with what the reader
+  now knows. Introduce each important equation by its purpose and follow
   it with its interpretation. Remove repetition; move derivations that interrupt the story to an appendix.
 - Fix the critical items from the audit.
 - Bring the analysis to the standard of `docs/paper-standards.md` §1: add the missing steps and justifications; move
   long derivations to an appendix and write them there in full, every step shown, with a pointer from the main text.
+- Remove every remark, lemma, proposition, theorem, corollary, definition and assumption environment and label
+  (standards §6): fold definitions and assumptions into sentences; state the results the flow needs in the text with
+  their equations and move their derivations or proofs to an appendix; move technical side material that brings
+  extra symbols or heavy mathematics to an appendix with a one-sentence consequence in the body; weave interpretive
+  content (limits, physical meaning, implications) into the discussion. Decide the destination of each environment
+  in the audit (Pass 1) and list it in the restructuring plan.
 - Split equation blocks that hold several separate ideas into individual `equation` environments, each introduced by
   its own sentence; keep `subequations` only for one coupled system (§2).
 
@@ -133,15 +147,21 @@ approve or adjust the plan. Only when they explicitly approve, run `rp.py approv
   referenced at least once; leave unnumbered any equation that is never referenced.
 - **Figure references:** cite each figure where its evidence enters the argument, before the float appears, with the
   panel ("\cref{fig:spectra}(b)"). Every figure is discussed in the text, not just cited.
+- **Citations:** cite as a writer: "as shown by Faltas et al. [12]", "studied by Ochoa-Tapia and Whitaker [7]",
+  never "Ref. [12]", "in [12]" or a citation as the subject; names from references.bib. One citation command and
+  one cross-reference style throughout (standards §6).
+- **Typography:** no bold or italic in the running text (not even "et al."), no `\paragraph` headings.
 - **Claims:** calibrated hedging ("suggests" for indirect evidence, "shows" for direct); "novel" or "first" only where
   the novelty report supports it.
-- Finish with `rp.py lint`: no banned phrases, 6–7 main sections, no unreferenced labels you have not justified.
+- Finish with `rp.py lint`: no banned phrases, 6–7 main sections, no unreferenced labels you have not justified, and
+  every "House style" list empty (or each remaining item justified to the author).
 
-## Pass 4 — Results and discussion by main point; findings in blue
-- Organise the Results and Discussion into its **main points**, each a paragraph (or a short group of paragraphs)
-  that opens with a **bold lead-in sentence stating the point**, then gives the evidence (figure/table/equation),
-  the mechanism in terms of the analysis, and the implication. Write it as prose, not bullet lists. Keep the list of
-  main points in `notes/key_findings.md`.
+## Pass 4 — Results and discussion: main points in flowing prose; findings in blue
+- Identify the **main points** of the Results and Discussion and list them in `notes/key_findings.md`. Then plan how
+  to deliver them: for each subsection, decide the order in which the reader needs the information and write it as
+  one or two substantial paragraphs that carry the reader from the observation (with its figure, table or
+  equation) to the mechanism in terms of the analysis and on to the implication, with transitions instead of
+  headings. No bold or italic lead-ins, no titled paragraphs, no bullet lists, no string of short paragraphs.
 - **New physical insight:** when a result goes beyond the known physics, first confirm it is real (consistent with
   the limits, converged, not an artefact). Then find support in the literature with `rp.py search` and web search:
   prefer seminal, highly cited, well-established works (classic papers, standard monographs, major reviews) that

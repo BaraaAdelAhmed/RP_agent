@@ -308,3 +308,102 @@ def overfull_from_log(log: str, min_pt: float = 1.0) -> list[str]:
             elif stack:
                 stack.pop()
     return issues
+
+
+# ------------------------------------------------------------------ house-style checks (author's writing rules)
+
+THEOREM_ENVS = r"remark|lemma|proposition|theorem|corollary|definition|assumption|claim|conjecture|example"
+ROADMAP_PHRASES = ["in this section", "this section", "in what follows", "in the following", "we first", "we then",
+                   "we begin by", "we start by", "is organised", "is organized", "the rest of", "the remainder of",
+                   "we present", "we describe", "we derive", "we discuss", "will be", "below we", "next, we"]
+NOT_ACRONYMS = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII", "OK", "TODO", "PDF", "LHS",
+                "RHS", "MHz", "GHz", "kHz", "MPa", "GPa", "kPa", "DC", "AC"}
+
+
+def style_check(lines: list[TexLine]) -> dict:
+    r = {"paragraph_titles": [], "emphasis": [], "theorem_envs": [], "citation_wording": [], "crossref_mix": [],
+         "acronyms": [], "roadmap_openers": [], "short_paragraphs": []}
+    body = [tl for tl in lines if not tl.in_display]
+
+    for tl in lines:
+        loc = f"{tl.file}:{tl.lineno}"
+        if re.search(r"\\paragraph\*?\{", tl.text):
+            r["paragraph_titles"].append(f"{loc}: {tl.text.strip()[:80]}")
+        m = re.search(r"\\begin\{(" + THEOREM_ENVS + r")\}", tl.text)
+        if m:
+            r["theorem_envs"].append(f"{loc}: {m.group(1)}")
+    for tl in body:
+        loc = f"{tl.file}:{tl.lineno}"
+        if "introduction.tex" in tl.file or "abstract.tex" in tl.file:
+            continue  # guide points
+        for em in re.findall(r"\\(?:textbf|textit|emph|textsl|underline)\{[^}]{0,40}|\{\\(?:bf|it|em|sl)\s[^}]{0,40}", tl.text):
+            r["emphasis"].append(f"{loc}: {em}")
+        if re.match(r"\s*\\textbf\{", tl.text):
+            r["paragraph_titles"].append(f"{loc}: bold lead-in")
+        low = tl.text
+        for pat, why in ((r"\bRefs?\.?\s*~?\\(?:online)?cite", "'Ref. [n]'"),
+                         (r"\b[Rr]eferences?\s*~?\\(?:online)?cite", "'reference [n]'"),
+                         (r"\b(?:in|In|see|See|of|from)\s*~?\\(?:online)?cite", "citation used as a noun ('in [n]')"),
+                         (r"(?:^|[.!?]\s+)\\(?:online)?cite", "sentence starts with a citation"),
+                         (r"\\(?:online)?cite[pt]?\{[^}]*\}\s+(?:showed|found|studied|reported|proposed|derived|obtained|considered)",
+                          "citation used as the subject")):
+            if re.search(pat, low):
+                r["citation_wording"].append(f"{loc}: {why}: {tl.text.strip()[:90]}")
+
+    text = "\n".join(tl.text for tl in body)
+    # Mixed cross-reference styles.
+    mix = {
+        "\\cref/\\Cref": len(re.findall(r"\\[cC]ref\{", text)),
+        "\\ref": len(re.findall(r"(?<![a-zA-Z])\\ref\{", text)),
+        "\\eqref": len(re.findall(r"\\eqref\{", text)),
+        "literal 'Fig.'": len(re.findall(r"\bFig\.\s*~?\\ref", text)),
+        "literal 'Figure'": len(re.findall(r"\bFigure\s*~?\\ref", text)),
+        "literal 'Eq.'": len(re.findall(r"\bEqs?\.\s*~?(?:\\ref|\\eqref|\()", text)),
+        "literal 'Equation'": len(re.findall(r"\bEquations?\s*~?(?:\\ref|\\eqref|\()", text)),
+        "literal 'Section'/'Sec.'": len(re.findall(r"\b(?:Section|Sec\.)\s*~?\\ref", text)),
+    }
+    used = {k: v for k, v in mix.items() if v}
+    if len([k for k in used if k.startswith("\\")]) > 1 or len([k for k in used if k.startswith("literal")]) > 0:
+        r["crossref_mix"].append("; ".join(f"{k}: {v}" for k, v in used.items()))
+    cite_cmds = {c: len(re.findall(r"\\" + c + r"\{", text)) for c in ("cite", "citep", "citet", "citealp", "onlinecite")}
+    if len([c for c, n in cite_cmds.items() if n]) > 1:
+        r["crossref_mix"].append("citation commands mixed: " + ", ".join(f"\\{c}: {n}" for c, n in cite_cmds.items() if n))
+
+    # Acronyms: first use in the body (abstract excluded) must spell them out.
+    seen: dict[str, str] = {}
+    for tl in body:
+        if "abstract.tex" in tl.file:
+            continue
+        clean = re.sub(r"\\[A-Za-z]+\*?(\[[^\]]*\])?(\{[^}]*\})?", " ", tl.text)
+        clean = re.sub(r"\$[^$]*\$", " ", clean)
+        for m in re.finditer(r"\b([A-Z][A-Z0-9]{1,}[a-z]?)s?\b", clean):
+            acr = m.group(1)
+            if acr in NOT_ACRONYMS or acr in seen:
+                continue
+            defined = f"({acr})" in clean or f"({acr}s)" in clean
+            seen[acr] = f"{tl.file}:{tl.lineno}"
+            if not defined:
+                r["acronyms"].append(f"{acr}: first used at {tl.file}:{tl.lineno} without being spelled out there")
+
+    # Section openers that announce contents instead of opening the topic.
+    lines_list = list(lines)
+    for i, tl in enumerate(lines_list):
+        if re.search(r"\\section\*?\{", tl.text) and "introduction" not in tl.text.lower():
+            opener = " ".join(x.text for x in lines_list[i + 1:i + 8] if not x.in_display).lower()
+            first = re.split(r"(?<=[.!?])\s", opener.strip(), maxsplit=2)[:2]
+            hits = [p for p in ROADMAP_PHRASES if p in " ".join(first)]
+            if hits:
+                r["roadmap_openers"].append(f"{tl.file}:{tl.lineno} '{tl.text.strip()[:50]}': opens with {hits}")
+
+    # Short paragraphs (merge candidates) outside the guide-point sections.
+    para, start = [], None
+    for tl in lines_list + [TexLine("", 0, "", False)]:
+        if tl.text.strip() == "" or re.match(r"\s*\\(?:sub)*section|\\begin\{(?:figure|table)", tl.text):
+            words = len(_words(" ".join(x.text for x in para if not x.in_display)))
+            if para and 0 < words < 60 and not any(s in para[0].file for s in ("introduction", "abstract", "main.tex")) \
+                    and not re.match(r"\s*\\(?:end|caption|label|includegraphics|centering)", para[0].text):
+                r["short_paragraphs"].append(f"{para[0].file}:{para[0].lineno}: {words} words")
+            para = []
+        else:
+            para.append(tl)
+    return r

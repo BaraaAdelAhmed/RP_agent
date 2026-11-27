@@ -110,14 +110,15 @@ How much to write in each section:
   stage 2, the gap, the contributions (the bullets from the novelty report), and the paper's organisation. The
   authors write this section themselves.
 - **Problem Formulation** (the most important section — write it IN FULL, as a finished section of the paper):
-  the system or data model with every symbol defined at first use; a notation paragraph or table; numbered,
-  justified assumptions; the governing equations in equation/align environments with `\label{}`; the objective and
+  the system or data model with every symbol defined at first use; a notation paragraph or table; the
+  assumptions stated in prose, each with its justification (no assumption environments); the governing equations in equation/align environments with `\label{}`; the objective and
   constraints, stated formally (for example as an optimisation problem in a `subequations` block, an estimation
   or detection problem, a game, a learning objective, or whatever the field uses); a short discussion of why the
   problem is hard (non-convexity, coupling, scale, missing information) leading into the approach. Cite the models you
   borrow. The rigour should be that of a top journal in the field.
-- **Analysis** (write IN FULL): the proposed approach and its theory. Derivations step by step; results stated as
-  Lemma/Proposition/Theorem (amsthm) with proofs, or proof sketches with the key steps when a full proof is long; the
+- **Analysis** (write IN FULL): the proposed approach and its theory. Derivations step by step; results stated in the
+  text with numbered equations and their meaning (no lemma/proposition/theorem/remark/definition environments, see
+  `docs/paper-standards.md` §6), with proofs or long derivations in an appendix; the
   algorithm in an algorithm/algorithmic environment; complexity and convergence analysis; special cases and limiting
   regimes that yield insight. Every result must follow from the formulation; check the mathematics carefully.
   Meet the applied-mathematics standard in `docs/paper-standards.md` §1: complete enough for a referee to reproduce.
@@ -138,7 +139,7 @@ How much to write in each section:
   model; save each under `figures/` and run it from the project folder, installing numpy/matplotlib with pip if
   needed) or (b) data the author supplied. Ask the author before running long simulations. When an experiment needs
   resources you do not have, insert `\figplaceholder{...}` or table cells with `\TODO{...}` that say exactly what to
-  run and plot, and phrase the discussion as the expected behaviour ("we expect ... because Proposition 2 ..."),
+  run and plot, and phrase the discussion as the expected behaviour ("we expect ... because the decay in Eq. (12) ..."),
   clearly marked with `\TODO` for the authors to confirm.
 - **Conclusion:** guide bullets (summary of contributions, key quantitative takeaways, limitations, future work).
 
@@ -150,15 +151,17 @@ References:
 
 LaTeX conventions:
 - Default to `\documentclass[11pt]{article}` with 1in margins; use IEEEtran, elsarticle, llncs, etc. when the author
-  names a venue. Packages: amsmath, amssymb, amsthm, bm, mathtools, graphicx, booktabs, multirow, algorithm,
+  names a venue. Packages: amsmath, amssymb, bm, mathtools, graphicx, booktabs, multirow, algorithm,
   algpseudocode, xcolor, hyperref, cleveref, natbib or cite as the class requires.
 - Define these in main.tex:
   ```latex
   \newcommand{\TODO}[1]{\textcolor{red}{[TODO: #1]}}
   \newcommand{\figplaceholder}[1]{\fbox{\parbox[c][0.28\textwidth][c]{0.9\linewidth}{\centering\small #1}}}
   ```
-  plus amsthm environments (theorem, lemma, proposition, corollary, definition, assumption, remark).
-- Use `\label`/`\cref` consistently (eq:, fig:, tab:, sec:, alg:, thm:). Use `\bm` for vectors and matrices, and the
+- Follow the house writing style of `docs/paper-standards.md` §6 in every fully written section: section openings
+  that do not list contents, every symbol and acronym defined at first use, author-named citations ("studied by
+  Faltas et al. [12]", never "Ref. [12]"), no bold/italic or titled paragraphs, no theorem-like environments.
+- Use `\label`/`\cref` consistently (eq:, fig:, tab:, sec:, app:). Use `\bm` for vectors and matrices, and the
   same symbols in every section.
 - The project must compile. Escape special characters; make sure every `\input` file exists and every figure either
   exists or uses `\figplaceholder`.
