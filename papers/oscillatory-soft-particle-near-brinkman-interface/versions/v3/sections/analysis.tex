@@ -1,0 +1,262 @@
+\section{Solution Method}\label{sec:analysis}
+
+To bridge the incompatible spherical and planar geometries without resorting to a single separable coordinate system, we
+formulate a hybrid semi-analytical scheme that treats each boundary in its natural representation. The scattering
+response of the core--shell particle is resolved exactly in spherical harmonics, the reflection of the scattered
+disturbance at the flat Brinkman interface is evaluated exactly in two-dimensional Fourier space, and the two domains are
+coupled self-consistently through the dipolar moments of the flow, which alone determine the net hydrodynamic force on a
+spherically symmetric particle. Throughout this section, all quantities are expressed in the dimensionless units
+introduced in \cref{sec:nondim}, so that the outer particle radius is $b=1$, and we abbreviate the dimensionless fluid
+screening parameter as $\lambda\equiv\lambda_fb$.
+
+\subsection{Exact response of the core--shell particle}\label{sec:sphere}
+Taking the divergence of the dimensionless form of \cref{eq:governing} and applying incompressibility
+($\nabla\cdot\bu^{(j)}=0$) shows that the pressure is harmonic in every domain, $\nabla^2p^{(j)}=0$. Furthermore, in the
+shell (domain~2), the inhomogeneous Darcy forcing $\alpha_s^2\be$ is balanced by a rigid-body translation
+$\bu_{\rm rig}=\be$ accompanied by the inertial pressure gradient $\nabla(i\Wo^2\be\cdot\bx)$, where $\bx$ is the
+position vector. Defining the complex pressure coefficients $c_1=i\Wo^2$, $c_2=i\Wo^2-\alpha_s^2$, and
+$c_3=i\Wo^2-\alpha_p^2$, all of which are non-zero for any $\Wo>0$, we can express the pressure in each domain through a
+harmonic scalar potential $\Phi^{(j)}$ (satisfying $\nabla^2\Phi^{(j)}=0$) as
+\begin{equation}
+  p^{(1)}=c_1\Phi^{(1)},\qquad p^{(2)}=i\Wo^2\,\be\cdot\bx+c_2\Phi^{(2)},\qquad p^{(3)}=c_3\Phi^{(3)}.
+  \label{eq:pressures}
+\end{equation}
+Subtracting the rigid-body velocity $\bu_{\rm rig}$ (equal to $\be$ in domain~2 and $\bm 0$ elsewhere) and the potential
+velocity $\nabla\Phi^{(j)}$ from the total velocity leaves a remainder $\bm w^{(j)}=\bu^{(j)}-\bu_{\rm rig}-\nabla\Phi^{(j)}$.
+Because $\nabla^2\nabla\Phi^{(j)}=\bm 0$, the pressure gradients cancel identically in \cref{eq:governing}, and
+$\bm w^{(j)}$ satisfies both $\nabla\cdot\bm w^{(j)}=0$ and the homogeneous vector Helmholtz equation
+$(\nabla^2-\lambda_j^2)\bm w^{(j)}=\bm 0$. Thus, the velocity in each domain naturally decomposes into a rigid part, an
+irrotational pressure-carrying potential part, and a pressure-free vortical part: $\bu=\bu_{\rm rig}+\nabla\Phi+\bm w$.
+Because the core--shell particle is spherically symmetric, its hydrodynamic response preserves each spherical-harmonic
+sector of degree $l$ about $\bx_0$. When an incident unsteady Stokes flow $\bu_{\rm inc}=\nabla\Phi_{\rm inc}+\bm w_{\rm
+inc}$ (regular in a ball containing the particle, with potential part $\Phi_{\rm inc}$ and vortical part $\bm w_{\rm inc}$)
+is expanded in spherical harmonics about $\bx_0$, the net hydrodynamic force---being the dipolar moment of the surface
+traction---receives contributions exclusively from the $l=1$ poloidal sector, since the $l=1$ toroidal mode represents
+rigid rotation (generating a torque but no net force) and all regular modes of order $l\ge2$ vanish at $\bx_0$ as
+$O(r^{l-1})$. Because $\nabla^2\nabla\Phi_{\rm inc}=\bm 0$ whereas $\nabla^2\bm w_{\rm inc}=\lambda^2\bm w_{\rm inc}$, the
+$l=1$ potential and vortical amplitudes are independent and are uniquely fixed by the incident centre values,
+\begin{equation}
+  U_p=\be\cdot\nabla\Phi_{\rm inc}(\bx_0),\qquad w_0=\be\cdot\bm w_{\rm inc}(\bx_0).
+  \label{eq:centre_values}
+\end{equation}
+
+In spherical coordinates centred at $\bx_0$ with polar angle $\theta$ measured from $\be$ via
+$\cos\theta=\be\cdot(\bx-\bx_0)/r$ and local radial and polar unit vectors $\be_r$ and $\be_\theta$, the axisymmetric
+dipolar ($l=1$) harmonic potential is spanned by the regular solid harmonic $\be\cdot(\bx-\bx_0)$ (giving a uniform flow
+$\be$) and the decaying dipole $\be\cdot\nabla r^{-1}$ (giving the potential dipole $\nabla(\be\cdot\nabla r^{-1})$,
+whose radial and polar components are $u_r=2r^{-3}\cos\theta$ and $u_\theta=r^{-3}\sin\theta$). Likewise, separating the
+scalar Helmholtz equation $(\nabla^2-\lambda_j^2)g=0$ for spherically symmetric radial kernels $g(r)$ yields two
+linearly independent modified spherical Bessel functions of order zero: the decaying kernel $\mathcal K_j(r)=e^{-\lambda_jr}/r$
+and the regular kernel $\mathcal I_j(r)=(\sinh\lambda_jr)/r$ for $j\in\{f,s\}$. Applying the double-curl operator to
+$\be g$ generates the axisymmetric $l=1$ poloidal solenoidal vortical fields; using the vector identity
+$\curl\curl(\be g)=\nabla(\nabla\cdot(\be g))-\nabla^2(\be g)=\nabla(\be\cdot\nabla g)-\lambda_j^2\be g$, their radial and
+polar velocity components take the form
+\begin{equation}
+  u_r=\left(g''-\lambda_j^2g\right)\cos\theta,\qquad u_\theta=\left(\lambda_j^2g-\frac{g'}{r}\right)\sin\theta,
+  \label{eq:vort_radial}
+\end{equation}
+where primes denote differentiation with respect to $r$. In the exterior fluid, the total dipolar field is the sum of the
+regular incident flow from the layer and the decaying disturbance scattered by the particle, whereas in the bounded
+annular shell $a<r<b$ (which contains neither $r=0$ nor $r=\infty$) both regular and decaying modes are retained:
+\begin{subequations}\label{eq:fields}
+\begin{align}
+  \bu^{(1)}&=U_p\,\be+D\,\curl\curl(\be\,\mathcal I_f)
+  +B\,\nabla\!\left(\be\cdot\nabla\tfrac1r\right)+C\,\curl\curl(\be\,\mathcal K_f),
+  \label{eq:field_ext}\\
+  \bu^{(2)}&=\be+E_1\be+E_2\,\nabla\!\left(\be\cdot\nabla\tfrac1r\right)
+  +G_1\,\curl\curl(\be\,\mathcal I_s)+G_2\,\curl\curl(\be\,\mathcal K_s),
+  \label{eq:field_shell}
+\end{align}
+\end{subequations}
+where $D$ is the regular incident vortical amplitude, $B$ and $C$ are the scattered potential and vortical dipole
+strengths, and $E_1$, $E_2$, $G_1$, and $G_2$ are the unknown shell amplitudes. Substituting the small-$r$ expansion
+$\mathcal I_f(r)=\lambda+\lambda^3r^2/6+O(r^4)$ into \cref{eq:vort_radial} and evaluating at $r=0$ relates $D$ directly to
+the centre value in \cref{eq:centre_values} via $w_0=-\tfrac23\lambda^3D$. Writing $u_r=\mathcal U(r)\cos\theta$,
+$u_\theta=\mathcal V(r)\sin\theta$, and $p=\mathcal P(r)\cos\theta$ defines the radial amplitudes $\mathcal U$, $\mathcal V$,
+and $\mathcal P$, from which the radial and tangential traction amplitudes follow from the Newtonian constitutive relation
+as $\mathcal S_{rr}=-\mathcal P+2\mu_j\,\mathcal U'$ and
+$\mathcal S_{r\theta}=\mu_j(\mathcal V'-\mathcal V/r-\mathcal U/r)$, with $\mu_j$ expressed in units of $\mu$. Projecting
+the axisymmetric exterior surface traction $\bsig^{(1)}\cdot\bn=\mathcal S^{(1)}_{rr}\cos\theta\,\be_r+\mathcal
+S^{(1)}_{r\theta}\sin\theta\,\be_\theta$ onto $\be=\cos\theta\,\be_r-\sin\theta\,\be_\theta$ and integrating over the unit
+sphere $r=1$ yields the dimensionless hydrodynamic force
+\begin{equation}
+  F=\frac{4\pi}{3}\left[\mathcal S^{(1)}_{rr}(1)-2\,\mathcal S^{(1)}_{r\theta}(1)\right].
+  \label{eq:force_amplitudes}
+\end{equation}
+Enforcing the two core conditions \eqref{eq:bc_core} at $r=\kappa$ and the four shell conditions \eqref{eq:bc_shell} at
+$r=1$ yields a $6\times6$ linear system for the coefficients $B$, $C$, $E_1$, $E_2$, $G_1$ and $G_2$, driven by $U$,
+$U_p$, and $w_0$, as assembled in \cref{app:sphere}. For a homogeneous porous sphere ($\kappa=0$), regularity at $r=0$
+eliminates $E_2$, $G_2$, and the core conditions; for an impermeable sphere ($\kappa=1$), the two slip conditions on
+$r=1$ directly determine $B$ and $C$. Because the boundary-value problem is linear and the force depends on the incident
+flow solely through \cref{eq:centre_values}, the scattered dipoles and force are linear combinations of $U$, $U_p$, and
+$w_0$,
+\begin{equation}
+  \begin{pmatrix}B\\ C\end{pmatrix}=\bm s_U\,U+\mathsf S_{\rm inc}\begin{pmatrix}U_p\\ w_0\end{pmatrix},
+  \qquad
+  F=Z_U\,U+\bm z_{\rm inc}^{\mathsf T}\begin{pmatrix}U_p\\ w_0\end{pmatrix},
+  \label{eq:response}
+\end{equation}
+where the scattering vector $\bm s_U$, the $2\times2$ scattering matrix $\mathsf S_{\rm inc}$, the unbounded impedance
+$Z_U$ (satisfying $F_\infty=Z_UU$), and the incident force-response vector $\bm z_{\rm inc}=(Z_p,Z_w)^{\mathsf T}$ depend
+only on $\Wo$ and the particle parameters $(\kappa,\alpha_s,\beta_s,\hat\ell_c,\mu_s/\mu)$.
+
+In the impermeable no-slip limit ($\kappa=1$ and $\hat\ell_c=0$), imposing $u_r=\cos\theta$ and $u_\theta=-\sin\theta$ at
+$r=1$ on \cref{eq:field_ext} with $U_p=w_0=0$ yields two linear equations whose solution, together with
+\cref{eq:force_amplitudes}, gives closed-form expressions that anchor the validation in \cref{sec:validation}:
+\begin{equation}
+  B=\frac{3+3\lambda+\lambda^2}{2\lambda^2}\,U,\qquad C=-\frac{3e^{\lambda}}{2\lambda^2}\,U,\qquad
+  Z_U=-6\pi\Bigl(1+\lambda+\frac{\lambda^2}{9}\Bigr),
+  \label{eq:rigid_BC}
+\end{equation}
+\begin{equation}
+  Z_p=6\pi\Bigl(1+\lambda+\frac{\lambda^2}{3}\Bigr),\qquad Z_w=6\pi e^{\lambda}.
+  \label{eq:rigid_Z}
+\end{equation}
+The incident-flow coefficients in \cref{eq:rigid_Z} can also be verified directly from the generalised unsteady Faxén
+theorem of Mazur and Bedeaux~\cite{mazur1974generalization} by evaluating the surface and volume averages of the uniform
+potential field and the modified-Helmholtz vortical field over the unit sphere. These closed forms recover both classical
+limits: as $\lambda\to0$, the $O(\lambda^{-2})$ parts of $B$ and $C$ combine into the steady Stokeslet while
+$B+C\to-\tfrac14$ recovers the steady Stokes dipole; as $|\lambda|\to\infty$, $B\to\tfrac12$ gives the inviscid potential
+dipole while the vortical field $C\,\mathcal K_f\propto e^{-\lambda(r-1)}$ is confined to a boundary layer of thickness
+$O(|\lambda|^{-1})$ around the sphere. The term $\tfrac13\lambda^2$ in $Z_p$ includes the Froude--Krylov contribution
+$6\pi\cdot\tfrac29\lambda^2$ exerted by the pressure gradient accelerating the incident flow.
+
+\subsection{Fourier reflection at the Brinkman interface}\label{sec:reflection}
+Because the fluid--porous interface at $z=0$ is translationally invariant in the horizontal plane $\bx_\parallel=(x,y)$, it
+is natural to represent any field $f(\bx)$ through its two-dimensional Fourier transform $\hat f(\bk,z)$ via
+$f(\bx)=\int\hat f(\bk,z)\,e^{i\bk\cdot\bx_\parallel}\,\dd^2k/(2\pi)^2$, where $\bk=(k_x,k_y)$ is the horizontal
+wavevector and $k=|\bk|$ is its magnitude. In Fourier space, the horizontal gradient maps to $i\bk$, so the spherical
+decaying kernels centred at $\bx_0=(0,0,h)$ can be expanded into plane modes travelling towards the interface ($z<h$)
+using the Weyl-type identities $\widehat{1/r}=(2\pi/k)\,e^{k(z-h)}$ and $\widehat{\mathcal K_f}=(2\pi/q)\,e^{q(z-h)}$,
+where $q=\sqrt{k^2+\lambda^2}$ (principal branch with $\operatorname{Re}q>0$) is the vertical vortical decay rate in the
+clear fluid. Applying the Fourier-space differential operators to the scattered potential and vortical dipoles in
+\cref{eq:field_ext} yields their incident plane-wave amplitudes,
+\begin{subequations}\label{eq:incident_fourier}
+\begin{align}
+  \widehat{\nabla\Phi}_{\rm sc}&=B\,\bm g_k\,(\bm g_k\cdot\be)\,\frac{2\pi}{k}\,e^{k(z-h)},\\
+  \widehat{\bm w}_{\rm sc}&=C\left[\bm g_q(\bm g_q\cdot\be)-\lambda^2\be\right]\frac{2\pi}{q}\,e^{q(z-h)},
+\end{align}
+\end{subequations}
+where $\bm g_k=(ik_x,ik_y,k)$ and $\bm g_q=(ik_x,ik_y,q)$. By the potential--vortical decomposition established in
+\cref{sec:sphere}, a general solenoidal solution of the unsteady Stokes or Brinkman equations at wavevector $\bk$ is
+spanned by three independent modes: an irrotational potential mode, a poloidal solenoidal vortical mode, and a toroidal
+solenoidal vortical mode. Requiring all disturbances to decay away from the interface selects the reflected basis
+$\{\nabla e^{-kz},\curl\curl(\be_ze^{-qz}),\curl(\be_ze^{-qz})\}$ in $z>0$ with amplitudes
+$(R_\Phi,R_{\rm pol},R_{\rm tor})$, and the transmitted basis
+$\{\nabla e^{kz},\curl\curl(\be_ze^{q_pz}),\curl(\be_ze^{q_pz})\}$ in $z<0$ with amplitudes
+$(T_\Phi,T_{\rm pol},T_{\rm tor})$, where $q_p=\sqrt{k^2+\lambda_p^2}$ ($\operatorname{Re}q_p>0$) is the vertical vortical
+decay rate in the substrate and every mode carries the horizontal factor $e^{i\bk\cdot\bx_\parallel}$. Enforcing the six
+scalar interface conditions \eqref{eq:bc_plane} at $z=0$ yields a $6\times6$ linear system at each wavevector,
+\begin{equation}
+  \mathsf A(\bk;\Wo,\alpha_p,\beta_p,\mu_p/\mu)\,\bm x(\bk)=\bm r(\bk),
+  \label{eq:interface_system}
+\end{equation}
+where $\mathsf A$ is the interface coefficient matrix,
+$\bm x(\bk)=(R_\Phi,R_{\rm pol},R_{\rm tor},T_\Phi,T_{\rm pol},T_{\rm tor})^{\mathsf T}$ is the vector of mode amplitudes,
+and $\bm r(\bk)$ contains the incident velocity and traction amplitudes of \cref{eq:incident_fourier} evaluated at $z=0$,
+as detailed in \cref{app:interface}. Denoting by $R^{(n)}_\Phi$, $R^{(n)}_{\rm pol}$, and $R^{(n)}_{\rm tor}$ the reflected
+amplitudes produced by a unit source of type $n\in\{1,2\}$---with $n=1$ for the potential dipole ($B=1$, $C=0$) and $n=2$
+for the vortical dipole ($B=0$, $C=1$)---we evaluate the inverse Fourier transform of the reflected potential and
+vortical velocities at the particle centre $\bx_0=(0,0,h)$ (where $e^{i\bk\cdot\bx_\parallel}=1$) and project onto $\be$.
+This expresses the centre values \eqref{eq:centre_values} linearly in terms of the scattered dipoles through the
+$2\times2$ reflection matrix $\bM$,
+\begin{equation}
+  \begin{pmatrix}U_p\\ w_0\end{pmatrix}=\bM\begin{pmatrix}B\\ C\end{pmatrix},\qquad
+  \bM=\int\!\frac{\dd^2k}{(2\pi)^2}
+  \begin{pmatrix}
+    \be\cdot\bm g_k^-\,R^{(1)}_\Phi\,e^{-kh} & \be\cdot\bm g_k^-\,R^{(2)}_\Phi\,e^{-kh}\\[2pt]
+    \be\cdot\bm v^{(1)}\,e^{-qh} & \be\cdot\bm v^{(2)}\,e^{-qh}
+  \end{pmatrix},
+  \label{eq:reflection_matrix}
+\end{equation}
+where $\bm v^{(n)}=R^{(n)}_{\rm pol}\bm p_q^-+R^{(n)}_{\rm tor}\bm t$ is the reflected vortical velocity amplitude, with
+$\bm g_k^-=(ik_x,ik_y,-k)$, $\bm p_q^-=(-iqk_x,-iqk_y,k^2)$, and $\bm t=(ik_y,-ik_x,0)$. Because $\bM$ depends solely on
+the substrate properties, the height $h$, and the frequency $\Wo$, a single evaluation of $\bM$ serves all particle
+structures in a parametric sweep.
+
+The Fourier-space reflection system \eqref{eq:interface_system} reproduces both limiting behaviours of the substrate
+directly. When $\mu_p=\mu$, $\beta_p=0$, and $\alpha_p=0$, the transmitted basis modes coincide with the incident modes and
+the tangential stress jump vanishes, so zero reflection satisfies \cref{eq:interface_system} and uniqueness yields
+$\bM=\mathsf 0$ and $F_{\rm int}=0$. Conversely, in the impermeable limit $\alpha_p\to\infty$, both $q_p\sim\alpha_p$ and
+$c_3\sim-\alpha_p^2$ diverge; maintaining bounded tractions across $z=0$ forces the transmitted velocities to vanish as
+$O(\alpha_p^{-1})$, so the interface conditions reduce to the rigid-wall no-slip condition $\hat\bu^{(1)}(\bk,0)=\bm 0$
+and $\bM$ approaches the rigid-wall reflection matrix. Numerically, for both normal ($\be=\be_z$) and parallel
+($\be=\be_x$) oscillation, the integrand of \cref{eq:reflection_matrix} is a trigonometric polynomial of degree at most
+two in the polar angle of $\bk$, so the angular integration is exact using $N_\theta=8$ equally spaced nodes. Because the
+integrand decays at least as $e^{-2kh}$, the radial wavenumber integral is truncated at $kh=50$ and evaluated using
+composite 64-point Gauss--Legendre panels with panel breaks placed near $k\sim|\lambda|$ and $k\sim|\lambda_p|$ and
+geometric grading towards $k=0$, giving a total of $N_k\approx2000$ radial nodes; doubling either $N_\theta$ or $N_k$
+changes $\bM$ by less than $10^{-13}$ relative (\cref{app:checks}).
+
+\subsection{Self-consistent dipolar closure and limiting regimes}\label{sec:closure}
+Substituting the reflected centre values \eqref{eq:reflection_matrix} into the particle scattering and force relations
+\eqref{eq:response} eliminates $(U_p,w_0)$ and closes the coupled fluid--particle--substrate problem self-consistently
+within the dipolar sector:
+\begin{equation}
+  \left(\mathsf I-\mathsf S_{\rm inc}\bM\right)\begin{pmatrix}B\\ C\end{pmatrix}=\bm s_U\,U,
+  \qquad
+  F_{\rm int}=\bm z_{\rm inc}^{\mathsf T}\bM\left(\mathsf I-\mathsf S_{\rm inc}\bM\right)^{-1}\bm s_U\,U,
+  \label{eq:closure}
+\end{equation}
+where $\mathsf I$ is the $2\times2$ identity matrix. Whenever the spectral radius of the round-trip operator
+$\mathsf S_{\rm inc}\bM$ is strictly less than unity, the matrix inverse in \cref{eq:closure} admits the convergent Neumann
+series $\sum_{n\ge0}\bm z_{\rm inc}^{\mathsf T}\bM(\mathsf S_{\rm inc}\bM)^n\bm s_U\,U$, in which the $n$th term
+represents the $(n+1)$th reflection of the unsteady method of reflections formulated by Simha et
+al.~\cite{simha2018unsteady}, restricted to the $l=1$ sector: each factor $\bM$ reflects the current dipoles at the
+substrate, and each factor $\mathsf S_{\rm inc}$ computes the particle's dipolar response to the reflected flow. This
+convergence condition holds across the entire parameter space of the present study, with the spectral radius of
+$\mathsf S_{\rm inc}\bM$ remaining below $0.50$ at $\varepsilon=1$ and reaching only $0.69$ at $\varepsilon=0.25$
+(\cref{app:checks}). The series representation also clarifies the sole approximation of the method: while every order of
+dipolar reflection is summed exactly, the $l\ge2$ multipole components of the reflected flow are neglected. Although
+these higher multipoles exert no direct force on a spherically symmetric particle, the particle's higher-order scattered
+response to them would be reflected back by the interface. In the steady rigid-wall limit for an impermeable sphere, the
+closure therefore agrees with the classical reflection series through $O(x^3)$, where $x=b/h$ is the radius-to-height
+ratio, and differs from it by terms of size $O(x^4)$; the resulting error is quantified against exact solutions in
+\cref{sec:validation} and \cref{app:checks}. The complete numerical procedure is summarised in \cref{alg:force}. One
+evaluation of $\bM$ requires approximately $1.6\times10^4$ solutions of the $6\times6$ interface system
+\eqref{eq:interface_system}, taking about $0.05$\,s in vectorised form on a single laptop core, while the particle
+response costs $O(1)$. Crossover Womersley numbers are located by bracketing the sign changes of $\hat\chi_{\rm int}$ on a
+logarithmic grid of 70 values of $\Wo$ and refining each root using Brent's method.
+
+\begin{center}\begin{minipage}{\linewidth}\small
+\hrule\smallskip
+\refstepcounter{algorithm}\label{alg:force}%
+\noindent Algorithm \thealgorithm. Interaction force on an oscillating core--shell particle near a Brinkman layer
+\smallskip\hrule\smallskip
+\begin{algorithmic}[1]
+\Require $\Wo,\varepsilon,\be$; particle $(\kappa,\alpha_s,\beta_s,\hat\ell_c,\mu_s/\mu)$; layer $(\alpha_p,\beta_p,\mu_p/\mu)$
+\State Solve the particle system (\cref{app:sphere}) for unit $U$, $U_p$, $w_0$ $\to$ $\bm s_U,\mathsf S_{\rm inc},Z_U,\bm z_{\rm inc}$
+\For{each quadrature node $\bk$} \Comment{independent of the particle; vectorised}
+  \State Solve \cref{eq:interface_system} for $(B,C)=(1,0)$ and $(0,1)$
+  \State Accumulate the reflected centre velocities into $\bM$
+\EndFor
+\State Solve \cref{eq:closure} for $(B,C)$; evaluate $F_{\rm int}$ and $F=Z_UU+F_{\rm int}$
+\State \Return $\hat\gamma_{\rm int}$, $\hat\chi_{\rm int}$, $m_{\rm int}/m_f$ and $\phi$ from \cref{eq:observables}
+\end{algorithmic}
+\smallskip\hrule
+\end{minipage}\end{center}
+
+The dipolar closure recovers the expected asymptotic behaviour at both ends of the frequency spectrum. In the
+high-frequency inviscid limit ($\Wo\to\infty$ at fixed $h$) for an impermeable no-slip sphere near a rigid wall,
+\cref{eq:rigid_BC,eq:rigid_Z} give $B\to\tfrac12$ and $Z_p\to2\pi\lambda^2$, while both the scattered and reflected
+vortical fields are confined to Stokes boundary layers of thickness $O(|\lambda|^{-1})$ around the sphere and the wall,
+making their contribution at $\bx_0$ exponentially small in $|\lambda|h$. The no-penetration condition on $z=0$ then
+reflects the potential dipole into a mirror image at $-h\be_z$ of opposite sign for normal oscillation ($\be=\be_z$) and
+equal sign for parallel oscillation ($\be=\be_x$), which induces a reflected potential velocity $U_p=-B/(4h^3)$ or
+$U_p=-B/(8h^3)$, respectively, at the sphere centre (distance $2h$). Combining $F_{\rm int}=Z_pU_p$ with
+$\lambda^2=-i\Wo^2$ and \cref{eq:observables} yields the leading inviscid image added-mass corrections to the unbounded
+added-mass coefficient $\tfrac12$:
+\begin{equation}
+  \frac{m_{\rm int}}{m_f}\to\frac{3}{16}\frac{b^3}{h^3}\ \ (\be=\be_z),\qquad
+  \frac{m_{\rm int}}{m_f}\to\frac{3}{32}\frac{b^3}{h^3}\ \ (\be=\be_x).
+  \label{eq:inviscid}
+\end{equation}
+At the opposite, low-frequency limit ($\Wo\to0$), the closure reduces to the steady translation of a slip or porous sphere
+near a Brinkman interface with stress jump, as studied for normal motion by Faltas et al.~\cite{faltas2021axisymmetric}.
+Because direct numerical evaluation at $\Wo\lesssim10^{-3}$ suffers from catastrophic cancellation between the
+$O(\lambda^{-2})$ terms of $B$ and $C$ in \cref{eq:rigid_BC}, we extract steady values via Richardson extrapolation from
+$\Wo=0.01$ and $0.02$, which eliminates the leading $O(\lambda)$ unsteady correction. Finally, for a permeable substrate
+with $\mu_p=\mu$ and a small stress jump, \cref{eq:lambdas_nd} shows that $\lambda_p\to\lambda_f$ whenever
+$\Wo\gg\alpha_p$; by the transparent-interface limit established in \cref{sec:reflection}, the reflection matrix vanishes
+and the substrate becomes hydrodynamically transparent, giving rise to the high-frequency transparency regime analysed in
+\cref{sec:rigid}.

@@ -111,8 +111,9 @@ $\alpha_p^4/(4\Wo^4)=3\sqrt2\,\alpha_p^2/(2\Wo^3)$, yields the closed-form trans
   \label{eq:transparency}
 \end{equation}
 which matches the numerical prefactor $0.116$ to within $2\%$ and, because the geometric factor $h^{-3}$ and directional
-image prefactor cancel identically, explains why $\Wo_c^{\downarrow}$ is independent of the gap $\varepsilon$ and
-identical for normal and parallel oscillation.} In dimensional form, \cref{eq:transparency} corresponds to
+image prefactor cancel identically, explains why $\Wo_c^{\downarrow}$ is independent of the gap $\varepsilon$ and,
+at leading order, identical for normal and parallel oscillation; the computed crossovers approach the law from below,
+reaching $98.5\%$ (normal) and $99.3\%$ (parallel) of it at $\alpha_p=35$.} In dimensional form, \cref{eq:transparency} corresponds to
 $\omega\approx\mu b^2/(72\rho k_p^2)$, extending to a finite particle the high-frequency transparency of an unsteady
 Brinkman wall~\cite{sherwood2020unsteady}.
 
@@ -134,8 +135,16 @@ inviscid added-mass parts of the unsteady force~\cite{mazur1974generalization,ma
 the vortical contribution is weaker relative to the potential image and no split occurs. Taken together, the two
 crossovers offer a non-contact, gap-independent measure of substrate permeability: a frequency sweep at fixed
 $\varepsilon$ yields $\Wo_c^{\uparrow}$ (sensitive for $\alpha_p\lesssim30$) and $\Wo_c^{\downarrow}$ from
-\cref{eq:transparency}, which requires no knowledge of the gap. For a probe of radius $b=10\,\mu$m in water near a
-hydrated airway mucus layer (whose typical mesh pore sizes of 100--500\,nm correspond to $\sqrt{k_p}\sim0.1$--$0.5\,\mu$m),
-$\alpha_p=20$ ($\sqrt{k_p}=0.5\,\mu$m) gives $\Wo_c^{\downarrow}\approx46$ ($f\approx3.4$\,MHz), well within the range of
-ultrasonic and acoustofluidic excitation; for the much denser endothelial glycocalyx (where $\sqrt{k_p}$ is typically
-2--3\,nm), achieving comparable $\alpha_p$ requires nanometric probes and correspondingly higher frequencies.
+\cref{eq:transparency}, which requires no knowledge of the gap. Which crossovers are accessible depends on the ratio of probe size to pore size. Median pore sizes of
+110--930\,nm have been measured in fresh cystic-fibrosis sputum by Duncan et al.~\cite{duncan2016microstructural}, and
+earlier estimates gave 60--300\,nm~\cite{suk2009penetration}. Because the Darcy screening length of a fibrous hydrogel is typically
+smaller than its mesh size \TODO{supporting reference needed}, these values bound $\sqrt{k_p}$ from above, so that a probe of radius $b=10\,\mu$m sees
+$\alpha_p\gtrsim10$--$100$ in such a layer. At the permeable end, $\alpha_p=20$ ($\sqrt{k_p}=0.5\,\mu$m) gives
+$\Wo_c^{\downarrow}\approx46$ ($f\approx3.4$\,MHz), within the range of ultrasonic and acoustofluidic excitation, whereas
+the lower crossover $\Wo_c^{\uparrow}\approx3$ lies at about 15\,kHz, within the range of colloidal-probe AFM. For a less
+permeable layer the upper crossover moves quadratically to higher frequency and soon becomes inaccessible, and the
+lower crossover alone carries the permeability signature. The endothelial glycocalyx is much denser
+\TODO{citation needed: Darcy permeability of the endothelial glycocalyx, $\sqrt{k_p}$ of a few nanometres}, so for
+micrometre-sized cells and probes $\alpha_p\gtrsim10^3$ and the glycocalyx acts hydrodynamically as an almost rigid
+wall; comparable values of $\alpha_p$ require nanometric particles, for which $\Wo\ll1$ at accessible frequencies and the
+low-frequency memory removal of \cref{sec:spectra} is the relevant signature.

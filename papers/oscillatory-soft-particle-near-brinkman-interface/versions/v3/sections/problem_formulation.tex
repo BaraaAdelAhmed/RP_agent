@@ -1,0 +1,206 @@
+\section{Problem Formulation}\label{sec:formulation}
+
+When a soft particle oscillates near a permeable layer, its hydrodynamic force is controlled by the interplay of
+competing length scales: the viscous penetration depth of the oscillating fluid, the Darcy screening lengths of the
+shell and the substrate, and the particle--wall clearance. Capturing how this interplay reshapes both dissipation and
+inertia requires a unified unsteady Stokes--Brinkman description that resolves momentum exchange across every
+fluid--porous interface.
+
+\subsection{Geometry, kinematics and assumptions}\label{sec:geometry}
+We introduce a Cartesian coordinate system $(x,y,z)$ with origin $O$ on a flat fluid--porous interface $z=0$ and
+associated unit vectors $(\be_x,\be_y,\be_z)$, as illustrated in \cref{fig:schematic}. A spherical core--shell particle of
+outer radius $b$ and concentric impermeable core of radius $a=\kappa b$ is suspended in the upper half-space $z>0$ with
+its centre located at $\bx_0=h\be_z$ at a height $h>b$ above the interface, leaving a dimensionless clearance
+$\varepsilon=(h-b)/b$. The core-to-outer radius ratio $0\le\kappa\le1$ spans the homogeneous porous sphere ($\kappa=0$)
+and the impermeable sphere ($\kappa=1$). Using spherical coordinates $(r,\theta,\varphi)$ centred at $\bx_0$, the system
+comprises three domains: an incompressible Newtonian clear fluid of density $\rho$ and dynamic viscosity $\mu$ occupying
+$z>0$ outside the particle (domain~1), a permeable shell in $a<r<b$ (domain~2), and a semi-infinite porous substrate in
+$z<0$ (domain~3) representing a glycocalyx or mucus layer. Both porous regions are saturated with the same fluid and are
+characterised by their Darcy permeabilities, $k_s$ for the shell and $k_p$ for the layer, which measure the ease of flow
+through the pores, and by their Brinkman effective viscosities, $\mu_s$ and $\mu_p$, which govern momentum diffusion
+within each matrix. The particle translates without rotating at velocity $\operatorname{Re}[U\be\,e^{-i\omega t}]$, where
+$t$ is time, $i=\sqrt{-1}$ is the imaginary unit, $\operatorname{Re}[\cdot]$ denotes the real part, $\omega$ is the
+angular frequency, $U$ is the complex velocity amplitude, and the unit vector $\be$ equals $\be_z$ for normal oscillation
+and $\be_x$ for parallel oscillation. Throughout the analysis, every field is written as the real part of a complex
+amplitude multiplied by $e^{-i\omega t}$, and the same symbol is used for a field and its complex amplitude.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.66\linewidth]{figures/fig1_schematic.pdf}
+  \caption{Configuration. A core--shell particle (impermeable core of radius $a=\kappa b$, Brinkman shell of outer
+  radius $b$, permeability $k_s$ and viscosity $\mu_s$) oscillates with velocity $U\be\,e^{-i\omega t}$, normal
+  ($\be=\be_z$) or parallel ($\be=\be_x$) to a semi-infinite porous layer of permeability $k_p$ and Brinkman viscosity
+  $\mu_p$. Its centre lies at height $h$ above the layer surface $z=0$, leaving a gap $\varepsilon b=h-b$.}
+  \label{fig:schematic}
+\end{figure}
+
+The formulation rests on five physical assumptions. First, the oscillation amplitude $|U|/\omega$ is assumed to be
+small compared with both the particle radius $b$ and the gap $h-b$, so that convective inertia is negligible relative
+to unsteady inertia, the boundary conditions apply at the mean particle position, and the problem is linear and
+time-harmonic. Second, the particle is driven in pure translation, as for a colloidal probe attached to an atomic force
+microscopy (AFM) cantilever or a particle in an imposed acoustic field, so that no torque-free rotation is permitted.
+Third, both porous matrices are rigid, with the shell matrix translating with the particle and the layer matrix
+remaining at rest; thus, softness here refers to hydrodynamic permeability, as in soft-particle electrokinetics, rather
+than elastic deformation of an impermeable wall as studied by Batalha et al.~\cite{batalha2026elasto}. Fourth, flow
+within each porous domain obeys the unsteady Brinkman equation with a Darcy drag proportional to the velocity relative
+to the local solid matrix, and tangential momentum transfer across each fluid--porous interface is described by the
+Ochoa-Tapia--Whitaker (OTW) stress-jump condition~\cite{ochoatapia1995momentum}. Finally, the substrate is modelled as a
+semi-infinite half-space, which is appropriate when its physical thickness exceeds both its Brinkman screening length
+$\sqrt{k_p\mu_p/\mu}$ and the particle height $h$.
+
+\subsection{Governing equations and interface conditions}\label{sec:equations}
+Under the linear, rigid-matrix, and Brinkman assumptions introduced above, the complex velocity amplitude $\bu^{(j)}$
+and complex pressure amplitude $p^{(j)}$ in domain $j\in\{1,2,3\}$ satisfy the unsteady Stokes equation in the clear
+fluid and the unsteady Brinkman equations in the shell and substrate, where the Darcy drag $\mu/k$ acts on the velocity
+relative to the local solid matrix:
+\begin{subequations}\label{eq:governing}
+\begin{align}
+  -i\omega\rho\,\bu^{(1)}&=-\nabla p^{(1)}+\mu\nabla^2\bu^{(1)}, \label{eq:stokes}\\
+  -i\omega\rho\,\bu^{(2)}&=-\nabla p^{(2)}+\mu_s\nabla^2\bu^{(2)}-\frac{\mu}{k_s}\left(\bu^{(2)}-U\be\right),\\
+  -i\omega\rho\,\bu^{(3)}&=-\nabla p^{(3)}+\mu_p\nabla^2\bu^{(3)}-\frac{\mu}{k_p}\,\bu^{(3)},
+\end{align}
+\end{subequations}
+together with the incompressibility condition $\nabla\cdot\bu^{(j)}=0$ in each domain, where $\nabla$, $\nabla^2$, and
+$\nabla\cdot$ denote the gradient, Laplacian, and divergence operators, respectively. Taking the curl $\curl$ of
+\cref{eq:governing} shows that the vorticity $\curl\bu^{(j)}$ satisfies $(\nabla^2-\lambda_j^2)\curl\bu^{(j)}=\bm 0$,
+where $\lambda_1=\lambda_f$, $\lambda_2=\lambda_s$, and $\lambda_3=\lambda_p$ are the complex screening parameters
+defined by
+\begin{equation}
+  \lambda_f^2=-\frac{i\omega\rho}{\mu},\qquad
+  \lambda_s^2=\frac{\mu/k_s-i\omega\rho}{\mu_s},\qquad
+  \lambda_p^2=\frac{\mu/k_p-i\omega\rho}{\mu_p},\qquad\operatorname{Re}\lambda_j>0 .
+  \label{eq:lambdas}
+\end{equation}
+In the clear fluid, $\delta_v=1/\operatorname{Re}\lambda_f=\sqrt{2\mu/(\rho\omega)}$ is the viscous penetration depth,
+which sets the distance over which vorticity diffuses during one oscillation period, whereas in the porous media the
+spatial decay of vorticity is governed jointly by Darcy drag and unsteady inertia, whichever is stronger. The hydrodynamic stress tensor in
+domain $j$ is given by $\bsig^{(j)}=-p^{(j)}\bI+\mu_j(\nabla\bu^{(j)}+\nabla\bu^{(j)\mathsf T})$, where $\bI$ is the
+second-order identity tensor, the superscript $\mathsf T$ denotes the transpose, and $\mu_j$ is the effective viscosity
+with $\mu_1=\mu$, $\mu_2=\mu_s$, and $\mu_3=\mu_p$.
+
+The boundary and interface conditions are written using the outward unit normal vector $\bn$ and the tangential
+projection tensor $\bm\Pi=\bI-\bn\bn$. On the impermeable core surface $r=a$, fluid cannot penetrate the core and slips
+tangentially with a Navier slip length $\ell_c$ modelling a hydrophobic surface,
+\begin{equation}
+  \left(\bu^{(2)}-U\be\right)\cdot\bn=0,\qquad
+  \bm\Pi\cdot\left(\bu^{(2)}-U\be\right)=\frac{\ell_c}{\mu_s}\,\bm\Pi\cdot\bsig^{(2)}\cdot\bn .
+  \label{eq:bc_core}
+\end{equation}
+On the outer shell surface $r=b$, the velocity and normal stress are continuous while the tangential stress experiences
+an OTW jump characterised by the dimensionless coefficient $\beta_s$,
+\begin{equation}
+  \bu^{(1)}=\bu^{(2)},\qquad \bn\cdot\bsig^{(1)}\cdot\bn=\bn\cdot\bsig^{(2)}\cdot\bn,\qquad
+  \bm\Pi\cdot\left(\bsig^{(2)}-\bsig^{(1)}\right)\cdot\bn=\frac{\beta_s\mu}{\sqrt{k_s}}\,\bm\Pi\cdot\left(\bu^{(1)}-U\be\right),
+  \label{eq:bc_shell}
+\end{equation}
+which represents momentum exchange with the solid matrix across the thin fluid--porous transition zone and vanishes when
+$\beta_s=0$, as formulated by Ochoa-Tapia and Whitaker~\cite{ochoatapia1995momentum}. For an impermeable particle
+($\kappa=1$), the shell is absent and \cref{eq:bc_shell} is replaced by no penetration and Navier slip of length $\ell_c$
+on $r=b$, recovering the slip sphere considered by Faltas et al.~\cite{faltas2021axisymmetric}. Across the planar
+substrate interface $z=0$, analogous continuity conditions and an OTW stress jump with dimensionless coefficient
+$\beta_p$ are imposed,
+\begin{equation}
+  \bu^{(1)}=\bu^{(3)},\qquad \sigma^{(1)}_{zz}=\sigma^{(3)}_{zz},\qquad
+  \sigma^{(3)}_{\tau z}-\sigma^{(1)}_{\tau z}=\frac{\beta_p\mu}{\sqrt{k_p}}\,u^{(1)}_\tau\quad(\tau=x,y),
+  \label{eq:bc_plane}
+\end{equation}
+where $\sigma^{(j)}_{zz}$ and $\sigma^{(j)}_{\tau z}$ denote the normal and tangential Cartesian components of
+$\bsig^{(j)}$, and $u^{(1)}_\tau$ denotes the tangential Cartesian velocity components of the clear fluid, with all
+disturbances decaying far from the particle in both the fluid and the substrate. This planar interface smoothly recovers
+several classical limits: as $k_p\to0$, the velocity inside the substrate vanishes and \cref{eq:bc_plane} reduces to the
+no-slip condition on a rigid impermeable wall studied by Zhang et al.~\cite{zhang2023unsteady}; conversely, for
+$\mu_p=\mu$, $\beta_p=0$, and $k_p\to\infty$, the substrate becomes indistinguishable from the clear fluid and the
+interface disappears; and in a Darcy-dominated layer, eliminating the porous-side flow yields an effective slip condition
+of the Beavers--Joseph type~\cite{beavers1967boundary} whose slip coefficient depends on $\beta_p$ and $\mu_p/\mu$, as
+discussed by El Sayed et al.~\cite{elsayed2026effect}. Finally, an energy-dissipation balance for the homogeneous problem
+($U=0$), detailed in \cref{app:checks}, guarantees uniqueness of the solution whenever $\beta_s,\beta_p\le0$, whereas
+positive stress-jump coefficients act as interfacial energy sources and can produce unphysical negative steady
+dissipation for sufficiently large positive values (such as $\beta_s=1$ in a homogeneous porous sphere of low
+permeability). We therefore restrict attention to the physically admissible range $\beta_s,\beta_p\le0.5$, within which
+the total hydrodynamic damping is verified to remain strictly positive across all configurations reported in this study
+(\cref{app:checks}).
+
+\subsection{Dimensionless problem, force decomposition and observables}\label{sec:nondim}
+Scaling lengths by $b$, velocities by $U$, stresses by $\mu U/b$, and forces by $\mu bU$ yields the dimensionless groups
+summarised in \cref{tab:groups}. In addition to the geometric and interfacial parameters $\varepsilon$, $\kappa$,
+$\beta_s$, $\beta_p$, $\mu_s/\mu$, $\mu_p/\mu$, and the dimensionless slip length $\hat\ell_c=\ell_c/b$, the dynamics is
+governed by the Womersley number $\Wo=b\sqrt{\rho\omega/\mu}$, which compares the particle radius with the viscous
+penetration depth, and by the dimensionless inverse Darcy screening lengths $\alpha_s=b/\sqrt{k_s}$ and
+$\alpha_p=b/\sqrt{k_p}$ of the shell and the substrate, respectively. In these units, the screening parameters
+\eqref{eq:lambdas} take the dimensionless form
+\begin{equation}
+  \lambda_fb=e^{-i\pi/4}\Wo,\qquad
+  (\lambda_sb)^2=\frac{\alpha_s^2-i\Wo^2}{\mu_s/\mu},\qquad
+  (\lambda_pb)^2=\frac{\alpha_p^2-i\Wo^2}{\mu_p/\mu},
+  \label{eq:lambdas_nd}
+\end{equation}
+which shows that unsteady inertia overtakes Darcy drag in the substrate once $\Wo\gtrsim\alpha_p$ and in the shell once
+$\Wo\gtrsim\alpha_s$.
+
+\begin{table}[t]
+\caption{Dimensionless groups and the ranges relevant to the biological applications.}
+\label{tab:groups}
+\begin{ruledtabular}
+\begin{tabular}{lll}
+Group & Definition & Range \\
+\hline
+Womersley number & $\Wo=b\sqrt{\rho\omega/\mu}$ & $10^{-2}$ (AFM) -- $10^{1}$ (acoustofluidics)\\
+Gap & $\varepsilon=(h-b)/b$ & $1$ -- $5$ (this work)\\
+Core ratio & $\kappa=a/b$ & $0$ -- $1$ ($0.5$--$0.95$ for cells, liposomes)\\
+Shell permeability & $\alpha_s=b/\sqrt{k_s}$ & $1$ -- $50$\\
+Layer permeability & $\alpha_p=b/\sqrt{k_p}$ & $3$ -- $100$ (glycocalyx, mucus)\\
+Stress-jump coefficients & $\beta_s,\ \beta_p$ & $-1$ -- $0.5$ (admissible range, \cref{app:checks})\\
+Slip length & $\hat\ell_c=\ell_c/b$ & $0$ -- $0.5$ (core, or surface of an impermeable sphere)\\
+Viscosity ratios & $\mu_s/\mu,\ \mu_p/\mu$ & $1$ (this work)\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+The total hydrodynamic force $\oint_{r=b}\bsig^{(1)}\cdot\bn\,\dd S$ exerted by the fluid on the particle, where $\dd S$
+is the surface area element, acts strictly along $\be$. For normal oscillation ($\be=\be_z$), axisymmetry about the
+$z$-axis eliminates the transverse force components; for parallel oscillation ($\be=\be_x$), reflection symmetry across
+the $xz$-plane eliminates the $y$-component, while linearity combined with reflection invariance of the geometry across
+the $yz$-plane (which reverses the driving velocity and thus the linear flow field) forces the normal component to vanish
+as well. We denote the complex scalar amplitude of this force by $F$ and decompose it as $F=F_\infty+F_{\rm int}$, where
+$F_\infty$ is the force amplitude in an unbounded fluid and $F_{\rm int}$ is the interaction force induced by the
+substrate. Because the time-harmonic dependence $e^{-i\omega t}$ maps the particle acceleration to $-i\omega U$,
+splitting $F_{\rm int}$ into a dissipative component in phase with the velocity and an inertial component in phase with
+the acceleration yields
+\begin{equation}
+  F_{\rm int}=\left(-\gamma_{\rm int}+i\omega m_{\rm int}\right)U,
+  \label{eq:decomposition}
+\end{equation}
+where $\gamma_{\rm int}$ is the wall-induced damping, measuring the additional energy dissipated due to the layer, and
+$m_{\rm int}$ is the wall-induced added mass, measuring the layer-induced change in the fluid mass effectively
+accelerated with the particle (which may be negative). Introducing the dimensionless force $\hat F=F/(\mu bU)$ and the
+displaced fluid mass $m_f=\tfrac43\pi\rho b^3$, the corresponding dimensionless observables are
+\begin{equation}
+  \hat\gamma_{\rm int}=-\frac{\operatorname{Re}\hat F_{\rm int}}{6\pi},\qquad
+  \hat\chi_{\rm int}=\frac{\operatorname{Im}\hat F_{\rm int}}{6\pi}=\frac{\omega m_{\rm int}}{6\pi\mu b},\qquad
+  \frac{m_{\rm int}}{m_f}=\frac{9}{2}\,\frac{\hat\chi_{\rm int}}{\Wo^2},
+  \label{eq:observables}
+\end{equation}
+where $\operatorname{Im}[\cdot]$ denotes the imaginary part, $\hat\gamma_{\rm int}$ is the dimensionless wall-induced
+damping, and $\hat\chi_{\rm int}$ is the reactive coefficient, which carries the sign of $m_{\rm int}$. We also evaluate
+the phase $\phi=\arg(-F/U)$ of the total hydrodynamic resistance, where $\arg(\cdot)$ denotes the complex argument.
+Under the sign convention of \cref{eq:decomposition}, a positive $m_{\rm int}$ increases the effective inertia; for a
+colloidal probe of effective mass $M^*$ mounted on a spring with unperturbed resonance frequency $\omega_0$ (which scales
+as $(M^*)^{-1/2}$), the resulting small resonance-frequency shift is $\Delta\omega_0/\omega_0\simeq-m_{\rm int}/(2M^*)$,
+so that a transition of $m_{\rm int}$ from negative to positive values with increasing $\Wo$ corresponds to the
+positive-to-negative frequency-shift crossover reported by Zhang et al.~\cite{zhang2023unsteady}. Throughout this work,
+we characterise these sign changes by the crossover Womersley numbers, defined as the roots of $m_{\rm int}(\Wo)=0$ at
+fixed geometry and material parameters: a root is termed upward, denoted $\Wo_c^{\uparrow}$, when $m_{\rm int}$ changes
+from negative to positive as $\Wo$ increases, and downward, denoted $\Wo_c^{\downarrow}$, otherwise, while the single
+upward root for a rigid sphere near a rigid wall is denoted $\Wo_c$.
+
+Computing $F_{\rm int}$, and consequently $\hat\gamma_{\rm int}$, $m_{\rm int}$, $\phi$, and the crossover set across the
+parameter ranges of \cref{tab:groups} for both oscillation directions, presents three mathematical challenges. The
+boundaries possess incompatible symmetries, spherical at $r=a,b$ and planar at $z=0$, so no single coordinate system
+separates the boundary-value problem, and bispherical coordinates cannot accommodate a Brinkman half-space. Furthermore,
+each domain carries its own complex screening parameter in \cref{eq:lambdas}, so the disturbance combines a long-range
+potential component decaying as $r^{-3}$ with a vortical component confined within a distance $|\lambda_f|^{-1}$ of the
+particle, and the porous interface couples the two. Finally, the biological parameter space spans the full transition
+from viscous to inertial flow and from Darcy-dominated to inertia-dominated porous media, preventing any single
+asymptotic expansion from covering all regimes. To overcome these difficulties, \cref{sec:analysis} resolves the
+spherical particle exactly in spherical harmonics and the planar interface exactly in Fourier space, coupling the two
+through the dipolar moments of the flow.
