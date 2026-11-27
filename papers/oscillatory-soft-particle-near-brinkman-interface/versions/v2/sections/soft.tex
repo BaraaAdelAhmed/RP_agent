@@ -1,0 +1,119 @@
+\section{Soft Particles and Biomedical Implications}\label{sec:soft}
+
+We now make the particle permeable and place it near a glycocalyx-like layer ($\alpha_p=20$, $\beta_p=0$,
+$\varepsilon=1$). This section shows how the shell permeability $\alpha_s$ and the core ratio $\kappa$ reshape the interaction. It then
+applies the results to two cell-like particles relevant to acoustofluidic sorting and closes with the limitations of the
+model.
+
+\subsection{Shell permeability and core size}\label{sec:soft_results}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig6_soft.pdf}
+  \caption{Soft core--shell particles near a glycocalyx-like layer ($\alpha_p=20$, $\beta_p=0$, $\varepsilon=1$).
+  (a,b) Damping $\hat\gamma_{\rm int}$ and reactive coefficient $\hat\chi_{\rm int}$ against $\Wo$ for $\kappa=0.7$ and
+  $\alpha_s=2,5,10$, compared with an impermeable sphere (normal oscillation). (c,d) All crossover Womersley numbers
+  against $\alpha_s$ for $\kappa=0,0.5,0.8,0.95$ (circles: upward; triangles: downward); dashed: impermeable sphere.
+  (c) Normal, (d) parallel oscillation.}
+  \label{fig:soft}
+\end{figure*}
+
+\textbf{A permeable shell suppresses the wall-induced damping roughly as the square of the particle's own drag.}
+\Cref{fig:soft}(a) shows that, for $\kappa=0.7$, the steady damping falls from $0.94$ for an impermeable sphere to $0.70$,
+$0.54$ and $0.42$ for $\alpha_s=10$, $5$ and $2$. The minimum near $\Wo\approx3.5$ falls from $0.28$ to $0.07$.
+\finding{The reduction follows from the first reflection (\cref{prop:series}): both the dipole that the particle
+scatters and its response to the reflected flow scale with its drag ratio
+$\Omega=F_\infty/F_\infty^{\rm rigid}$, so that $\gamma_{\rm int}$ scales approximately as $\Omega^2$. In the steady limit
+the computed ratio $\gamma_{\rm int}/\gamma_{\rm int}^{\rm rigid}$ equals $0.58$, $0.74$ and $0.87$ for
+$\alpha_s=5$, $10$ and $20$ ($\kappa=0.7$), against $\Omega^2=0.64$, $0.79$ and $0.89$. The drag ratio itself is the
+Debye--Bueche--Brinkman reduction caused by flow through the
+shell~\cite{brinkman1949calculation,ollila2012hydrodynamic}.} The reactive part [\cref{fig:soft}(b)] keeps its lower
+crossover at $\Wo\approx3$--$4$, whereas its positive maximum drops by a factor of about four.
+
+\textbf{The crossover depends non-monotonically on the particle structure and can disappear.} \Cref{fig:soft}(c,d) maps
+every crossover against $\alpha_s$. Thin shells ($\kappa=0.95$) behave as impermeable spheres, with
+$\Wo_c^{\uparrow}\approx3.18$ (normal) and $0.99$ (parallel) for every $\alpha_s$. Homogeneous porous particles
+($\kappa=0$) have no crossover in normal oscillation for $\alpha_s\le8$, so that their wall-induced added mass is
+negative at all frequencies. For larger $\alpha_s$ the window reappears, with $\Wo_c^{\uparrow}=3.94$ at $\alpha_s=12$
+decreasing towards the impermeable value. Intermediate cores produce the richest behaviour. For $\kappa=0.5$, the normal
+crossover is non-monotonic in $\alpha_s$, peaking at $4.6$ for $\alpha_s=5$. In parallel oscillation the low crossover
+near $\Wo\approx1$ disappears for $\alpha_s\le5$, and the first crossover jumps to $\Wo=3.4$--$4.8$. For $\kappa=0.8$
+and $\alpha_s\le12$, parallel oscillation shows two separate positive windows, for the reason identified in
+\cref{sec:woc}: a permeable particle, like a permeable layer, weakens and delays the potential image relative to the
+vortical contribution. The upper crossover also falls, from
+$46$ for the impermeable sphere to $8$--$20$ for $\kappa=0$ and for $\kappa=0.5$ with $\alpha_s\ge8$. The crossovers
+therefore carry information on the particle as well as on the layer. \TODO{authors: confirm the double parallel windows at finer
+$\alpha_s$ resolution.}
+
+\begin{table}[t]
+\caption{Sensitivity to the slip length and the shell stress jump (normal oscillation, $\varepsilon=1$, $\alpha_p=20$,
+$\beta_p=0$). For the impermeable sphere, $\hat\ell_c$ is the slip length on $r=b$; for the soft particle
+($\kappa=0.7$, $\alpha_s=5$) it is the core slip length.}
+\label{tab:sensitivity}
+\begin{ruledtabular}
+\begin{tabular}{lcccc}
+Case & $\hat\gamma_{\rm int}(\Wo\to0)$ & $\hat\gamma_{\rm int}(\Wo=3)$ & $\hat\chi_{\rm int}(\Wo=3)$ & $\Wo_c^{\uparrow}$\\
+\hline
+Impermeable, $\hat\ell_c=0$ & $0.937$ & $0.281$ & $-0.0051$ & $3.06$\\
+Impermeable, $\hat\ell_c=0.25$ & $0.639$ & $0.152$ & $+0.0018$ & $2.97$\\
+Impermeable, $\hat\ell_c=0.5$ & $0.544$ & $0.125$ & $+0.0104$ & $2.82$\\
+Soft, $\hat\ell_c=0$, $\beta_s=0$ & $0.539$ & $0.097$ & $-0.0228$ & $3.66$\\
+Soft, $\hat\ell_c=0.5$ & $0.495$ & $0.080$ & $-0.0240$ & $3.86$\\
+Soft, $\beta_s=-0.5$ & $0.629$ & $0.125$ & $-0.0318$ & $3.84$\\
+Soft, $\beta_s=0.5$ & $0.374$ & $0.062$ & $-0.0058$ & $3.20$\\
+\end{tabular}
+\end{ruledtabular}
+\end{table}
+
+\textbf{Surface slip matters for impermeable particles; the shell stress jump matters for soft ones.} \Cref{tab:sensitivity}
+quantifies the two interfacial parameters that \cref{fig:soft} holds fixed. On an impermeable sphere, a slip length
+$\hat\ell_c=0.5$ reduces the steady damping by $42\%$ and lowers $\Wo_c^{\uparrow}$ from $3.06$ to $2.82$. On the core of
+a soft particle, the same slip changes the damping by only $8\%$, because most of the relative flow then passes
+through the shell rather than along the core. The shell stress jump has a larger effect: $\beta_s=\pm0.5$ changes the
+steady damping by $-31\%$ and $+17\%$ and moves $\Wo_c^{\uparrow}$ between $3.20$ and $3.84$. A positive $\beta_s$, like a
+positive $\beta_p$, eases the tangential momentum exchange at the porous surface and weakens the interaction.
+
+\textbf{Soft, permeable carriers experience markedly less resistance near a mucus-like layer.} Taken together,
+\cref{fig:soft,tab:sensitivity} show that a permeable shell lowers the near-wall damping by up to a factor of four and can
+remove the positive-added-mass window. These results suggest that soft, PEG-like shells reduce the hydrodynamic
+resistance encountered by carriers driven near mucus~\cite{pangeni2023airway}. The model does not describe transport
+into the mucus itself.
+
+\subsection{Acoustofluidic contrast between cell-like particles}\label{sec:acoustic_results}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig7_acoustic.pdf}
+  \caption{CTC-like ($\kappa=0.9$, $\alpha_s=20$) and leukocyte-like ($\kappa=0.7$, $\alpha_s=5$) particles of equal outer
+  radius near an endothelial-like layer ($\alpha_p=20$, $\beta_p=0$). (a) Phase $\arg(-F_z/U_z)$ of the total resistance
+  against $\Wo$ at $\varepsilon=1$ and $4$ (normal). (b,c) Ratio $|F^{\rm CTC}_{\rm int}|/|F^{\rm WBC}_{\rm int}|$ of the
+  wall-induced force magnitudes in the $(\Wo,\varepsilon)$ plane; white contours mark $1.5$, $2$ and $2.5$. (b) Normal, (c)
+  parallel oscillation.}
+  \label{fig:acoustic}
+\end{figure*}
+
+\textbf{Cell-like particles that differ only in softness differ most in near-wall force at moderate frequency.} As an
+illustration for acoustofluidic sorting~\cite{wu2019acoustofluidic,hossein2023review}, \cref{fig:acoustic} compares a
+stiffer CTC-like particle with a softer leukocyte-like particle of the same outer radius. Their parameters
+(\cref{tab:params}) are representative, not fitted to specific cell lines. The phase of the total resistance
+[\cref{fig:acoustic}(a)] differs by up to $13^\circ$ near $\Wo\approx3$ and by less than $1^\circ$ for $\Wo\lesssim0.3$.
+The wall-induced force of the CTC-like particle is $1.4$ to $2.7$ times larger [\cref{fig:acoustic}(b,c)]. At $\Wo=0.1$ the
+ratio is $1.45$--$1.53$, close to the value $1.40$ predicted by the $\Omega^2$ scaling above from the steady drag ratios
+$0.95$ and $0.80$ of the two particles. The ratio depends mainly on $\Wo$ and only weakly on $\varepsilon$. The interaction,
+however, is a large fraction of the total force only close to the layer and at low frequency: at $\varepsilon=1$,
+$|F_{\rm int}|/|F_\infty|=0.78$ (normal) at $\Wo=0.1$ but $0.04$ at $\Wo=10$. At high $\Wo$ most of the force contrast
+therefore comes from the unbounded resistance itself. These numbers suggest that near-wall sorting by softness is most
+effective at $\Wo=O(1)$, where both the phase contrast and the wall-induced force are appreciable. \TODO{authors:
+couple the force to an acoustic radiation-force model to predict trajectory separation, with device-specific
+parameters.}
+
+\paragraph*{Limitations.}
+The dipolar closure is accurate to $5\%$ in normal and $1.5\%$ in parallel oscillation at $\varepsilon=1$, and to better
+than $1\%$ for $\varepsilon\ge2$ (\cref{sec:validation}). It does not resolve lubrication, so the near-contact regime
+$\varepsilon<1$, relevant to probes in contact with a brush, requires higher multipoles. We expect the crossover locations
+to be less sensitive to this error than the force magnitudes, because the neglected $l\ge2$ terms mainly rescale the
+interaction. \TODO{authors: confirm with a multipole or finite-element computation at $\varepsilon=1$.} The model also
+assumes rigid porous matrices, a layer thick compared with $h$ (\cref{as:thick}), a non-rotating particle
+(\cref{as:norotation}) and Brinkman viscosities equal to $\mu$. Positive stress-jump coefficients act as interfacial energy sources (\cref{rem:energy}), which restricts the
+admissible range to $\beta_s,\beta_p\le0.5$ for the particles considered here. Poroelastic deformation of the glycocalyx~\cite{batalha2026elasto} and a finite layer thickness are expected to
+modify mainly the high-frequency branch, where the flow penetrates the layer.

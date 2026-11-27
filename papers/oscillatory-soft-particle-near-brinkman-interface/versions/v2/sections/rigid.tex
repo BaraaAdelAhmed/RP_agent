@@ -1,0 +1,134 @@
+\section{Impermeable Particle near a Permeable Layer: Spectra, Crossovers and Transparency}\label{sec:rigid}
+
+We first isolate the effect of the layer by keeping the particle impermeable ($\kappa=1$). This section follows the
+interaction force from the steady regime to the inertial regime, and then condenses the spectra into a map of the
+crossover Womersley numbers, which is the quantity accessible to AFM and acoustic measurements.
+
+\subsection{Interaction spectra from the viscous to the inertial regime}\label{sec:spectra}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig3_spectra.pdf}
+  \caption{Interaction spectra of an impermeable sphere at $\varepsilon=1$ and $\beta_p=0$, for a rigid wall and for
+  layers with $\alpha_p=50,20,10,5$. (a,b) Wall-induced damping $\hat\gamma_{\rm int}$ against $\Wo$. (c,d) Reactive
+  coefficient $\hat\chi_{\rm int}=\omega m_{\rm int}/(6\pi\mu b)$ against $\Wo$, on a symmetric logarithmic axis that is
+  linear for $|\hat\chi_{\rm int}|<10^{-2}$; its sign is that of $m_{\rm int}$. (a,c) Normal, (b,d) parallel oscillation.
+  Note the single sign change near a rigid wall, the second (downward) sign change for permeable layers, and the
+  double positive window in (d) for $\alpha_p=10$.}
+  \label{fig:spectra}
+\end{figure*}
+
+\textbf{Near a rigid wall, the wall-induced added mass is negative at low frequency and positive at high frequency.} In
+\cref{fig:spectra}(c,d) (solid black curves), $\hat\chi_{\rm int}$ changes sign at $\Wo_c=2.92$ in normal and at $0.955$ in parallel
+oscillation. Above the crossover the added mass approaches the image value of \cref{prop:inviscid}. Below it the sign
+is opposite to that of any inviscid image, which points to a viscous origin. In an unbounded fluid, the term
+$-6\pi\lambda$ of $Z_U$ is the frequency-domain form of the Basset history force~\cite{maxey1983equation}. Its reactive
+part $6\pi\Wo/\sqrt2$ is carried by vorticity that diffuses over the distance $|\lambda_f|^{-1}$ during a period. When
+$|\lambda_f|^{-1}$ exceeds the gap, this vorticity reaches the wall and is annihilated there. The computed spectra
+confirm this quantitatively: as $\Wo\to0$, $-\hat\chi_{\rm int}$ tends to the full unbounded Basset term $\Wo/\sqrt2$.
+The ratio $-\hat\chi_{\rm int}/(\Wo/\sqrt2)$ equals $0.99$ (normal) and $0.96$ (parallel) at $\Wo=0.01$ and
+$\varepsilon=1$, and it decreases as $\delta_v$ becomes smaller than the gap. \finding{The negative added mass at low
+$\Wo$ is therefore the part of the Basset memory force that the wall removes. It is the
+frequency-domain counterpart of the wall-induced change in the long-time velocity tail of a Brownian
+sphere~\cite{felderhof2005effect}, which has been observed with optical tweezers~\cite{mo2015broadband}.} With
+\cref{rem:sign}, the sign change reproduces qualitatively the crossover of the AFM frequency shift reported by Zhang
+\emph{et al.}~\cite{zhang2023unsteady}. For a probe of radius $b=10\,\mu$m in water, $\Wo_c=2.92$ corresponds to
+$f\approx14$\,kHz, which lies in the range of colloidal-probe AFM.
+
+The damping follows a different pattern. Near the rigid wall, $\hat\gamma_{\rm int}$ falls from its steady value $0.98$
+to a minimum of $0.31$ at $\Wo\approx3.7$ and then rises, because the Stokes layer on the wall, whose thickness scales
+as $\delta_v$, dissipates more energy as it thins.
+
+\textbf{A permeable layer weakens the steady interaction and introduces a dissipation maximum at
+$\Wo=O(\alpha_p)$.} In the steady limit, fluid escapes through the interface, so that $\hat\gamma_{\rm int}(\Wo\to0)$
+decreases from $0.98$ for the rigid wall to $0.94$, $0.89$ and $0.78$ for $\alpha_p=20$, $10$ and $5$ (normal). At high
+frequency the damping departs from the rigid-wall curve and passes through a maximum. On an extended frequency range
+the maximum lies at $\Wo=9.8$, $29.6$ and $105$ for $\alpha_p=10$, $20$ and $50$, i.e.\ at $\Wo/\alpha_p=1.0$--$2.1$.
+For $\alpha_p\ge20$ it exceeds the rigid-wall damping at the same frequency, by a factor $2.2$ for $\alpha_p=50$
+($\hat\gamma_{\rm int}=6.7$ against $3.1$). \finding{The maximum appears where the viscous penetration depth becomes
+comparable with the Brinkman screening length $\sqrt{k_p\mu_p/\mu}$ of the layer, so that the oscillatory flow enters the
+layer and does work against its Darcy drag. This dissipation channel is absent at a rigid wall, and it also governs the
+unsteady flow next to an oscillating porous wall~\cite{sherwood2020unsteady}.} We state this mechanism as an
+interpretation consistent with the location of the maximum, not as a derived result. For $\alpha_p=5$, $\hat\chi_{\rm int}$ remains negative at every frequency, so the
+positive added mass found near a rigid wall is absent; the next subsection explains why.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig4_steady.pdf}
+  \caption{Steady ($\Wo\to0$) resistance $F/F_\infty$ of an impermeable sphere against the gap $\varepsilon$, for a
+  rigid wall and for layers with $\alpha_p=50$ and $10$ and stress jumps $\beta_p=\pm0.5$. (a) Normal, (b) parallel
+  oscillation.}
+  \label{fig:steady}
+\end{figure}
+
+\textbf{In steady motion the layer changes the resistance by only a few per cent.} \Cref{fig:steady} shows the
+zero-frequency limit. For normal motion this is the problem of Ref.~\onlinecite{faltas2021axisymmetric}, which the
+present formulation extends to parallel motion. At $\varepsilon=1$ the resistance falls from $2.018$ (rigid wall) to
+$1.921$ for $\alpha_p=10$ in normal motion, and from $1.365$ to $1.342$ in parallel motion. A positive stress jump
+$\beta_p=0.5$ lowers it further to $1.867$, whereas $\beta_p=-0.5$ raises it to $1.943$. All curves merge for
+$\varepsilon\gtrsim4$. A steady drag measurement is therefore a weak probe of the layer, in contrast to the frequency
+response analysed next.
+
+\subsection{Crossover map and the transparency law}\label{sec:woc}
+
+\begin{figure*}[t]
+  \centering
+  \includegraphics[width=\linewidth]{figures/fig5_crossovers.pdf}
+  \caption{All crossover Womersley numbers of $m_{\rm int}$ against the layer permeability $\alpha_p$ at
+  $\varepsilon=1$, for $\beta_p=-0.5,0,0.5$ (markers offset slightly in $\alpha_p$ for visibility). Filled circles:
+  upward crossovers $\Wo_c^{\uparrow}$; open triangles: downward crossovers $\Wo_c^{\downarrow}$. Dashed: rigid wall.
+  Dotted: $\Wo_c^{\downarrow}=0.116\,\alpha_p^2$. Downward crossovers above the scanned range
+  $\Wo\le\max(150,2.5\alpha_p)$ are not shown. (a) Normal, (b) parallel oscillation.}
+  \label{fig:woc_ap}
+\end{figure*}
+
+\textbf{Permeability raises the lower crossover.} \Cref{fig:woc_ap} collects every sign change of $m_{\rm int}$, classified as upward or downward according to \cref{def:woc}. For
+normal oscillation with $\beta_p=0$, $\Wo_c^{\uparrow}$ increases from $2.92$ for the rigid wall to $2.96$, $3.10$, $3.31$
+and $4.01$ for $\alpha_p=35$, $17$, $12$ and $8.6$. The shift steepens as the layer becomes more permeable, so the lower
+crossover is most sensitive to permeability for $\alpha_p\lesssim30$. A positive stress jump, which increases the
+tangential momentum transfer into the layer, lowers $\Wo_c^{\uparrow}$ (from $4.14$ for $\beta_p=-0.5$ to $3.64$ for
+$\beta_p=0.5$ at $\alpha_p=8.6$). Its influence fades for $\alpha_p\gtrsim30$.
+
+\textbf{A permeable layer becomes transparent above an upper crossover that scales as $\alpha_p^2$ and does not depend on the
+gap.} Every finite $\alpha_p$ adds a downward crossover, above which the added mass is again negative. A least-squares
+fit gives $\Wo_c^{\downarrow}\propto\alpha_p^{2.08}$, and $\Wo_c^{\downarrow}/\alpha_p^2$ stays within $0.112$--$0.116$
+for $\alpha_p\ge12$. Varying the gap changes the upper crossover by less than $3\%$: at $\alpha_p=17.3$,
+$\Wo_c^{\downarrow}=34.7$, $35.3$ and $35.5$ for $\varepsilon=1$, $2$ and $3$, and at $\alpha_p=24.6$ it equals $70.2$,
+$71.2$ and $71.5$. \finding{The upper crossover marks the frequency above which the layer no longer reflects the
+disturbance as a wall but transmits it as a fluid with an additional Darcy drag: by \cref{eq:lambdas_nd},
+$\lambda_p\to\lambda_f$ when $\Wo\gg\alpha_p$, and \cref{prop:limits}(i) then gives a vanishing reflection. Its
+location, $\Wo_c^{\downarrow}\approx0.116\,\alpha_p^2$, depends only on the particle radius and the layer permeability,
+in dimensional form $\omega\approx0.0135\,\mu b^2/(\rho k_p^2)$. This extends to a finite particle the frequency
+dependence of the unsteady flow next to a Brinkman wall~\cite{sherwood2020unsteady}.} The quadratic rather than linear
+dependence on $\alpha_p$ is not captured by a simple balance of the image strength against viscous corrections. We
+tested such an argument, which predicts $\hat\chi_{\rm int}$ linear in $\alpha_p^2$ at fixed $\Wo\gg\alpha_p$, and the
+computed values do not follow it. \TODO{authors: derive the law $\Wo_c^{\downarrow}\approx0.116\,\alpha_p^2$
+asymptotically for $\Wo\gg\alpha_p$.}
+
+\textbf{Below a threshold permeability the positive-added-mass window closes.} As $\alpha_p$ decreases, the two
+crossovers approach each other and meet. Between grid points, the window closes for $6.1<\alpha_p<8.6$ in normal and
+$4.3<\alpha_p<6.1$ in parallel oscillation. Below this threshold the wall-induced added mass is negative at every
+frequency. A positive $\beta_p$ widens the window, raising $\Wo_c^{\downarrow}$ from $7.19$ to $8.40$ at
+$\alpha_p=8.6$.
+
+\textbf{In parallel oscillation near a permeable layer the positive window can split into two.} At $\alpha_p=8.6$ and
+$10$, \cref{fig:spectra}(d) and \cref{fig:woc_ap}(b) show four sign changes of $m_{\rm int}$, at
+$\Wo\approx0.97$, $2.88$, $3.26$ and $11.3$ for $\alpha_p=10$. These are unchanged on a 120-point grid with doubled
+quadrature. Splitting the reactive force of \cref{eq:response} into its potential-image part $Z_pU_p$ and its
+vortical-reflection part $Z_ww_0$ explains them. \finding{In parallel motion the reflected vorticity produces a
+positive reactive force near $\Wo\approx1$, which decays once the viscous penetration depth becomes smaller than the
+gap. The potential image is negative at low $\Wo$ and turns positive only at higher frequency. Near a rigid wall the
+image turns positive ($\Wo\approx2.6$) before the vortical contribution has decayed, so a single window results. A
+permeable layer weakens the image and delays its change of sign ($\Wo\approx3.4$ for $\alpha_p=10$), so that the sum
+returns to zero between the two contributions. The split thus reflects the separation of the viscous-memory and
+inviscid added-mass parts of the unsteady force~\cite{maxey1983equation,mazur1974generalization}.} In normal
+oscillation the vortical contribution is weaker relative to the image, and no split occurs.
+
+\textbf{The two crossovers provide a gap-independent measure of layer permeability.} A frequency sweep of the near-wall
+force at fixed $\varepsilon$ yields $\Wo_c^{\uparrow}$, which is sensitive for $\alpha_p\lesssim30$, and
+$\Wo_c^{\downarrow}$, which follows $\Wo_c^{\downarrow}\approx0.116\,\alpha_p^2$ and needs no knowledge of the gap. For a
+probe of radius $10\,\mu$m in water and $\alpha_p=20$, which corresponds to $\sqrt{k_p}=0.5\,\mu$m as for mucus,
+$\Wo_c^{\downarrow}\approx46$ corresponds to $f\approx3.4$\,MHz, within the range of ultrasonic and acoustofluidic
+excitation. For the much smaller pores of the glycocalyx ($\sqrt{k_p}$ of a few nanometres), the same values of
+$\alpha_p$ require nanometric particles, for which the frequencies become correspondingly higher. \TODO{authors: confirm
+the permeability values for glycocalyx and mucus from the literature and adjust the example.}

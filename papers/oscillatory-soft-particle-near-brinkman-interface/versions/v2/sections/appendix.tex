@@ -1,0 +1,106 @@
+\section{Linear system for the core--shell particle}\label{app:sphere}
+This appendix lists everything needed to assemble the particle response \eqref{eq:response}: the radial kernels and
+their derivatives, the amplitudes of each term of \cref{eq:fields}, and the six boundary conditions.
+
+The kernels of \cref{sec:sphere} and their derivatives, which enter $\mathcal U$, $\mathcal V$ and their radial
+derivatives through \cref{eq:vort_radial}, are
+\begin{align*}
+  \mathcal K_j'&=-\frac{(1+\lambda_jr)\,e^{-\lambda_jr}}{r^2}, &
+  \mathcal I_j'&=\frac{\lambda_jr\cosh\lambda_jr-\sinh\lambda_jr}{r^2},\\
+  \mathcal K_j''&=\frac{(2+2\lambda_jr+\lambda_j^2r^2)\,e^{-\lambda_jr}}{r^3}, &
+  \mathcal I_j''&=\frac{(\lambda_j^2r^2+2)\sinh\lambda_jr-2\lambda_jr\cosh\lambda_jr}{r^3},
+\end{align*}
+\begin{align*}
+  \mathcal K_j'''&=-\frac{(6+6\lambda_jr+3\lambda_j^2r^2+\lambda_j^3r^3)\,e^{-\lambda_jr}}{r^4},\\
+  \mathcal I_j'''&=\frac{(\lambda_j^3r^3+6\lambda_jr)\cosh\lambda_jr-(3\lambda_j^2r^2+6)\sinh\lambda_jr}{r^4}.
+\end{align*}
+For a vortical term, $\mathcal U=g''-\lambda_j^2g$, $\mathcal V=\lambda_j^2g-g'/r$, $\mathcal U'=g'''-\lambda_j^2g'$ and
+$\mathcal V'=\lambda_j^2g'-g''/r+g'/r^2$, with $\mathcal P=0$. For the potential terms, with the pressure
+coefficients $c_j$ of \cref{lem:decomp},
+\begin{align*}
+  \be:&\quad \mathcal U=1,\ \mathcal V=-1,\ \mathcal P=c_j\,r,\\
+  \nabla(\be\cdot\nabla r^{-1}):&\quad \mathcal U=2r^{-3},\ \mathcal V=r^{-3},\ \mathcal P=-c_j\,r^{-2}.
+\end{align*}
+The rigid part $\be$ of \cref{eq:field_shell} carries the pressure $i\Wo^2\be\cdot\bx$, so its amplitudes at $r=1$ are
+$\mathcal U=1$, $\mathcal V=-1$, $\mathcal S_{rr}=-i\Wo^2$ and $\mathcal S_{r\theta}=0$. A tilde denotes the shell
+field without its rigid part, and shell tractions are computed with $\mu_s/\mu$. The core conditions
+\eqref{eq:bc_core} at $r=\kappa$ are
+\begin{equation*}
+  \tilde{\mathcal U}^{(2)}=0,\qquad \tilde{\mathcal V}^{(2)}-\frac{\hat\ell_c}{\mu_s/\mu}\,\tilde{\mathcal S}^{(2)}_{r\theta}=0,
+\end{equation*}
+and the shell conditions \eqref{eq:bc_shell} at $r=1$ are
+\begin{equation*}
+  \mathcal U^{(1)}=\mathcal U^{(2)},\qquad \mathcal V^{(1)}=\mathcal V^{(2)},\qquad
+  \mathcal S^{(1)}_{rr}=\mathcal S^{(2)}_{rr},\qquad
+  \mathcal S^{(2)}_{r\theta}-\mathcal S^{(1)}_{r\theta}=\beta_s\alpha_s\bigl(\mathcal V^{(1)}+1\bigr).
+\end{equation*}
+These six equations are linear in $(B,C,E_1,E_2,G_1,G_2)$, with right-hand sides proportional to $U$, $U_p$ and
+$w_0$. Solving them for the three unit inputs gives the columns of $\bm s_U$ and $\mathsf S_{\rm inc}$, and
+\cref{eq:force_amplitudes} gives $Z_U$, $Z_p$ and $Z_w$. To avoid overflow when $|\lambda_s|$ or $|\lambda|$ is large,
+the kernels are used in the rescaled forms $\mathcal K_s(r)e^{\lambda_s\kappa}$, $\mathcal I_s(r)e^{-\lambda_s}$,
+$\mathcal K_f(r)e^{\lambda}$ and $\mathcal I_f(r)e^{-\lambda}$, and the scale factors are removed from the coefficients
+after the solve. For a homogeneous porous particle ($\kappa=0$, $\beta_s=0$, $\mu_s=\mu$, $\Wo\to0$) the solver
+reproduces the Debye--Bueche--Brinkman drag ratio
+$\Omega=2\alpha_s^2(1-\alpha_s^{-1}\tanh\alpha_s)/[2\alpha_s^2+3(1-\alpha_s^{-1}\tanh\alpha_s)]$
+(\cref{tab:validation}).
+
+\section{Interface system in Fourier space}\label{app:interface}
+This appendix gives the rows of the interface system \eqref{eq:interface_system}. For a plane mode
+$\propto e^{i\bk\cdot\bx_\parallel+sz}$ with velocity amplitude $\hat\bu$ and pressure amplitude $\hat p$, the tractions
+at $z=0$ in a medium of viscosity $\mu_j$ are
+\begin{equation*}
+  \hat\sigma_{xz}=\mu_j\left(s\hat u_x+ik_x\hat u_z\right),\quad
+  \hat\sigma_{yz}=\mu_j\left(s\hat u_y+ik_y\hat u_z\right),\quad
+  \hat\sigma_{zz}=-\hat p+2\mu_js\hat u_z .
+\end{equation*}
+The potential mode has $\hat\bu=(ik_x,ik_y,s)$ and $\hat p=c_j$, with $s=-k$ (reflected) or $s=k$ (transmitted). The
+poloidal mode has $\hat\bu=(ik_xs,ik_ys,k^2)$ and the toroidal mode $\hat\bu=(ik_y,-ik_x,0)$, both with $\hat p=0$ and
+with $s=-q$ (reflected) or $s=q_p$ (transmitted). With superscripts ``inc'', $R$ and $T$ for the incident, reflected and
+transmitted fields, the six rows are
+\begin{align*}
+  &\hat\bu^{R}-\hat\bu^{T}=-\hat\bu^{\rm inc}\quad(3\ \text{rows}),\qquad
+  \hat\sigma^{R}_{zz}-\hat\sigma^{T}_{zz}=-\hat\sigma^{\rm inc}_{zz},\\
+  &\hat\sigma^{T}_{\tau z}-\hat\sigma^{R}_{\tau z}-\beta_p\alpha_p\hat u^{R}_\tau
+   =\hat\sigma^{\rm inc}_{\tau z}+\beta_p\alpha_p\hat u^{\rm inc}_\tau\quad(\tau=x,y).
+\end{align*}
+The columns of $\mathsf A$ are normalised to unit Euclidean norm before solving, which removes the $O(k)$ degeneracy of
+the mode vectors as $k\to0$. For a rigid wall the system reduces to $\hat\bu^R=-\hat\bu^{\rm inc}$.
+
+\section{Convergence and admissibility checks}\label{app:checks}
+This appendix collects the checks that support the accuracy and physical admissibility of the results. The scripts
+are listed in the Data Availability Statement.
+
+\emph{Energy identity for the homogeneous problem.} With $U=0$, the dot product of each momentum equation with
+$\bar\bu$, integrated over its domain, gives
+$\int(\nabla\bar\bu:\bsig+\tfrac{\mu}{k}|\bu|^2-i\omega\rho|\bu|^2)\,\dd V=\oint\bar\bu\cdot\bsig\cdot\bn\,\dd S$, with
+$1/k=0$ in the fluid. Since $\nabla\cdot\bu=0$, the real part of $\nabla\bar\bu:\bsig$ is the viscous dissipation
+$2\mu_j|\mathsf E|^2$, where $\mathsf E$ is the rate of strain, and the inertial term is purely imaginary. The surface
+terms at infinity vanish. On the interfaces the normal velocity and the normal stress are continuous, so only
+tangential terms remain. The stress jumps \eqref{eq:bc_shell} and \eqref{eq:bc_plane} contribute
+$-\beta\mu/\sqrt k\int|\bu_\tau|^2\dd S$, and the core slip \eqref{eq:bc_core} contributes
+$(\mu_s/\ell_c)\oint|\bm\Pi\cdot\bu|^2\dd S\ge0$. Collecting the real parts gives the identity of \cref{rem:energy}.
+
+\emph{Quadrature.} Doubling the radial nodes ($N_k$) and the angular nodes ($N_\theta=8\to16$) changes the reflection
+matrix by at most $9\times10^{-15}$ relative. The cases tested were: steady rigid wall ($\Wo=0.05$, $\varepsilon=1$,
+normal); $\Wo=3$, $\varepsilon=1$, $\alpha_p=10$, parallel; $\Wo=30$, $\varepsilon=1$, $\alpha_p=20$, normal; $\Wo=3$,
+$\varepsilon=0.25$, rigid wall; and $\Wo=10$, $\varepsilon=4$, $\alpha_p=50$, parallel. Crossovers located on a
+120-point grid with doubled quadrature coincide with those of \cref{fig:woc_ap}.
+
+\emph{Reflection series.} The spectral radius of $\mathsf S_{\rm inc}\bM$ is largest for an impermeable sphere near a
+rigid wall at low $\Wo$: $0.49$ at $\varepsilon=1$, $0.62$ at $\varepsilon=0.5$ and $0.69$ at $\varepsilon=0.25$. Over
+the sampled particles, layers and frequencies it never exceeds $0.50$ at $\varepsilon=1$, so the Neumann series of
+\cref{prop:series} converges throughout.
+
+\emph{Dipolar truncation.} In the steady rigid-wall limit, the difference between the closure and the classical
+reflection series $1/(1-\tfrac98x+\tfrac12x^3)$ is $1.8\times10^{-2}$, $1.4\times10^{-3}$ and $5.7\times10^{-5}$ at
+$x=1/2$, $1/3$ and $1/5$. This equals $(0.29,\,0.11,\,0.04)\,x^4$, which is consistent with a first omitted term of order
+$x^4$. For $\varepsilon\gtrsim9$ the comparison is limited by the Richardson extrapolation, whose error grows with
+$\Wo\,h$.
+
+\emph{Admissibility.} The wall-induced damping is positive in every stored spectrum (minimum $0.035$). The total
+damping $-\operatorname{Re}(F/U)$ is positive for every configuration of \cref{sec:validation,sec:rigid,sec:soft},
+including $\beta_p=0.5$ over $0.05\le\Wo\le250$ and $3\le\alpha_p\le100$ (minimum $1.26$) and the soft particle of
+\cref{tab:sensitivity} with $\beta_s=0.5$ (minimum $1.08$). Negative stress jumps ($\beta_s,\beta_p=-1$) only add
+dissipation, in agreement with \cref{rem:energy}. Positive ones can make an isolated porous particle non-dissipative:
+for $\kappa=0$, $\alpha_s=5$ and $\beta_s=1$ the steady dissipation is negative, which motivates the admissible range
+$\beta\le0.5$.
